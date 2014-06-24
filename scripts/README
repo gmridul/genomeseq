@@ -6,3 +6,8 @@ makefasta.sh:
 run as ./makefasta.sh c1 c2
 This file splits the file mentioned in the for loop after c1 whenever it identified c1.c2 and creater a fasta file.
 It assumes that the files are in input folder
+
+crawl.js :
+used in getbac.sh .
+run as casperjs crawl.js url_link
+it outputs the bac reference genome. Need casperjs and phantomjs installed in the system.
