@@ -1,9 +1,9 @@
 var casper = require('casper').create();
 
-casper.start('http://www.ncbi.nlm.nih.gov/nuccore/AC189277.4?report=fasta&format=text');
+casper.start(casper.cli.get(0));
 
 casper.wait(1000, function() {
-    this.echo(this.fetchText('div'));
+    this.echo(this.fetchText('pre'));
 });
 
 casper.run();
