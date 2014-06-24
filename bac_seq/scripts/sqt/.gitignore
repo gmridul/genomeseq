@@ -1,0 +1,13 @@
+*~
+*.pyc
+*.pyo
+build
+.pydevproject
+.project
+tmp
+dist
+.tox
+sqt.egg-info/
+.settings/
+sqt/*.so
+sqt/_*.c

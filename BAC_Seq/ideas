@@ -1,0 +1,36 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+trimming phase 2 :
+
+if the average quality of a window of bases is less than the threshold then we remove the part of the read after it(along with the low quality window) => we are losing information.
+If we do error correction before, we can improve this situation.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cutadapt : 
+it matches part of the barcode and removes it. Set parameters such that it does not trim unnecessary small portions of the read. (eg: matches 3 bp for 48 bp long barcode)
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+chimeric reads :
+                   read : =====
+           ______
+- - - - - - - -----------------
+- - - - - - - - ---------------
+           ______
+           cut site
+=====
+
+the paired end reads are from different sets and they do not cover the cut site, hence we are unable to recognize that they are not "truely paired"
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+MADE ./bac_seq/scripts/from_HY/readcut/runreadcut.sh that counts the no. of paired reads having intermediate cut sites.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+No. of reads chimeric reads ( reads which have cut site inside ) are veyr high. What to do?
+If we split the read, then what should be the ID of these new reads??
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+all the reads in input files are in reverse order. The barcodes are at the end and eventually the cut sites are also at the end.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+blastn ::: They have used bacteria.all as the database. Ecoli is the bacteria used, so use its database.

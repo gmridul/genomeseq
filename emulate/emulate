@@ -1,0 +1,6 @@
+Pre-processing pipeline
+
+1] cutsite.cpp : program which takes a BAC, RE(cutsite and all the details related to split the fragment) and output the split fragments.
+2] program which takes read length, introduce some errors, option for single end or paired end reads and output the reads. (some tool is there to perform this task)
+3] program which attempts to combine the paired end reads, if they overlap with some confidence.
+

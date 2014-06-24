@@ -1,0 +1,32 @@
+Vanilla Ice Cream is a major update release. The list of changes are given below. 
+
+art_illumina version 2.1.8
+
+	1) add the function of amplicon sequencing simulation 
+	2) add the support to generate sam file with zero-sequencing errors 
+	3) change the maximum allowed quality score to be 93 when scaling quality scores
+       	4) fix a bug related to simulation with a fixed random seed for paired-end simulation 
+	5) solve the crash issue when running on the newer MacOS X (10.9)
+	6) allow reference sequences to be both DNA and RNA
+	7) fix a bug related to masked 'N' regions when having multiple reference sequences
+	9) add a cutoff frequency of "N"s of masked regions
+	8) enable turn off the masking of 'N' regions
+       	10) other small improvements
+
+art_454 version 2.5.8
+
+	1) add amplicon sequencing simulation function
+	2) allow reference sequences to be RNA sequences 
+	3) enable using a fixed random seed for simulation
+	4) fix the paired-end read direction issue
+	5) enhance log report and other improvements
+
+art_SOLiD version 1.3.2
+
+	1) enable simulation with a fixed random seed to generate identical datasets from two simulations. 
+	2) add support of F3-F5 paired-end read simulation 
+	3) add support of amplicon sequencing simulation 
+	4) allow reference sequences to be RNA  
+	5) enable simulation of reads up to 75bp in length with a testing error profile    
+	6) fix the issue of masking "N" genomic regions    
+	7) make it more user-friendly and some other improvements
