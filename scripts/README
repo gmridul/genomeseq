@@ -11,3 +11,7 @@ crawl.js :
 used in getbac.sh .
 run as casperjs crawl.js url_link
 it outputs the bac reference genome. Need casperjs and phantomjs installed in the system.
+
+genread.sh
+run as : ./genread.sh <coverage-value>
+It takes all the fasta files from ../../input folder and generates paired-end reads of length 250 in the same folder.
