@@ -187,7 +187,7 @@ bool art::next_ampread_indel(seqRead& a_read){
 
 //amplicon paired-end reads: the second read is reverse complemenaty strand 
 bool art::next_pair_ampread_indel_cmp(seqRead& read_1, seqRead& read_2){
-    cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4\n";
+    //cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4\n";
     if(org_read_len>ref_seq.length()){
 	    read_len =ref_seq.length();
         //return false; //ref_seq is too short.

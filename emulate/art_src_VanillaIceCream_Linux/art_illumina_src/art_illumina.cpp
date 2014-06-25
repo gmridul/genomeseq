@@ -551,7 +551,9 @@ int main(int argc, char* argv[]){
         vector<short> qual_2;
         string read_id_2;
         string aln_read_2,aln_ref_2;
+        int frag_len; //created by GaTech
         while(seq_reader.next_seq(id,a_art.ref_seq)){ 
+            frag_len = a_art.ref_seq.length();
             std::replace(a_art.ref_seq.begin(), a_art.ref_seq.end(), 'U', 'T'); //replace U with T
             //            size_t p1=id.find_first_of(' '); if(p1==string::npos) p1=10; size_t p2=id.find_first_of('\t'); if(p2==string::npos) p2=10;            p1=p1<p2?p1:p2; id=id.substr(0,p1); 
             istringstream isID; isID.str(id); isID>>id; id=id.substr(0,len_ref_id); 
@@ -599,7 +601,7 @@ int main(int argc, char* argv[]){
                 qual_2.clear();
 
                 if(!sep_flag){
-                    cout << "line 602 art_illumina.cpp read_len : " << read_len << "\n";
+                    //cout << "line 602 art_illumina.cpp read_len : " << read_len << "\n";
                     qdist.get_read_qual(qual, read_len, true);
                     qdist.get_read_qual(qual_2,read_len, false);
                 }
@@ -614,7 +616,7 @@ int main(int argc, char* argv[]){
                 read_id_2=read_id+"/2";
                 read_id+="/1";
 
-                FQFILE<<"@"<<read_id<<endl<<a_read.seq_read<<endl<<"+"<<endl;
+                FQFILE<<"@"<<read_id<<" "<<frag_len<<endl<<a_read.seq_read<<endl<<"+"<<endl;
                 for(size_t k=0; k<a_read.seq_read.length(); k++){
                     FQFILE<<(char)(qual[k]+33);
                 }
@@ -631,7 +633,7 @@ int main(int argc, char* argv[]){
                     ALNFILE<<aln_ref<<endl<<aln_read<<endl;
                 }
 
-                FQFILE2<<"@"<<read_id_2<<endl<<a_read_2.seq_read<<endl<<"+"<<endl;
+                FQFILE2<<"@"<<read_id_2<<" "<<frag_len<<endl<<a_read_2.seq_read<<endl<<"+"<<endl;
                 for(size_t k=0; k<a_read_2.seq_read.length(); k++){
                     FQFILE2<<(char)(qual_2[k]+33);
                 }

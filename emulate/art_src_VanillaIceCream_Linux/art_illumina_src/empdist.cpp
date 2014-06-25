@@ -349,7 +349,7 @@ bool empdist::read_emp_dist(istream& input, bool is_first){
             }
         }
     }
-    cout << "@@@@@@@@@@@@@@ " << qual_dist_first.size() << " @@@@@@@@@@@@@@@\n";
+    //cout << "@@@@@@@@@@@@@@ " << qual_dist_first.size() << " @@@@@@@@@@@@@@@\n";
 
 
     //max_len_read=linenum;
