@@ -1,0 +1,5 @@
+genread.sh
+
+run as : ./genread.sh <coverage-value>
+
+It takes all the fasta files from ../../input folder and generates paired-end reads of length 250 in the same folder.
