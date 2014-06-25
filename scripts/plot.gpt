@@ -3,6 +3,7 @@ unset key
 set ylabel 'No. of fragments'
 set xlabel 'Fragment length'
 set xrange[0:]
+set yrange[0:]
 set xtics out
 set ytics out
 set style fill solid 1.0 border -1

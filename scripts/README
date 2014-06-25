@@ -12,6 +12,14 @@ used in getbac.sh .
 run as casperjs crawl.js url_link
 it outputs the bac reference genome. Need casperjs and phantomjs installed in the system.
 
-genread.sh
+genread.sh :
 run as : ./genread.sh <coverage-value>
 It takes all the fasta files from ../../input folder and generates paired-end reads of length 250 in the same folder.
+
+genplot.sh :
+run as ./genplot.sh
+It generates histogram for each bac-re combination.
+
+lt400.sh
+run as ./lt400.sh threshold
+fraction of fragments which have length < then threshold.
