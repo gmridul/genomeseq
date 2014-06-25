@@ -1,10 +1,10 @@
 getbac.sh :
-run as ./getbasc.sh
-used to download the input to files. name all the files to download in the for loop and it will download the data in same files.
+run as ./getbac.sh
+used to download the input to files. give all the accession numbers to download in the for loop and it will download the data in files named as its accession number.
 
 makefasta.sh:
 run as ./makefasta.sh c1 c2
-This file splits the file mentioned in the for loop after c1 whenever it identified c1.c2 and creater a fasta file.
+This file splits the file mentioned in the for loop after c1 whenever it identified c1.c2 and creates a c1_c2_<accession_num>.fa file.
 It assumes that the files are in input folder
 
 crawl.js :
