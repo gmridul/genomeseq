@@ -1,0 +1,3272 @@
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^AGTCGAG -g ^CCTAT -g ^CTCGACT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205879.AGTCGAG-CCTAT-1.tmp.fastq -o AC205879.AGTCGAG-CCTAT-2.tmp.fastq ../AC205879.AGTCGAG-CCTAT-1.fq ../AC205879.AGTCGAG-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       306632
+   Processed bases:     69563367 bp (69.6 Mbp)
+     Trimmed reads:            2 (0.0%)
+     Trimmed bases:           28 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.41 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'AGTCGAG', length 7, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'CTCGACT', length 7, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	4	18.7	1	0 4
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^AGTCGAG -g ^CCTAT -g ^CTCGACT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205879.AGTCGAG-CCTAT-1.ncutadapter.fastq -o AC205879.AGTCGAG-CCTAT-2.ncutadapter.fastq AC205879.AGTCGAG-CCTAT-1.tmp.fastq AC205879.AGTCGAG-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       306632
+   Processed bases:     74665537 bp (74.7 Mbp)
+     Trimmed reads:           98 (0.0%)
+     Trimmed bases:         1282 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.47 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'AGTCGAG', length 7, was trimmed 34 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	4	74.9	0	0 4
+7	16	18.7	1	0 16
+8	14	18.7	1	0 14
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 8 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	8	299.4	0	8
+
+=== Adapter 4 ===
+
+Adapter 'CTCGACT', length 7, was trimmed 152 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	94	74.9	0	0 94
+7	44	18.7	1	0 44
+8	14	18.7	1	0 14
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	299.4	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^AGTCGAG -g ^CCTAT -g ^CTCGACT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205879.AGTCGAG-CCTAT-1.tmpagain.fastq -o AC205879.AGTCGAG-CCTAT-2.tmpagain.fastq AC205879.AGTCGAG-CCTAT-1.cutadapter.R.fastq AC205879.AGTCGAG-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       306632
+   Processed bases:     69563353 bp (69.6 Mbp)
+     Trimmed reads:          470 (0.2%)
+     Trimmed bases:         5605 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.34 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'AGTCGAG', length 7, was trimmed 480 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	304	74.9	0	0 304
+7	144	18.7	1	0 144
+8	32	18.7	1	0 32
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 5 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	5	299.4	0	5
+
+=== Adapter 4 ===
+
+Adapter 'CTCGACT', length 7, was trimmed 135 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	80	74.9	0	0 80
+7	28	18.7	1	0 28
+8	27	18.7	1	0 27
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 320 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	320	299.4	0	320
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^AGTCGAG -g ^CCTAT -g ^CTCGACT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205879.AGTCGAG-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC205879.AGTCGAG-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC205879.AGTCGAG-CCTAT-1.tmpagain.fastq AC205879.AGTCGAG-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       306632
+   Processed bases:     74664896 bp (74.7 Mbp)
+     Trimmed reads:          551 (0.2%)
+     Trimmed bases:         7168 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.20 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'AGTCGAG', length 7, was trimmed 940 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	264	74.9	0	0 264
+7	670	18.7	1	0 670
+8	6	18.7	1	0 6
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 128 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	128	299.4	0	128
+
+=== Adapter 4 ===
+
+Adapter 'CTCGACT', length 7, was trimmed 22 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	10	74.9	0	0 10
+7	10	18.7	1	0 10
+8	2	18.7	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 12 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	12	299.4	0	12
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACGAGTG -g ^CCTAT -g ^CACTCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC217266.ACGAGTG-CCTAT-1.tmp.fastq -o AC217266.ACGAGTG-CCTAT-2.tmp.fastq ../AC217266.ACGAGTG-CCTAT-1.fq ../AC217266.ACGAGTG-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       289980
+   Processed bases:     65922675 bp (65.9 Mbp)
+     Trimmed reads:            5 (0.0%)
+     Trimmed bases:           60 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.25 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGAGTG', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	17.7	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'CACTCGT', length 7, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	6	70.8	0	0 6
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	283.2	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACGAGTG -g ^CCTAT -g ^CACTCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC217266.ACGAGTG-CCTAT-1.ncutadapter.fastq -o AC217266.ACGAGTG-CCTAT-2.ncutadapter.fastq AC217266.ACGAGTG-CCTAT-1.tmp.fastq AC217266.ACGAGTG-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       289980
+   Processed bases:     70797995 bp (70.8 Mbp)
+     Trimmed reads:           75 (0.0%)
+     Trimmed bases:          960 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.11 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGAGTG', length 7, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	17.7	1	0 2
+8	2	17.7	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	283.2	0	4
+
+=== Adapter 4 ===
+
+Adapter 'CACTCGT', length 7, was trimmed 140 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	90	70.8	0	0 90
+7	40	17.7	1	0 40
+8	10	17.7	1	0 10
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	283.2	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACGAGTG -g ^CCTAT -g ^CACTCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC217266.ACGAGTG-CCTAT-1.tmpagain.fastq -o AC217266.ACGAGTG-CCTAT-2.tmpagain.fastq AC217266.ACGAGTG-CCTAT-1.cutadapter.R.fastq AC217266.ACGAGTG-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       289980
+   Processed bases:     65922645 bp (65.9 Mbp)
+     Trimmed reads:          739 (0.3%)
+     Trimmed bases:         9141 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.20 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGAGTG', length 7, was trimmed 537 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	227	70.8	0	0 227
+7	260	17.7	1	14 246
+8	50	17.7	1	0 50
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	283.2	0	4
+
+=== Adapter 4 ===
+
+Adapter 'CACTCGT', length 7, was trimmed 672 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	510	70.8	0	0 510
+7	142	17.7	1	2 140
+8	20	17.7	1	0 20
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 265 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	265	283.2	0	265
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACGAGTG -g ^CCTAT -g ^CACTCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC217266.ACGAGTG-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC217266.ACGAGTG-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC217266.ACGAGTG-CCTAT-1.tmpagain.fastq AC217266.ACGAGTG-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       289980
+   Processed bases:     70797515 bp (70.8 Mbp)
+     Trimmed reads:          471 (0.2%)
+     Trimmed bases:         5916 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.88 s
+     Time per read:      0.013 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGAGTG', length 7, was trimmed 704 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	384	70.8	0	0 384
+7	314	17.7	1	0 314
+8	6	17.7	1	0 6
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 94 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	94	283.2	0	94
+
+=== Adapter 4 ===
+
+Adapter 'CACTCGT', length 7, was trimmed 128 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	84	70.8	0	0 84
+7	40	17.7	1	0 40
+8	4	17.7	1	0 4
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 16 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	16	283.2	0	16
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CATCATCAGC -g ^CCTAT -g ^GCTGATGATG -g ^ATAGG -n 2 -e 0.15 --paired-output AC185603.CATCATCAGC-CCTAT-1.tmp.fastq -o AC185603.CATCATCAGC-CCTAT-2.tmp.fastq ../AC185603.CATCATCAGC-CCTAT-1.fq ../AC185603.CATCATCAGC-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       165242
+   Processed bases:     37430742 bp (37.4 Mbp)
+     Trimmed reads:            5 (0.0%)
+     Trimmed bases:          102 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.37 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CATCATCAGC', length 10, was trimmed 10 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+10	8	0.2	1	0 8
+11	2	0.2	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'GCTGATGATG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CATCATCAGC -g ^CCTAT -g ^GCTGATGATG -g ^ATAGG -n 2 -e 0.15 --paired-output AC185603.CATCATCAGC-CCTAT-1.ncutadapter.fastq -o AC185603.CATCATCAGC-CCTAT-2.ncutadapter.fastq AC185603.CATCATCAGC-CCTAT-1.tmp.fastq AC185603.CATCATCAGC-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       165242
+   Processed bases:     40462134 bp (40.5 Mbp)
+     Trimmed reads:            6 (0.0%)
+     Trimmed bases:           94 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.40 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CATCATCAGC', length 10, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+10	2	0.2	1	0 2
+11	4	0.2	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	161.4	0	4
+
+=== Adapter 4 ===
+
+Adapter 'GCTGATGATG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	161.4	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CATCATCAGC -g ^CCTAT -g ^GCTGATGATG -g ^ATAGG -n 2 -e 0.15 --paired-output AC185603.CATCATCAGC-CCTAT-1.tmpagain.fastq -o AC185603.CATCATCAGC-CCTAT-2.tmpagain.fastq AC185603.CATCATCAGC-CCTAT-1.cutadapter.R.fastq AC185603.CATCATCAGC-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       165242
+   Processed bases:     37430691 bp (37.4 Mbp)
+     Trimmed reads:          125 (0.1%)
+     Trimmed bases:         1881 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.47 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CATCATCAGC', length 10, was trimmed 19 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	12	0.6	1	0 12
+10	7	0.2	1	0 7
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	161.4	0	2
+
+=== Adapter 4 ===
+
+Adapter 'GCTGATGATG', length 10, was trimmed 110 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	2	0.6	1	0 2
+10	108	0.2	1	0 108
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 119 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	119	161.4	0	119
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CATCATCAGC -g ^CCTAT -g ^GCTGATGATG -g ^ATAGG -n 2 -e 0.15 --paired-output AC185603.CATCATCAGC-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC185603.CATCATCAGC-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC185603.CATCATCAGC-CCTAT-1.tmpagain.fastq AC185603.CATCATCAGC-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       165242
+   Processed bases:     40462087 bp (40.5 Mbp)
+     Trimmed reads:          159 (0.1%)
+     Trimmed bases:         2820 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.36 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CATCATCAGC', length 10, was trimmed 246 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	0.6	1	0 4
+10	238	0.2	1	0 238
+11	4	0.2	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 66 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	66	161.4	0	66
+
+=== Adapter 4 ===
+
+Adapter 'GCTGATGATG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	6	161.4	0	6
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CAGATAGTGC -g ^CCTAT -g ^GCACTATCTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC208225.CAGATAGTGC-CCTAT-1.tmp.fastq -o AC208225.CAGATAGTGC-CCTAT-2.tmp.fastq ../AC208225.CAGATAGTGC-CCTAT-1.fq ../AC208225.CAGATAGTGC-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       203727
+   Processed bases:     45015938 bp (45.0 Mbp)
+     Trimmed reads:            5 (0.0%)
+     Trimmed bases:           88 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.93 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CAGATAGTGC', length 10, was trimmed 8 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	0.8	1	0 4
+10	2	0.2	1	0 2
+11	2	0.2	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	199.0	0	2
+
+=== Adapter 4 ===
+
+Adapter 'GCACTATCTG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CAGATAGTGC -g ^CCTAT -g ^GCACTATCTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC208225.CAGATAGTGC-CCTAT-1.ncutadapter.fastq -o AC208225.CAGATAGTGC-CCTAT-2.ncutadapter.fastq AC208225.CAGATAGTGC-CCTAT-1.tmp.fastq AC208225.CAGATAGTGC-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       203727
+   Processed bases:     49867279 bp (49.9 Mbp)
+     Trimmed reads:           26 (0.0%)
+     Trimmed bases:          490 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.97 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CAGATAGTGC', length 10, was trimmed 46 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	18	0.8	1	0 18
+10	10	0.2	1	0 10
+11	18	0.2	1	0 18
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	6	199.0	0	6
+
+=== Adapter 4 ===
+
+Adapter 'GCACTATCTG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CAGATAGTGC -g ^CCTAT -g ^GCACTATCTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC208225.CAGATAGTGC-CCTAT-1.tmpagain.fastq -o AC208225.CAGATAGTGC-CCTAT-2.tmpagain.fastq AC208225.CAGATAGTGC-CCTAT-1.cutadapter.R.fastq AC208225.CAGATAGTGC-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       203727
+   Processed bases:     45015894 bp (45.0 Mbp)
+     Trimmed reads:           37 (0.0%)
+     Trimmed bases:          508 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.97 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CAGATAGTGC', length 10, was trimmed 24 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	10	0.8	1	0 10
+10	12	0.2	1	0 12
+11	2	0.2	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	199.0	0	4
+
+=== Adapter 4 ===
+
+Adapter 'GCACTATCTG', length 10, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	0.8	1	0 4
+10	2	0.2	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 40 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	40	199.0	0	40
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CAGATAGTGC -g ^CCTAT -g ^GCACTATCTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC208225.CAGATAGTGC-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC208225.CAGATAGTGC-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC208225.CAGATAGTGC-CCTAT-1.tmpagain.fastq AC208225.CAGATAGTGC-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       203727
+   Processed bases:     49867034 bp (49.9 Mbp)
+     Trimmed reads:          245 (0.1%)
+     Trimmed bases:         4382 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.05 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CAGATAGTGC', length 10, was trimmed 386 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	14	0.8	1	0 14
+10	356	0.2	1	0 356
+11	16	0.2	1	0 16
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 102 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	102	199.0	0	102
+
+=== Adapter 4 ===
+
+Adapter 'GCACTATCTG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	199.0	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ATGTGCGATG -g ^CCTAT -g ^CATCGCACAT -g ^ATAGG -n 2 -e 0.15 --paired-output AC189789.ATGTGCGATG-CCTAT-1.tmp.fastq -o AC189789.ATGTGCGATG-CCTAT-2.tmp.fastq ../AC189789.ATGTGCGATG-CCTAT-1.fq ../AC189789.ATGTGCGATG-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       305354
+   Processed bases:     68571544 bp (68.6 Mbp)
+     Trimmed reads:         1571 (0.5%)
+     Trimmed bases:        28818 bp (0.0 Mbp) (0.04% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.65 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ATGTGCGATG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	298.2	0	2
+
+=== Adapter 4 ===
+
+Adapter 'CATCGCACAT', length 10, was trimmed 3140 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	2594	1.2	1	0 2594
+10	544	0.3	1	2 542
+11	2	0.3	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ATGTGCGATG -g ^CCTAT -g ^CATCGCACAT -g ^ATAGG -n 2 -e 0.15 --paired-output AC189789.ATGTGCGATG-CCTAT-1.ncutadapter.fastq -o AC189789.ATGTGCGATG-CCTAT-2.ncutadapter.fastq AC189789.ATGTGCGATG-CCTAT-1.tmp.fastq AC189789.ATGTGCGATG-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       305354
+   Processed bases:     74564426 bp (74.6 Mbp)
+     Trimmed reads:         2517 (0.8%)
+     Trimmed bases:        45582 bp (0.0 Mbp) (0.06% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.69 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ATGTGCGATG', length 10, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	1.2	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	6	298.2	0	6
+
+=== Adapter 4 ===
+
+Adapter 'CATCGCACAT', length 10, was trimmed 5024 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4726	1.2	1	0 4726
+10	296	0.3	1	0 296
+11	2	0.3	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ATGTGCGATG -g ^CCTAT -g ^CATCGCACAT -g ^ATAGG -n 2 -e 0.15 --paired-output AC189789.ATGTGCGATG-CCTAT-1.tmpagain.fastq -o AC189789.ATGTGCGATG-CCTAT-2.tmpagain.fastq AC189789.ATGTGCGATG-CCTAT-1.cutadapter.R.fastq AC189789.ATGTGCGATG-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       305354
+   Processed bases:     68557135 bp (68.6 Mbp)
+     Trimmed reads:         1749 (0.6%)
+     Trimmed bases:        26296 bp (0.0 Mbp) (0.04% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      5.09 s
+     Time per read:      0.017 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ATGTGCGATG', length 10, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	6	1.2	1	0 6
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	298.2	0	2
+
+=== Adapter 4 ===
+
+Adapter 'CATCGCACAT', length 10, was trimmed 2190 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	2172	1.2	1	0 2172
+10	14	0.3	1	0 14
+11	4	0.3	1	0 4
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 1300 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	1300	298.2	0	1300
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ATGTGCGATG -g ^CCTAT -g ^CATCGCACAT -g ^ATAGG -n 2 -e 0.15 --paired-output AC189789.ATGTGCGATG-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC189789.ATGTGCGATG-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC189789.ATGTGCGATG-CCTAT-1.tmpagain.fastq AC189789.ATGTGCGATG-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       305354
+   Processed bases:     74541635 bp (74.5 Mbp)
+     Trimmed reads:          701 (0.2%)
+     Trimmed bases:        12685 bp (0.0 Mbp) (0.02% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      4.32 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ATGTGCGATG', length 10, was trimmed 1123 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	80	1.2	1	0 80
+10	1043	0.3	1	0 1043
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 164 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	164	298.2	0	164
+
+=== Adapter 4 ===
+
+Adapter 'CATCGCACAT', length 10, was trimmed 35 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	35	1.2	1	0 35
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 80 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	80	298.2	0	80
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^TACGTCGTG -g ^CCTAT -g ^CACGACGTA -g ^ATAGG -n 2 -e 0.15 --paired-output AC214831.TACGTCGTG-CCTAT-1.tmp.fastq -o AC214831.TACGTCGTG-CCTAT-2.tmp.fastq ../AC214831.TACGTCGTG-CCTAT-1.fq ../AC214831.TACGTCGTG-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       261522
+   Processed bases:     60522718 bp (60.5 Mbp)
+     Trimmed reads:            9 (0.0%)
+     Trimmed bases:          152 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.87 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TACGTCGTG', length 9, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	255.4	0	2
+
+=== Adapter 4 ===
+
+Adapter 'CACGACGTA', length 9, was trimmed 16 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	2	4.0	1	0 2
+9	14	1.0	1	0 14
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^TACGTCGTG -g ^CCTAT -g ^CACGACGTA -g ^ATAGG -n 2 -e 0.15 --paired-output AC214831.TACGTCGTG-CCTAT-1.ncutadapter.fastq -o AC214831.TACGTCGTG-CCTAT-2.ncutadapter.fastq AC214831.TACGTCGTG-CCTAT-1.tmp.fastq AC214831.TACGTCGTG-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       261522
+   Processed bases:     63593659 bp (63.6 Mbp)
+     Trimmed reads:            5 (0.0%)
+     Trimmed bases:           76 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.95 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TACGTCGTG', length 9, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	255.4	0	4
+
+=== Adapter 4 ===
+
+Adapter 'CACGACGTA', length 9, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	1.0	1	0 4
+10	2	1.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^TACGTCGTG -g ^CCTAT -g ^CACGACGTA -g ^ATAGG -n 2 -e 0.15 --paired-output AC214831.TACGTCGTG-CCTAT-1.tmpagain.fastq -o AC214831.TACGTCGTG-CCTAT-2.tmpagain.fastq AC214831.TACGTCGTG-CCTAT-1.cutadapter.R.fastq AC214831.TACGTCGTG-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       261522
+   Processed bases:     60522642 bp (60.5 Mbp)
+     Trimmed reads:           99 (0.0%)
+     Trimmed bases:         1052 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.98 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TACGTCGTG', length 9, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	6	4.0	1	0 6
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'CACGACGTA', length 9, was trimmed 12 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	6	4.0	1	0 6
+9	4	1.0	1	0 4
+10	2	1.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 180 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	180	255.4	0	180
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^TACGTCGTG -g ^CCTAT -g ^CACGACGTA -g ^ATAGG -n 2 -e 0.15 --paired-output AC214831.TACGTCGTG-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC214831.TACGTCGTG-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC214831.TACGTCGTG-CCTAT-1.tmpagain.fastq AC214831.TACGTCGTG-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       261522
+   Processed bases:     63593621 bp (63.6 Mbp)
+     Trimmed reads:          465 (0.2%)
+     Trimmed bases:         7702 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      3.73 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TACGTCGTG', length 9, was trimmed 846 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	338	4.0	1	0 338
+9	508	1.0	1	0 508
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 80 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	80	255.4	0	80
+
+=== Adapter 4 ===
+
+Adapter 'CACGACGTA', length 9, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-9 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	2	4.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	255.4	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACAGCATCTG -g ^CCTAT -g ^CAGATGCTGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205693.ACAGCATCTG-CCTAT-1.tmp.fastq -o AC205693.ACAGCATCTG-CCTAT-2.tmp.fastq ../AC205693.ACAGCATCTG-CCTAT-1.fq ../AC205693.ACAGCATCTG-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       145609
+   Processed bases:     32337514 bp (32.3 Mbp)
+     Trimmed reads:            2 (0.0%)
+     Trimmed bases:           42 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.11 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACAGCATCTG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'CAGATGCTGT', length 10, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+10	2	0.1	1	0 2
+11	2	0.1	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACAGCATCTG -g ^CCTAT -g ^CAGATGCTGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205693.ACAGCATCTG-CCTAT-1.ncutadapter.fastq -o AC205693.ACAGCATCTG-CCTAT-2.ncutadapter.fastq AC205693.ACAGCATCTG-CCTAT-1.tmp.fastq AC205693.ACAGCATCTG-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       145609
+   Processed bases:     35460538 bp (35.5 Mbp)
+     Trimmed reads:            9 (0.0%)
+     Trimmed bases:          166 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.17 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACAGCATCTG', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	142.2	0	2
+
+=== Adapter 4 ===
+
+Adapter 'CAGATGCTGT', length 10, was trimmed 16 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	6	0.6	1	0 6
+10	8	0.1	1	0 8
+11	2	0.1	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACAGCATCTG -g ^CCTAT -g ^CAGATGCTGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205693.ACAGCATCTG-CCTAT-1.tmpagain.fastq -o AC205693.ACAGCATCTG-CCTAT-2.tmpagain.fastq AC205693.ACAGCATCTG-CCTAT-1.cutadapter.R.fastq AC205693.ACAGCATCTG-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       145609
+   Processed bases:     32337493 bp (32.3 Mbp)
+     Trimmed reads:          227 (0.2%)
+     Trimmed bases:         2342 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.07 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACAGCATCTG', length 10, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	4	0.6	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'CAGATGCTGT', length 10, was trimmed 12 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	6	0.6	1	0 6
+10	4	0.1	1	0 4
+11	2	0.1	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 438 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	438	142.2	0	438
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACAGCATCTG -g ^CCTAT -g ^CAGATGCTGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC205693.ACAGCATCTG-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC205693.ACAGCATCTG-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC205693.ACAGCATCTG-CCTAT-1.tmpagain.fastq AC205693.ACAGCATCTG-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       145609
+   Processed bases:     35460455 bp (35.5 Mbp)
+     Trimmed reads:          221 (0.2%)
+     Trimmed bases:         4140 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.00 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACAGCATCTG', length 10, was trimmed 398 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+9	60	0.6	1	0 60
+10	338	0.1	1	0 338
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 34 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	34	142.2	0	34
+
+=== Adapter 4 ===
+
+Adapter 'CAGATGCTGT', length 10, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-10 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 10 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	10	142.2	0	10
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACTGATC -g ^CCTAT -g ^GATCAGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC186236.ACTGATC-CCTAT-1.tmp.fastq -o AC186236.ACTGATC-CCTAT-2.tmp.fastq ../AC186236.ACTGATC-CCTAT-1.fq ../AC186236.ACTGATC-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       146721
+   Processed bases:     33270989 bp (33.3 Mbp)
+     Trimmed reads:            9 (0.0%)
+     Trimmed bases:          112 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.11 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACTGATC', length 7, was trimmed 18 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	14	35.8	0	0 14
+7	4	9.0	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'GATCAGT', length 7, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACTGATC -g ^CCTAT -g ^GATCAGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC186236.ACTGATC-CCTAT-1.ncutadapter.fastq -o AC186236.ACTGATC-CCTAT-2.ncutadapter.fastq AC186236.ACTGATC-CCTAT-1.tmp.fastq AC186236.ACTGATC-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       146721
+   Processed bases:     35571999 bp (35.6 Mbp)
+     Trimmed reads:          100 (0.1%)
+     Trimmed bases:         1242 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.05 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACTGATC', length 7, was trimmed 152 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	124	35.8	0	0 124
+7	24	9.0	1	2 22
+8	4	9.0	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 14 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	14	143.3	0	14
+
+=== Adapter 4 ===
+
+Adapter 'GATCAGT', length 7, was trimmed 32 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	8	35.8	0	0 8
+7	22	9.0	1	0 22
+8	2	9.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	143.3	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACTGATC -g ^CCTAT -g ^GATCAGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC186236.ACTGATC-CCTAT-1.tmpagain.fastq -o AC186236.ACTGATC-CCTAT-2.tmpagain.fastq AC186236.ACTGATC-CCTAT-1.cutadapter.R.fastq AC186236.ACTGATC-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       146721
+   Processed bases:     33270933 bp (33.3 Mbp)
+     Trimmed reads:          820 (0.6%)
+     Trimmed bases:         9302 bp (0.0 Mbp) (0.03% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.14 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACTGATC', length 7, was trimmed 284 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	170	35.8	0	0 170
+7	50	9.0	1	2 48
+8	64	9.0	1	0 64
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'GATCAGT', length 7, was trimmed 468 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	308	35.8	0	0 308
+7	148	9.0	1	0 148
+8	12	9.0	1	0 12
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 888 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	888	143.3	0	888
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACTGATC -g ^CCTAT -g ^GATCAGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC186236.ACTGATC-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC186236.ACTGATC-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC186236.ACTGATC-CCTAT-1.tmpagain.fastq AC186236.ACTGATC-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       146721
+   Processed bases:     35571378 bp (35.6 Mbp)
+     Trimmed reads:          386 (0.3%)
+     Trimmed bases:         5124 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.01 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACTGATC', length 7, was trimmed 692 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	124	35.8	0	0 124
+7	568	9.0	1	0 568
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 72 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	72	143.3	0	72
+
+=== Adapter 4 ===
+
+Adapter 'GATCAGT', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	9.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	6	143.3	0	6
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CACGTAC -g ^CCTAT -g ^GTACGTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC209175.CACGTAC-CCTAT-1.tmp.fastq -o AC209175.CACGTAC-CCTAT-2.tmp.fastq ../AC209175.CACGTAC-CCTAT-1.fq ../AC209175.CACGTAC-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       110984
+   Processed bases:     25057570 bp (25.1 Mbp)
+     Trimmed reads:          493 (0.4%)
+     Trimmed bases:         6720 bp (0.0 Mbp) (0.03% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.64 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CACGTAC', length 7, was trimmed 896 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	12	27.1	0	0 12
+7	882	6.8	1	4 878
+8	2	6.8	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'GTACGTG', length 7, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	4	6.8	1	0 4
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 86 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	86	108.4	0	86
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CACGTAC -g ^CCTAT -g ^GTACGTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC209175.CACGTAC-CCTAT-1.ncutadapter.fastq -o AC209175.CACGTAC-CCTAT-2.ncutadapter.fastq AC209175.CACGTAC-CCTAT-1.tmp.fastq AC209175.CACGTAC-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       110984
+   Processed bases:     27004522 bp (27.0 Mbp)
+     Trimmed reads:          528 (0.5%)
+     Trimmed bases:         7368 bp (0.0 Mbp) (0.03% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.61 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CACGTAC', length 7, was trimmed 1050 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	18	27.1	0	0 18
+7	1028	6.8	1	2 1026
+8	4	6.8	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	108.4	0	4
+
+=== Adapter 4 ===
+
+Adapter 'GTACGTG', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	2	27.1	0	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^CACGTAC -g ^CCTAT -g ^GTACGTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC209175.CACGTAC-CCTAT-1.tmpagain.fastq -o AC209175.CACGTAC-CCTAT-2.tmpagain.fastq AC209175.CACGTAC-CCTAT-1.cutadapter.R.fastq AC209175.CACGTAC-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       110984
+   Processed bases:     25054210 bp (25.1 Mbp)
+     Trimmed reads:          366 (0.3%)
+     Trimmed bases:         4672 bp (0.0 Mbp) (0.02% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.72 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CACGTAC', length 7, was trimmed 418 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	74	27.1	0	0 74
+7	340	6.8	1	2 338
+8	4	6.8	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	108.4	0	2
+
+=== Adapter 4 ===
+
+Adapter 'GTACGTG', length 7, was trimmed 180 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	122	27.1	0	0 122
+7	50	6.8	1	0 50
+8	8	6.8	1	0 8
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 132 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	132	108.4	0	132
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^CACGTAC -g ^CCTAT -g ^GTACGTG -g ^ATAGG -n 2 -e 0.15 --paired-output AC209175.CACGTAC-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC209175.CACGTAC-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC209175.CACGTAC-CCTAT-1.tmpagain.fastq AC209175.CACGTAC-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       110984
+   Processed bases:     27000838 bp (27.0 Mbp)
+     Trimmed reads:          636 (0.6%)
+     Trimmed bases:         8191 bp (0.0 Mbp) (0.03% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.57 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'CACGTAC', length 7, was trimmed 1232 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	661	27.1	0	0 661
+7	549	6.8	1	2 547
+8	22	6.8	1	0 22
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 30 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	30	108.4	0	30
+
+=== Adapter 4 ===
+
+Adapter 'GTACGTG', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	2	6.8	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 8 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	8	108.4	0	8
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACGCTAGT -g ^CCTAT -g ^ACTAGCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC194009.ACGCTAGT-CCTAT-1.tmp.fastq -o AC194009.ACGCTAGT-CCTAT-2.tmp.fastq ../AC194009.ACGCTAGT-CCTAT-1.fq ../AC194009.ACGCTAGT-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       133578
+   Processed bases:     30450459 bp (30.5 Mbp)
+     Trimmed reads:            0 (0.0%)
+     Trimmed bases:            0 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.97 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGCTAGT', length 8, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'ACTAGCGT', length 8, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACGCTAGT -g ^CCTAT -g ^ACTAGCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC194009.ACGCTAGT-CCTAT-1.ncutadapter.fastq -o AC194009.ACGCTAGT-CCTAT-2.ncutadapter.fastq AC194009.ACGCTAGT-CCTAT-1.tmp.fastq AC194009.ACGCTAGT-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       133578
+   Processed bases:     32515313 bp (32.5 Mbp)
+     Trimmed reads:            6 (0.0%)
+     Trimmed bases:           66 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.96 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGCTAGT', length 8, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	2	2.0	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	6	130.4	0	6
+
+=== Adapter 4 ===
+
+Adapter 'ACTAGCGT', length 8, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	4	130.4	0	4
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^ACGCTAGT -g ^CCTAT -g ^ACTAGCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC194009.ACGCTAGT-CCTAT-1.tmpagain.fastq -o AC194009.ACGCTAGT-CCTAT-2.tmpagain.fastq AC194009.ACGCTAGT-CCTAT-1.cutadapter.R.fastq AC194009.ACGCTAGT-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       133578
+   Processed bases:     30450459 bp (30.5 Mbp)
+     Trimmed reads:          123 (0.1%)
+     Trimmed bases:         1456 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.89 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGCTAGT', length 8, was trimmed 38 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	20	8.2	1	0 20
+8	16	2.0	1	0 16
+9	2	2.0	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'ACTAGCGT', length 8, was trimmed 46 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	8	8.2	1	0 8
+8	38	2.0	1	0 38
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 162 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	162	130.4	0	162
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^ACGCTAGT -g ^CCTAT -g ^ACTAGCGT -g ^ATAGG -n 2 -e 0.15 --paired-output AC194009.ACGCTAGT-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC194009.ACGCTAGT-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC194009.ACGCTAGT-CCTAT-1.tmpagain.fastq AC194009.ACGCTAGT-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       133578
+   Processed bases:     32515280 bp (32.5 Mbp)
+     Trimmed reads:          262 (0.2%)
+     Trimmed bases:         3964 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.87 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'ACGCTAGT', length 8, was trimmed 486 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	152	8.2	1	0 152
+8	308	2.0	1	0 308
+9	26	2.0	1	0 26
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 26 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	26	130.4	0	26
+
+=== Adapter 4 ===
+
+Adapter 'ACTAGCGT', length 8, was trimmed 4 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.2	1	0 2
+9	2	2.0	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 8 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	8	130.4	0	8
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^GCGTCAT -g ^CCTAT -g ^ATGACGC -g ^ATAGG -n 2 -e 0.15 --paired-output AC206167.GCGTCAT-CCTAT-1.tmp.fastq -o AC206167.GCGTCAT-CCTAT-2.tmp.fastq ../AC206167.GCGTCAT-CCTAT-1.fq ../AC206167.GCGTCAT-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       136264
+   Processed bases:     31190661 bp (31.2 Mbp)
+     Trimmed reads:           29 (0.0%)
+     Trimmed bases:          458 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.03 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'GCGTCAT', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	2	33.3	0	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'ATGACGC', length 7, was trimmed 56 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.3	1	0 2
+8	54	8.3	1	0 54
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^GCGTCAT -g ^CCTAT -g ^ATGACGC -g ^ATAGG -n 2 -e 0.15 --paired-output AC206167.GCGTCAT-CCTAT-1.ncutadapter.fastq -o AC206167.GCGTCAT-CCTAT-2.ncutadapter.fastq AC206167.GCGTCAT-CCTAT-1.tmp.fastq AC206167.GCGTCAT-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       136264
+   Processed bases:     33250694 bp (33.3 Mbp)
+     Trimmed reads:           81 (0.1%)
+     Trimmed bases:         1228 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.98 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'GCGTCAT', length 7, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.3	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'ATGACGC', length 7, was trimmed 160 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	22	33.3	0	0 22
+7	22	8.3	1	4 18
+8	116	8.3	1	0 116
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^GCGTCAT -g ^CCTAT -g ^ATGACGC -g ^ATAGG -n 2 -e 0.15 --paired-output AC206167.GCGTCAT-CCTAT-1.tmpagain.fastq -o AC206167.GCGTCAT-CCTAT-2.tmpagain.fastq AC206167.GCGTCAT-CCTAT-1.cutadapter.R.fastq AC206167.GCGTCAT-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       136264
+   Processed bases:     31190432 bp (31.2 Mbp)
+     Trimmed reads:          585 (0.4%)
+     Trimmed bases:         7202 bp (0.0 Mbp) (0.02% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.98 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'GCGTCAT', length 7, was trimmed 626 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	514	33.3	0	0 514
+7	100	8.3	1	2 98
+8	12	8.3	1	0 12
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	133.1	0	2
+
+=== Adapter 4 ===
+
+Adapter 'ATGACGC', length 7, was trimmed 328 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	74	33.3	0	0 74
+7	234	8.3	1	2 232
+8	20	8.3	1	0 20
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 214 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	214	133.1	0	214
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^GCGTCAT -g ^CCTAT -g ^ATGACGC -g ^ATAGG -n 2 -e 0.15 --paired-output AC206167.GCGTCAT-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC206167.GCGTCAT-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC206167.GCGTCAT-CCTAT-1.tmpagain.fastq AC206167.GCGTCAT-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       136264
+   Processed bases:     33250080 bp (33.3 Mbp)
+     Trimmed reads:          168 (0.1%)
+     Trimmed bases:         2180 bp (0.0 Mbp) (0.01% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      1.91 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'GCGTCAT', length 7, was trimmed 278 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	86	33.3	0	0 86
+7	190	8.3	1	0 190
+8	2	8.3	1	0 2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 36 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	36	133.1	0	36
+
+=== Adapter 4 ===
+
+Adapter 'ATGACGC', length 7, was trimmed 20 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-7 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+6	14	33.3	0	0 14
+7	4	8.3	1	0 4
+8	2	8.3	1	0 2
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	133.1	0	2
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error1 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^TTGTGCAT -g ^CCTAT -g ^ATGCACAA -g ^ATAGG -n 2 -e 0.15 --paired-output AC213049.TTGTGCAT-CCTAT-1.tmp.fastq -o AC213049.TTGTGCAT-CCTAT-2.tmp.fastq ../AC213049.TTGTGCAT-CCTAT-1.fq ../AC213049.TTGTGCAT-CCTAT-2.fq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       143797
+   Processed bases:     32773788 bp (32.8 Mbp)
+     Trimmed reads:           31 (0.0%)
+     Trimmed bases:          538 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.03 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TTGTGCAT', length 8, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+8	2	2.2	1	2
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	140.4	0	2
+
+=== Adapter 4 ===
+
+Adapter 'ATGCACAA', length 8, was trimmed 58 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.8	1	0 2
+8	6	2.2	1	0 6
+9	50	2.2	1	0 50
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error2 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^TTGTGCAT -g ^CCTAT -g ^ATGCACAA -g ^ATAGG -n 2 -e 0.15 --paired-output AC213049.TTGTGCAT-CCTAT-1.ncutadapter.fastq -o AC213049.TTGTGCAT-CCTAT-2.ncutadapter.fastq AC213049.TTGTGCAT-CCTAT-1.tmp.fastq AC213049.TTGTGCAT-CCTAT-2.tmp.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       143797
+   Processed bases:     35073207 bp (35.1 Mbp)
+     Trimmed reads:           44 (0.0%)
+     Trimmed bases:          776 bp (0.0 Mbp) (0.00% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.09 s
+     Time per read:      0.015 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TTGTGCAT', length 8, was trimmed 6 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.8	1	0 2
+9	4	2.2	1	0 4
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 2 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	2	140.4	0	2
+
+=== Adapter 4 ===
+
+Adapter 'ATGCACAA', length 8, was trimmed 80 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	2	8.8	1	0 2
+9	78	2.2	1	0 78
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error3 -f fastq -g ^AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT -g ^TTGTGCAT -g ^CCTAT -g ^ATGCACAA -g ^ATAGG -n 2 -e 0.15 --paired-output AC213049.TTGTGCAT-CCTAT-1.tmpagain.fastq -o AC213049.TTGTGCAT-CCTAT-2.tmpagain.fastq AC213049.TTGTGCAT-CCTAT-1.cutadapter.R.fastq AC213049.TTGTGCAT-CCTAT-2.cutadapter.R.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       143797
+   Processed bases:     32773519 bp (32.8 Mbp)
+     Trimmed reads:          745 (0.5%)
+     Trimmed bases:         7970 bp (0.0 Mbp) (0.02% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.23 s
+     Time per read:      0.016 ms
+
+=== Adapter 1 ===
+
+Adapter 'AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TTGTGCAT', length 8, was trimmed 38 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	10	8.8	1	0 10
+8	6	2.2	1	0 6
+9	22	2.2	1	0 22
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 4 ===
+
+Adapter 'ATGCACAA', length 8, was trimmed 140 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	56	8.8	1	0 56
+8	54	2.2	1	2 52
+9	30	2.2	1	0 30
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 1312 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	1312	140.4	0	1312
+
+cutadapt version 1.4.2
+Command line parameters: --info-file error4 -f fastq -g ^AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT -g ^TTGTGCAT -g ^CCTAT -g ^ATGCACAA -g ^ATAGG -n 2 -e 0.15 --paired-output AC213049.TTGTGCAT-CCTAT-1.cleaned.paired.cutadapter.2ends.fastq -o AC213049.TTGTGCAT-CCTAT-2.cleaned.paired.cutadapter.2ends.fastq AC213049.TTGTGCAT-CCTAT-1.tmpagain.fastq AC213049.TTGTGCAT-CCTAT-2.tmpagain.fastq
+Maximum error rate: 15.00%
+   No. of adapters: 5
+   Processed reads:       143797
+   Processed bases:     35072819 bp (35.1 Mbp)
+     Trimmed reads:          537 (0.4%)
+     Trimmed bases:         8014 bp (0.0 Mbp) (0.02% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:      2.06 s
+     Time per read:      0.014 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 0 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-12 bp: 1; 13-19 bp: 2; 20-25 bp: 3; 26-32 bp: 4; 33-39 bp: 5; 40-45 bp: 6; 46-52 bp: 7; 53-58 bp: 8
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+
+=== Adapter 2 ===
+
+Adapter 'TTGTGCAT', length 8, was trimmed 968 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	358	8.8	1	0 358
+8	610	2.2	1	0 610
+
+=== Adapter 3 ===
+
+Adapter 'CCTAT', length 5, was trimmed 58 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	58	140.4	0	58
+
+=== Adapter 4 ===
+
+Adapter 'ATGCACAA', length 8, was trimmed 40 times.
+
+No. of allowed errors:
+0-5 bp: 0; 6-8 bp: 1
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+7	26	8.8	1	0 26
+8	10	2.2	1	0 10
+9	4	2.2	1	0 4
+
+=== Adapter 5 ===
+
+Adapter 'ATAGG', length 5, was trimmed 8 times.
+
+No. of allowed errors:
+0-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	8	140.4	0	8
+
