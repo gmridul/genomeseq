@@ -30,7 +30,7 @@ int main(int argc, char*  argv[]) {
     int count=0, len;
 
     while(getline(f1,p1) && getline(f2,p2)) {
-        cout << p1 << "\n";
+        cout <<"file1 : \n" <<num << " : " <<  p1 << "\n";
         len=p1.length();
         if(count==1) {
             for(int i=0;i<len;i++) {
@@ -67,22 +67,21 @@ int main(int argc, char*  argv[]) {
                     info->cluster = info;
                     llist** point = &hashtab[slid];
                     if(*point==NULL) {
-                        cout << "aever'sdvsv\n";
                         *point=info;
                         info->next=NULL;
                     }
                     else {
-                        cout << "POOOOOOP\n";
                         info->next=*point;
                         hashtab[slid]=info;
                         //point->next=info;
                     }
                 }
             }
-            cout << p2<< "\n";
+            cout << "file2 : \n" <<num << " : " <<p2<< "\n";
 
             slid=0;
             skipN=0;
+            len=p2.length();
             for(int i=0;i<len;i++) {
                 if(skipN>0) {
                     skipN--;
