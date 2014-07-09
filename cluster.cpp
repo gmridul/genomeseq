@@ -13,6 +13,7 @@ class llist {
     llist* next;
     char side;
     int pos;
+    int entrynum;
     llist* cluster;
     llist() {
         side='c';
@@ -20,100 +21,126 @@ class llist {
 };
 
 int main(int argc, char*  argv[]) {
-    int k;
-    cin >> k; //k-mer size
-    unordered_map<char,llist* > hashtab;
+    int k,skipN=0,num=1;
+    cin >> k; //k-mer size // not greater than 32
+    int64_t slid=0,mask=(1<<(2*k))-1;
+    unordered_map<int64_t,llist* > hashtab;
     ifstream f1(argv[1]),f2(argv[2]);
     string p1,p2;
-    char* slid,temp;
-    unsigned long long ttk=33;
     int count=0, len;
 
     while(getline(f1,p1) && getline(f2,p2)) {
+        cout << p1 << "\n";
+        len=p1.length();
         if(count==1) {
-            *slid=p1[0];
-            temp=slid;
-            for(int i=1;i<k;i++) {
-                temp=temp+1;
-                *temp=p1[i];
-            }
-            llist* info = new llist();
-            info->side='l';
-            info->pos=0;
-            info->cluster = info;
-            llist* point = hashtab[slid];
-            if(point->side=='c') {
-                point=info;
-                info->next=NULL;
-            }
-            else {
-                point->next=info;
-                info->next=point;
-            }
-            len=p1.length();
-            for(int i=k;i<len;i++) {
-                slid.pop();
-                slid.push(p1[i]);
-                llist* info1 = new llist();
-                info1->side='l';
-                info1->pos=i;
-                info1->cluster = info1;
-                llist* point1 = hashtab[slid];
-                if(point1->side=='c') {
-                    point1=info1;
-                    info1->next=NULL;
+            for(int i=0;i<len;i++) {
+                if(skipN>0) {
+                    skipN--;
+                    continue;
+                }
+                if(p1[i]=='A') {
+                    slid<<2;
+                }
+                else if(p1[i]=='C') {
+                    slid<<2;
+                    slid+=1;
+                }
+                else if(p1[i]=='T') {
+                    slid<<2;
+                    slid+=2;
+                }
+                else if (p1[i]=='G') {
+                    slid<<2;
+                    slid+=3;
                 }
                 else {
-                    point1->next=info1;
-                    info1->next=point1;
+                    skipN=k;
+                    continue;
+                }
+
+                if(i>=k-1) {
+                    slid&=mask;
+                    llist* info = new llist();
+                    info->side='l';
+                    info->pos=i;
+                    info->entrynum=num;
+                    info->cluster = info;
+                    llist** point = &hashtab[slid];
+                    if(*point==NULL) {
+                        cout << "aever'sdvsv\n";
+                        *point=info;
+                        info->next=NULL;
+                    }
+                    else {
+                        cout << "POOOOOOP\n";
+                        info->next=*point;
+                        hashtab[slid]=info;
+                        //point->next=info;
+                    }
                 }
             }
-            
-            for(int i=0;i<k;i++) {
-               slid.push(p2[i]);
-            }
-            llist* info2 = new llist();
-            info2->side='r';
-            info2->pos=0;
-            info2->cluster = info2;
-            llist* point2 = hashtab[slid];
-            if(point2->side=='c') {
-                point2=info2;
-                info2->next=NULL;
-            }
-            else {
-                point2->next=info2;
-                info2->next=point2;
-            }
-            len=p2.length();
-            for(int i=k;i<len;i++) {
-                slid.pop();
-                slid.push(p2[i]);
-                llist* info3 = new llist();
-                info3->side='l';
-                info3->pos=i;
-                info3->cluster = info3;
-                llist* point3 = hashtab[slid];
-                if(point3->side=='c') {
-                    point3=info3;
-                    info3->next=NULL;
+            cout << p2<< "\n";
+
+            slid=0;
+            skipN=0;
+            for(int i=0;i<len;i++) {
+                if(skipN>0) {
+                    skipN--;
+                    continue;
+                }
+                if(p2[i]=='A') {
+                    slid<<2;
+                }
+                else if(p2[i]=='C') {
+                    slid<<2;
+                    slid+=1;
+                }
+                else if(p2[i]=='T') {
+                    slid<<2;
+                    slid+=2;
+                }
+                else if(p2[i]=='G') {
+                    slid<<2;
+                    slid+=3;
                 }
                 else {
-                    point3->next=info3;
-                    info3->next=point3;
+                    skipN=k;
+                    continue;
+                }
+                if(i>=k-1) {
+                    slid&=mask;
+                    llist* info = new llist();
+                    info->side='r';
+                    info->pos=i;
+                    info->entrynum=num;
+                    info->cluster = info;
+                    llist** point = &hashtab[slid];
+                    if(*point==NULL) {
+                        *point=info;
+                        info->next=NULL;
+                    }
+                    else {
+                        info->next=*point;
+                        hashtab[slid]=info;
+                    }
                 }
             }
         }
-            
+
         count+=1;
         count%=4;
+        num++;
     }
     // HASH TABLE CREATED
-    for ( auto it = hashtab.begin(); it != hashtab.end(); ++it )
-        cout << " " << it->first << ":" << it->second;
-    cout << endl;
-    
-    
-    
-    
-    
+    llist* temp;
+    for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
+        cout << it->first << ":";
+        temp=it->second;
+        while(temp!=NULL) {
+            cout <<"[ " << temp->entrynum << ","<< temp->side << "," << temp->pos <<" ] --> " ;
+            temp=temp->next;
+        }
+    }
+    cout << "\n"; 
+    return 0;
+}
