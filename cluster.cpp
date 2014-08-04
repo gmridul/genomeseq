@@ -1,10 +1,25 @@
+/*
+ * Compile command : 
+ * g++ -I/home/mridul/seqan/seqan-trunk/core/include -I/home/mridul/seqan/seqan-trunk/extras/include/ -lrt -W -Wall -Wno-long-long -pedantic -Wno-variadic-macros -std=c++0x match_reads.cpp
+ */
+
+
 #include <iostream>
-#include <cstdint>
 #include <string>
+#include <cstdint>
 #include <fstream>
 #include <unordered_map>
+#include <seqan/align.h>
+#include <seqan/basic.h>
+#include <seqan/sequence.h>
+#include <seqan/file.h>
+#define BOUND 5
+#define THRESHOLD 10
 using namespace std;
+using namespace seqan;
 
+typedef String<char> TSequence;                 // sequence type
+typedef Align<TSequence,ArrayGaps> TAlign;      // align type
 
 class llist {
     public:
@@ -17,6 +32,26 @@ class llist {
         side='c';
     }
 };
+
+bool match_reads(llist* x,llist* y) {//TSequence s1,TSequence s2,int k,int thold) {
+    
+    TSequence seq1 =left[x->entrynum];
+    TSequence seq2 =right[y->entrynum];
+
+    TAlign align;
+    resize(rows(align), 2);
+    assignSource(row(align,0),seq1);
+    assignSource(row(align,1),seq2);
+    int score = globalAlignment(align, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
+    cout << score << endl;
+    cout << align << endl;
+    if(scores<=THRESHOLD) {
+        return true;
+    }
+    return false;
+}
+
+
 
 int main(int argc, char*  argv[]) {
     int k,skipN=0,num=1;
