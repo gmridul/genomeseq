@@ -20,8 +20,8 @@ using namespace seqan;
 #include <boost/unordered/unordered_set.hpp>
 
 
-#define BOUND 5
-#define THRESHOLD 10
+#define BOUND 2
+#define THRESHOLD -10
 using namespace std;
 
 
@@ -61,21 +61,22 @@ bool match_reads(llist* x,llist* y) {
     assignSource(row(alignl,0),seql1);
     assignSource(row(alignl,1),seql2);
     int scorel = globalAlignment(alignl, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
-    cout << scorel << endl;
+    cout << "left score " << tscorel << endl;
     cout << alignl << endl;
+
+    if(scorel < THRESHOLD) return false;
 
     TAlign alignr;
     resize(rows(alignr), 2);
     assignSource(row(alignr,0),seqr1);
     assignSource(row(alignr,1),seqr2);
     int scorer = globalAlignment(alignr, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
-    cout << scorer << endl;
+    cout <<" right score " <<  scorer << endl;
     cout << alignr << endl;
-    if(scorel<=THRESHOLD && scorer <=THRESHOLD) {
-        return true;
-    }
 
-    return false;
+    if(scorer < THRESHOLD) return false;
+
+    return true;
 
 }
 
@@ -83,7 +84,6 @@ bool match_reads(llist* x,llist* y) {
 void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
 
     for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
-        cout << it->first << ":";
         for (auto x = it->second; x != NULL; x = x->next) {
           int rank = RANK(x);
           if (!ds.find_set(rank)) { // find_set returns 0 if not found
@@ -94,7 +94,7 @@ void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
           int xrank = RANK(x);
           for (auto y = x->next; y != NULL; y = y->next) {
             int yrank = RANK(y);
-            if (match_reads(x, y)) {
+            if (x->entrynum!=y->entrynum && match_reads(x, y)) {
               ds.union_set(xrank, yrank);
             }
           }
@@ -227,15 +227,6 @@ int main(int argc, char*  argv[]) {
         }
         cout << "\n";
     }
-
-    for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
-        temp=it->second;
-        while(temp!=NULL) {
-
-            temp=temp->next;
-        }
-    }
-
     
     VecInt rank (10);
     VecInt parent (10);
