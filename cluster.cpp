@@ -235,6 +235,8 @@ int main(int argc, char*  argv[]) {
     VecInt rank (10);
     VecInt parent (10);
     DisjointSets ds(&rank[0], &parent[0]);
+
+    bin_reads(hashtab, ds);
     
 
     return 0;
