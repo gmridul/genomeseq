@@ -47,10 +47,11 @@ typedef unordered_map<int64_t,llist* > HashTable;
 typedef std::vector<int> VecInt;
 typedef boost::disjoint_sets<int*,int*> DisjointSets;
 
+vector<string> left,right;
 
 bool match_reads(llist* x,llist* y) {//TSequence s1,TSequence s2,int k,int thold) {
     
-     TSequence seql1 =left[x->entrynum];
+    TSequence seql1 =left[x->entrynum];
     TSequence seql2 =left[y->entrynum];
     TSequence seqr1 =right[x->entrynum];
     TSequence seqr2 =right[y->entrynum];
@@ -114,6 +115,8 @@ int main(int argc, char*  argv[]) {
         //f2.push_back(p2);
         len=p1.length();
         if(count==1) {
+            left.push_back(p1);
+            right.push_back(p2);
             slid=0;
             for(int i=0;i<len-k+1;i++) {
                 if(skipN>0) {
