@@ -47,28 +47,30 @@ typedef unordered_map<int64_t,llist* > HashTable;
 typedef std::vector<int> VecInt;
 typedef boost::disjoint_sets<int*,int*> DisjointSets;
 
-vector<string> left,right;
+vector<string> left_reads,right_reads;
 
 bool match_reads(llist* x,llist* y) {//TSequence s1,TSequence s2,int k,int thold) {
     
-    TSequence seql1 =left[x->entrynum];
-    TSequence seql2 =left[y->entrynum];
-    TSequence seqr1 =right[x->entrynum];
-    TSequence seqr2 =right[y->entrynum];
+    TSequence seql1 =left_reads[x->entrynum];
+    TSequence seql2 =left_reads[y->entrynum];
+    TSequence seqr1 =right_reads[x->entrynum];
+    TSequence seqr2 =right_reads[y->entrynum];
 
     TAlign alignl;
     resize(rows(alignl), 2);
     assignSource(row(alignl,0),seql1);
     assignSource(row(alignl,1),seql2);
     int scorel = globalAlignment(alignl, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
+    cout << scorel << endl;
+    cout << alignl << endl;
 
     TAlign alignr;
     resize(rows(alignr), 2);
     assignSource(row(alignr,0),seqr1);
     assignSource(row(alignr,1),seqr2);
     int scorer = globalAlignment(alignr, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
-    cout << score << endl;
-    cout << align << endl;
+    cout << scorer << endl;
+    cout << alignr << endl;
     if(scorel<=THRESHOLD && scorer <=THRESHOLD) {
         return true;
     }
@@ -115,8 +117,8 @@ int main(int argc, char*  argv[]) {
         //f2.push_back(p2);
         len=p1.length();
         if(count==1) {
-            left.push_back(p1);
-            right.push_back(p2);
+            left_reads.push_back(p1);
+            right_reads.push_back(p2);
             slid=0;
             for(int i=0;i<len-k+1;i++) {
                 if(skipN>0) {
