@@ -49,12 +49,12 @@ typedef boost::disjoint_sets<int*,int*> DisjointSets;
 
 vector<string> left_reads,right_reads;
 
-bool match_reads(llist* x,llist* y) {//TSequence s1,TSequence s2,int k,int thold) {
+bool match_reads(llist* x,llist* y) {
     
-    TSequence seql1 =left_reads[x->entrynum];
-    TSequence seql2 =left_reads[y->entrynum];
-    TSequence seqr1 =right_reads[x->entrynum];
-    TSequence seqr2 =right_reads[y->entrynum];
+    TSequence seql1 = left_reads[x->entrynum];
+    TSequence seql2 = left_reads[y->entrynum];
+    TSequence seqr1 = right_reads[x->entrynum];
+    TSequence seqr2 = right_reads[y->entrynum];
 
     TAlign alignl;
     resize(rows(alignl), 2);
@@ -104,7 +104,7 @@ void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
 
 
 int main(int argc, char*  argv[]) {
-    int k,skipN=0,num=1;
+    int k,skipN=0,num=0;
     cin >> k; //k-mer size // not greater than 32
     int64_t slid,mask=(1<<(2*k))-1;
     HashTable hashtab;
@@ -210,11 +210,11 @@ int main(int argc, char*  argv[]) {
                     }
                 }
             }
+            num++;
         }
 
         count+=1;
         count%=4;
-        num++;
     }
     // HASH TABLE CREATED
     llist* temp;
