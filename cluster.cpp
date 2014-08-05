@@ -50,21 +50,30 @@ typedef boost::disjoint_sets<int*,int*> DisjointSets;
 
 bool match_reads(llist* x,llist* y) {//TSequence s1,TSequence s2,int k,int thold) {
     
-    TSequence seq1 =left[x->entrynum];
-    TSequence seq2 =right[y->entrynum];
+     TSequence seql1 =left[x->entrynum];
+    TSequence seql2 =left[y->entrynum];
+    TSequence seqr1 =right[x->entrynum];
+    TSequence seqr2 =right[y->entrynum];
 
-    TAlign align;
-    resize(rows(align), 2);
-    assignSource(row(align,0),seq1);
-    assignSource(row(align,1),seq2);
-    int score = globalAlignment(align, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
+    TAlign alignl;
+    resize(rows(alignl), 2);
+    assignSource(row(alignl,0),seql1);
+    assignSource(row(alignl,1),seql2);
+    int scorel = globalAlignment(alignl, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
+
+    TAlign alignr;
+    resize(rows(alignr), 2);
+    assignSource(row(alignr,0),seqr1);
+    assignSource(row(alignr,1),seqr2);
+    int scorer = globalAlignment(alignr, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
     cout << score << endl;
     cout << align << endl;
-    if(scores<=THRESHOLD) {
+    if(scorel<=THRESHOLD && scorer <=THRESHOLD) {
         return true;
     }
 
     return false;
+
 }
 
 
