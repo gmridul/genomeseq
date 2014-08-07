@@ -16,18 +16,12 @@
 #include <seqan/file.h>
 using namespace seqan;
 
-#include <boost/pending/disjoint_sets.hpp>
-#include <boost/unordered/unordered_set.hpp>
-
-
 #define BOUND 5
 #define THRESHOLD 10
 using namespace std;
 
-
 typedef String<char> TSequence;                 // sequence type
 typedef Align<TSequence,ArrayGaps> TAlign;      // align type
-
 
 class llist {
     public:
@@ -44,8 +38,127 @@ class llist {
 #define RANK(x) (2*x->entrynum + (x->side == 'l' ? 0 : 1) + 1) // ranks are 1, 2, ...
 typedef unordered_map<int64_t,llist* > HashTable;
 
-typedef std::vector<int> VecInt;
-typedef boost::disjoint_sets<int*,int*> DisjointSets;
+
+// ------------ disjoint sets begin -----------------
+
+#include <boost/pending/disjoint_sets.hpp>
+#include <boost/pending/property.hpp>
+
+class Element
+{
+public:
+    explicit
+    Element(int n) : mSomeInt(n) { }
+
+    int someInt() const { return mSomeInt; }
+
+    // The following class members are specific for the disjoint_sets
+    // implementation
+    size_t dsID;
+    size_t dsRank;
+    size_t dsParent;
+
+private:
+    int mSomeInt;
+};
+
+inline bool
+operator==(Element const& lhs, Element const& rhs)
+{
+    return lhs.someInt() == rhs.someInt();
+}
+
+inline bool
+operator!=(Element const& lhs, Element const& rhs)
+{
+    return ! operator==(lhs, rhs);
+}
+
+class Parent
+{
+public:
+    Parent(std::vector<Element>& e) : mElements(e) { }
+    std::vector<Element>& mElements;
+};
+
+class Rank
+{
+public:
+    Rank(std::vector<Element>& e) : mElements(e) { }
+    std::vector<Element>& mElements;
+};
+
+namespace boost {
+template <>
+struct property_traits<Rank*>
+{
+    typedef size_t value_type;
+};
+}
+
+inline Element const&
+get(Parent* pa, Element const& k)
+{
+    return pa->mElements.at(k.dsParent);
+}
+
+inline void
+put(Parent* pa, Element k, Element const& val)
+{
+    pa->mElements.at(k.dsID).dsParent = val.dsID;
+}
+
+inline size_t const&
+get(Rank*, Element const& k)
+{
+    return k.dsRank;
+}
+
+inline void
+put(Rank* pa, Element k, size_t const& val)
+{
+    pa->mElements.at(k.dsID).dsRank = val;
+}
+
+void
+printElements(std::vector<Element>& elements)
+{
+    std::cout << "Elements:            ";
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        std::cout << std::setw(4) << elements[i].someInt();
+    }
+    std::cout << std::endl;
+    std::cout << "Set representatives: ";
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        std::cout << std::setw(4) << elements[i].dsParent;
+    }
+    std::cout << std::endl;
+    std::cout << "ID                 : ";
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        std::cout << std::setw(4) << elements[i].dsID;
+    }
+    std::cout << std::endl;
+}
+
+inline bool
+compareByParent(Element const& lhs, Element const& rhs)
+{
+    return lhs.dsParent < rhs.dsParent;
+}
+
+inline bool
+compareBySomeInt(Element const& lhs, Element const& rhs)
+{
+    return lhs.someInt() < rhs.someInt();
+}
+
+typedef boost::disjoint_sets<Rank*, Parent*> DisjointSets;
+
+// ------------ disjoint sets end -------------
+
 
 vector<string> left_reads,right_reads;
 
@@ -80,22 +193,16 @@ bool match_reads(llist* x,llist* y) {
 }
 
 
-void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
+void bin_reads(const HashTable &hashtab, const std::vector<Element> &elements, DisjointSets &ds) {
 
     for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
         cout << it->first << ":";
-        for (auto x = it->second; x != NULL; x = x->next) {
-          int rank = RANK(x);
-          if (!ds.find_set(rank)) { // find_set returns 0 if not found
-            ds.make_set(rank); 
-          }
-        }
         for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
           int xrank = RANK(x);
           for (auto y = x->next; y != NULL; y = y->next) {
             int yrank = RANK(y);
             if (match_reads(x, y)) {
-              ds.union_set(xrank, yrank);
+              ds.union_set(elements[xrank], elements[yrank]);
             }
           }
         }
@@ -237,11 +344,63 @@ int main(int argc, char*  argv[]) {
     }
 
     
-    VecInt rank (10);
-    VecInt parent (10);
-    DisjointSets ds(&rank[0], &parent[0]);
+    std::vector<Element> elements;
+    elements.reserve(2*num);
+    for (size_t i = 0; i < elements.capacity(); ++i)
+    {
+        elements.push_back(Element(i+1));
+    }
 
-    bin_reads(hashtab, ds);
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        elements[i].dsID = i+1;
+    }
+
+    Rank rank(elements);
+    Parent parent(elements);
+
+    DisjointSets ds(&rank, &parent);
+
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        ds.make_set(elements.at(i));
+    }
+
+    bin_reads(hashtab, elements, ds);
+
+    std::cout << "Found " << ds.count_sets(elements.begin(), elements.end()) << " sets:" << std::endl;
+    printElements(elements);
+
+    ds.compress_sets(elements.begin(), elements.end());
+
+    std::cout << std::endl << "After path compression:" << std::endl;
+    printElements(elements);
+
+    std::sort(elements.begin(), elements.end(), compareByParent);
+
+    std::cout << std::endl << "After path compression and sorting by parent:" << std::endl;
+    printElements(elements);
+
+    std::cout << std::endl << "Now we can iterate through all elements of each set separately using the indices:" << std::endl;
+    {
+        size_t first = 0;
+        while (first < elements.size())
+        {
+            size_t currentParent = elements.at(first).dsParent;
+            size_t last = first;
+            while (last < elements.size() && elements.at(last).dsParent == currentParent)
+            {
+                ++last;
+            }
+            std::cout << "\tRange: [" << first << "," << last << "). Sorted elements: ";
+            for (size_t i = first; i < last; ++i)
+            {
+                std::cout << elements.at(i).someInt() << " ";
+            }
+            std::cout << std::endl;
+            first = last;
+        }
+    }
     
 
     return 0;
