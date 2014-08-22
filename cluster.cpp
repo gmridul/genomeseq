@@ -14,7 +14,7 @@
 #include <seqan/basic.h>
 #include <seqan/sequence.h>
 #include <seqan/file.h>
-using namespace seqan;
+//using namespace seqan;
 
 #include <boost/pending/disjoint_sets.hpp>
 #include <boost/unordered/unordered_set.hpp>
@@ -25,8 +25,8 @@ using namespace seqan;
 using namespace std;
 
 
-typedef String<char> TSequence;                 // sequence type
-typedef Align<TSequence,ArrayGaps> TAlign;      // align type
+typedef seqan::String<char> TSequence;                 // sequence type
+typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;      // align type
 
 
 class llist {
@@ -57,20 +57,20 @@ bool match_reads(llist* x,llist* y) {
     TSequence seqr2 = right_reads[y->entrynum];
 
     TAlign alignl;
-    resize(rows(alignl), 2);
-    assignSource(row(alignl,0),seql1);
-    assignSource(row(alignl,1),seql2);
-    int scorel = globalAlignment(alignl, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
-    cout << "left score " << tscorel << endl;
+    seqan::resize(rows(alignl), 2);
+    seqan::assignSource(row(alignl,0),seql1);
+    seqan::assignSource(row(alignl,1),seql2);
+    int scorel = seqan::globalAlignment(alignl, seqan::Score<int,seqan::Simple>(0,-1,-1),-BOUND,BOUND);
+    cout << "left score " << scorel << endl;
     cout << alignl << endl;
 
     if(scorel < THRESHOLD) return false;
 
     TAlign alignr;
-    resize(rows(alignr), 2);
-    assignSource(row(alignr,0),seqr1);
-    assignSource(row(alignr,1),seqr2);
-    int scorer = globalAlignment(alignr, Score<int,Simple>(0,-1,-1),-BOUND,BOUND);
+    seqan::resize(rows(alignr), 2);
+    seqan::assignSource(row(alignr,0),seqr1);
+    seqan::assignSource(row(alignr,1),seqr2);
+    int scorer = seqan::globalAlignment(alignr, seqan::Score<int,seqan::Simple>(0,-1,-1),-BOUND,BOUND);
     cout <<" right score " <<  scorer << endl;
     cout << alignr << endl;
 
@@ -102,8 +102,143 @@ void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
     }
 }
 
+extern "C" {
+#include "clustal-omega.h"
+}
+/**************************************************************************************************************************************************************/
+mseq_t *prMSeq;
+int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
+   
+    /* HMM
+     */
+    /* structs with pseudocounts etc; one for each HMM infile, i.e.
+     * index range: 0..iHMMInputFiles */
+    hmm_light *prHMMs = NULL;
+
+    /* MSA order in which nodes/profiles are to be merged/aligned
+       (order of nodes in guide tree (left/right)*/
+    int *piOrderLR = NULL;
+
+    /* weights per sequence */
+    double *pdSeqWeights = NULL;
+
+    /* Iteration
+     */
+    int iIterationCounter = 0;
+    double dAlnScore;
+    /* last dAlnScore for iteration */
+    double dLastAlnScore = -666.666;
+
+    
+
+    assert(NULL != prMSeq);
+    if (NULL != prMSeqProfile) {
+        assert(TRUE == prMSeqProfile->aligned);
+    }
+
+
+
+/*    if (TRUE == prOpts->bPileup){
+        PileUp(prMSeq, prOpts->rHhalignPara, prOpts->iClustersizes);
+        return 0;
+    }
+     */
+
+#if 0
+    Log(&rLog, LOG_WARN, "Using a sequential alignment order.");
+    SequentialAlignmentOrder(&piOrderLR, prMSeq->nseqs);
+#else
+
+    if (OK != AlignmentOrder(&piOrderLR, &pdSeqWeights, prMSeq,
+                prOpts->iPairDistType,
+                prOpts->pcDistmatInfile, prOpts->pcDistmatOutfile,
+                prOpts->iClusteringType, prOpts->iClustersizes, 
+                prOpts->pcGuidetreeInfile, prOpts->pcGuidetreeOutfile, prOpts->pcClustfile, 
+                prOpts->bUseMbed, prOpts->bPercID)) {
+        Log(&rLog, LOG_ERROR, "AlignmentOrder() failed. Cannot continue");
+        return -1;
+    }
+#endif
+
+    /* if max-hmm-iter is set < 0 then do not perform alignment 
+     * there is a problem/feature(?) that the un-aligned sequences are output 
+     */
+    if (prOpts->iMaxHMMIterations < 0){
+        Log(&rLog, LOG_VERBOSE,
+            "iMaxHMMIterations < 0 (%d), will not perform alignment", prOpts->iMaxHMMIterations);
+        return 0;
+    }
+
+
+    /* Progressive alignment of input sequences. Order defined by
+     * branching of guide tree (piOrderLR). Use optional
+     * background HMM information (prHMMs[0..prOpts->iHMMInputFiles-1])
+     *
+     */
+    dAlnScore = HHalignWrapper(prMSeq, piOrderLR, pdSeqWeights,
+                               2*prMSeq->nseqs -1/* nodes */,
+                               prHMMs, prOpts->iHMMInputFiles, -1, prOpts->rHhalignPara);
+    dLastAlnScore = dAlnScore;
+    Log(&rLog, LOG_VERBOSE,
+        "Alignment score for first alignment = %f", dAlnScore);        
+
+    /* ------------------------------------------------------------
+     * prMSeq is aligned now. Now start iterations if requested and save the
+     * alignment at the very end.
+     * ------------------------------------------------------------ */
+
+    if (NULL != piOrderLR) {
+        free(piOrderLR);
+        piOrderLR=NULL;
+    }
+    if (NULL != pdSeqWeights) {
+        free(pdSeqWeights);
+        pdSeqWeights=NULL;
+    }
+
+    return 0;
+}
+/**********************************************************************************************************************************************************/
+void tree_to_align(char* t) {
+/* the multiple sequence structure */
+
+    /* for openmp: number of threads to use */
+    int iThreads = 0;
+    /* alignment options to use */
+    opts_t rAlnOpts;
+    int iAux;
+    LogDefaultSetup(&rLog);
+    SetDefaultAlnOpts(&rAlnOpts);
+    rAlnOpts.pcGuidetreeInfile = t;
+    if(myAlign(prMSeq, (mseq_t *)NULL, &rAlnOpts)) {
+        Log(&rLog, LOG_FATAL, "A fatal error happended during the alignment process");
+    }
+    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, false)) {
+        Log(&rLog, LOG_FATAL, "Could not save alignment");
+    } 
+    FreeMSeq(&prMSeq);
+
+    Log(&rLog, LOG_INFO, "Successfull program exit");
+}
+
 
 int main(int argc, char*  argv[]) {
+    int no_of_seq;
+    cin >> no_of_seq;
+    string fname;
+    cin >> fname;
+    char * writable = new char[fname.size() + 1];
+    std::copy(fname.begin(), fname.end(), writable);
+    writable[fname.size()] = '\0'; // don't forget the terminating 0
+    prMSeq->seqtype  = SEQTYPE_DNA;
+    prMSeq->aligned  = false;
+    prMSeq->filename = writable;
+    prMSeq->seqtype =SQFILE_FASTA; 
+    prMSeq->nseqs    = 0;
+    prMSeq->seq =  (char **) CKREALLOC(prMSeq->seq, (prMSeq->nseqs+1) * sizeof(char *));
+    ReadSequences(prMSeq, writable, SEQTYPE_DNA, SQFILE_FASTA, false,false, 10000, 300);
+        
+    /*
     int k,skipN=0,num=0;
     cin >> k; //k-mer size // not greater than 32
     int64_t slid,mask=(1<<(2*k))-1;
@@ -233,7 +368,7 @@ int main(int argc, char*  argv[]) {
     DisjointSets ds(&rank[0], &parent[0]);
 
     bin_reads(hashtab, ds);
-    
+    */
 
     return 0;
 }
