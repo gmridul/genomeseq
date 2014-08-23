@@ -210,10 +210,13 @@ void tree_to_align(char* t) {
     LogDefaultSetup(&rLog);
     SetDefaultAlnOpts(&rAlnOpts);
     rAlnOpts.pcGuidetreeInfile = t;
+    
     if(myAlign(prMSeq, (mseq_t *)NULL, &rAlnOpts)) {
         Log(&rLog, LOG_FATAL, "A fatal error happended during the alignment process");
     }
-    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, false)) {
+
+    cout << "ASVAR\n";
+    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
         Log(&rLog, LOG_FATAL, "Could not save alignment");
     } 
     FreeMSeq(&prMSeq);
@@ -224,12 +227,17 @@ void tree_to_align(char* t) {
 
 int main(int argc, char*  argv[]) {
     int no_of_seq;
-    cin >> no_of_seq;
-    string fname;
-    cin >> fname;
+//    cin >> no_of_seq;
+    no_of_seq=4;
+    string fname,tname;
+    fname="read_file";tname="guide_tree_example";
+    //cin >> fname >> tname;
+    cout << fname<<tname <<endl;
+    string tree;
     char * writable = new char[fname.size() + 1];
     std::copy(fname.begin(), fname.end(), writable);
     writable[fname.size()] = '\0'; // don't forget the terminating 0
+    prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     prMSeq->seqtype  = SEQTYPE_DNA;
     prMSeq->aligned  = false;
     prMSeq->filename = writable;
@@ -237,6 +245,14 @@ int main(int argc, char*  argv[]) {
     prMSeq->nseqs    = 0;
     prMSeq->seq =  (char **) CKREALLOC(prMSeq->seq, (prMSeq->nseqs+1) * sizeof(char *));
     ReadSequences(prMSeq, writable, SEQTYPE_DNA, SQFILE_FASTA, false,false, 10000, 300);
+    for(int i=0;i<prMSeq->nseqs;i++) {
+        printf("%s\n",prMSeq->seq[i]);
+    }
+    char * ritable = new char[tname.size() + 1];
+    std::copy(tname.begin(), tname.end(), ritable);
+    ritable[tname.size()] = '\0'; 
+    printf("%s\n",ritable);
+    tree_to_align(ritable);
         
     /*
     int k,skipN=0,num=0;
