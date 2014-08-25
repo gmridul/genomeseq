@@ -16,86 +16,60 @@
 #include <seqan/file.h>
 //using namespace seqan;
 
-#include <boost/pending/disjoint_sets.hpp>
-#include <boost/unordered/unordered_set.hpp>
-
+#include "dswrapper.hpp"
 
 #define BOUND 2
 #define THRESHOLD -10
 using namespace std;
 
-
-typedef seqan::String<char> TSequence;                 // sequence type
-typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;      // align type
-
+typedef seqan::String<char> TSequence;                     // sequence type
+typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;   // align type
 
 class llist {
     public:
-    llist* next;
-    char side;
-    int pos;
-    int entrynum;
-    llist* cluster;
-    llist() {
-        side='c';
-    }
+        llist* next;
+        char side;
+        int pos;
+        int entrynum;
+        llist* cluster;
+        llist() {
+            side='c';
+        }
 };
 
 #define RANK(x) (2*x->entrynum + (x->side == 'l' ? 0 : 1) + 1) // ranks are 1, 2, ...
 typedef unordered_map<int64_t,llist* > HashTable;
 
-typedef std::vector<int> VecInt;
-typedef boost::disjoint_sets<int*,int*> DisjointSets;
-
 vector<string> left_reads,right_reads;
 
-bool match_reads(llist* x,llist* y) {
-    
-    TSequence seql1 = left_reads[x->entrynum];
-    TSequence seql2 = left_reads[y->entrynum];
-    TSequence seqr1 = right_reads[x->entrynum];
-    TSequence seqr2 = right_reads[y->entrynum];
-
-    TAlign alignl;
-    seqan::resize(rows(alignl), 2);
-    seqan::assignSource(row(alignl,0),seql1);
-    seqan::assignSource(row(alignl,1),seql2);
-    int scorel = seqan::globalAlignment(alignl, seqan::Score<int,seqan::Simple>(0,-1,-1),-BOUND,BOUND);
-    cout << "left score " << scorel << endl;
-    cout << alignl << endl;
-
-    if(scorel < THRESHOLD) return false;
-
-    TAlign alignr;
-    seqan::resize(rows(alignr), 2);
-    seqan::assignSource(row(alignr,0),seqr1);
-    seqan::assignSource(row(alignr,1),seqr2);
-    int scorer = seqan::globalAlignment(alignr, seqan::Score<int,seqan::Simple>(0,-1,-1),-BOUND,BOUND);
-    cout <<" right score " <<  scorer << endl;
-    cout << alignr << endl;
-
-    if(scorer < THRESHOLD) return false;
-
-    return true;
-
+int match_seqs(const string &s1, const string &s2) {
+    TSequence seq1 = s1, seq2 = s2;
+    TAlign align;
+    seqan::resize(rows(align), 2);
+    seqan::assignSource(row(align, 0), seq1);
+    seqan::assignSource(row(align, 1), seq2);
+    int score = seqan::globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1,-1), -BOUND, BOUND);
+    cout << "score " << score << endl;
+    cout << align << endl;
+    return score;
 }
 
+bool match_reads(llist* x,llist* y) {
+    if (match_seqs(left_reads[x->entrynum], left_reads[y->entrynum]) < THRESHOLD) return false;
+    if (match_seqs(right_reads[x->entrynum], right_reads[y->entrynum]) < THRESHOLD) return false;
+    return true;
+}
 
-void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
+void bin_reads(const HashTable &hashtab, const std::vector<Element> &elements, DisjointSets &ds) {
 
     for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
-        for (auto x = it->second; x != NULL; x = x->next) {
-          int rank = RANK(x);
-          if (!ds.find_set(rank)) { // find_set returns 0 if not found
-            ds.make_set(rank); 
-          }
-        }
+        cout << it->first << ":";
         for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
           int xrank = RANK(x);
           for (auto y = x->next; y != NULL; y = y->next) {
             int yrank = RANK(y);
-            if (x->entrynum!=y->entrynum && match_reads(x, y)) {
-              ds.union_set(xrank, yrank);
+            if (match_reads(x, y)) {
+              ds.union_set(elements[xrank], elements[yrank]);
             }
           }
         }
@@ -105,13 +79,13 @@ void bin_reads(const HashTable &hashtab, DisjointSets &ds) {
 extern "C" {
 #include "clustal-omega.h"
 }
+
 /**************************************************************************************************************************************************************/
-mseq_t *prMSeq;
-int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
-   
+
+int myAlign(mseq_t *prMSeq, opts_t *prOpts) {
+
     /* HMM
-     */
-    /* structs with pseudocounts etc; one for each HMM infile, i.e.
+     * structs with pseudocounts etc; one for each HMM infile, i.e.
      * index range: 0..iHMMInputFiles */
     hmm_light *prHMMs = NULL;
 
@@ -122,33 +96,15 @@ int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
     /* weights per sequence */
     double *pdSeqWeights = NULL;
 
-    /* Iteration
-     */
-    int iIterationCounter = 0;
     double dAlnScore;
-    /* last dAlnScore for iteration */
-    double dLastAlnScore = -666.666;
-
-    
 
     assert(NULL != prMSeq);
-    if (NULL != prMSeqProfile) {
-        assert(TRUE == prMSeqProfile->aligned);
-    }
-
-
-
-/*    if (TRUE == prOpts->bPileup){
-        PileUp(prMSeq, prOpts->rHhalignPara, prOpts->iClustersizes);
-        return 0;
-    }
-     */
-
-#if 0
-    Log(&rLog, LOG_WARN, "Using a sequential alignment order.");
-    SequentialAlignmentOrder(&piOrderLR, prMSeq->nseqs);
-#else
-
+    /*
+       if (TRUE == prOpts->bPileup){
+       PileUp(prMSeq, prOpts->rHhalignPara, prOpts->iClustersizes);
+       return 0;
+       }
+       */
     if (OK != AlignmentOrder(&piOrderLR, &pdSeqWeights, prMSeq,
                 prOpts->iPairDistType,
                 prOpts->pcDistmatInfile, prOpts->pcDistmatOutfile,
@@ -158,17 +114,6 @@ int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
         Log(&rLog, LOG_ERROR, "AlignmentOrder() failed. Cannot continue");
         return -1;
     }
-#endif
-
-    /* if max-hmm-iter is set < 0 then do not perform alignment 
-     * there is a problem/feature(?) that the un-aligned sequences are output 
-     */
-    if (prOpts->iMaxHMMIterations < 0){
-        Log(&rLog, LOG_VERBOSE,
-            "iMaxHMMIterations < 0 (%d), will not perform alignment", prOpts->iMaxHMMIterations);
-        return 0;
-    }
-
 
     /* Progressive alignment of input sequences. Order defined by
      * branching of guide tree (piOrderLR). Use optional
@@ -176,16 +121,10 @@ int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
      *
      */
     dAlnScore = HHalignWrapper(prMSeq, piOrderLR, pdSeqWeights,
-                               2*prMSeq->nseqs -1/* nodes */,
-                               prHMMs, prOpts->iHMMInputFiles, -1, prOpts->rHhalignPara);
-    dLastAlnScore = dAlnScore;
+            2*prMSeq->nseqs -1/* nodes */,
+            prHMMs, prOpts->iHMMInputFiles, -1, prOpts->rHhalignPara);
     Log(&rLog, LOG_VERBOSE,
-        "Alignment score for first alignment = %f", dAlnScore);        
-
-    /* ------------------------------------------------------------
-     * prMSeq is aligned now. Now start iterations if requested and save the
-     * alignment at the very end.
-     * ------------------------------------------------------------ */
+            "Alignment score for first alignment = %f", dAlnScore);        
 
     if (NULL != piOrderLR) {
         free(piOrderLR);
@@ -198,37 +137,9 @@ int myAlign(mseq_t *prMSeq, mseq_t *prMSeqProfile, opts_t *prOpts) {
 
     return 0;
 }
-/**********************************************************************************************************************************************************/
+/*************************************************************************************************************************/
 void tree_to_align(char* t) {
-/* the multiple sequence structure */
-
-    /* for openmp: number of threads to use */
-    int iThreads = 0;
-    /* alignment options to use */
-    opts_t rAlnOpts;
-    int iAux;
-    LogDefaultSetup(&rLog);
-    SetDefaultAlnOpts(&rAlnOpts);
-    rAlnOpts.pcGuidetreeInfile = t;
-    
-    if(myAlign(prMSeq, (mseq_t *)NULL, &rAlnOpts)) {
-        Log(&rLog, LOG_FATAL, "A fatal error happended during the alignment process");
-    }
-
-    cout << "ASVAR\n";
-    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
-        Log(&rLog, LOG_FATAL, "Could not save alignment");
-    } 
-    FreeMSeq(&prMSeq);
-
-    Log(&rLog, LOG_INFO, "Successfull program exit");
-}
-
-
-int main(int argc, char*  argv[]) {
-    int no_of_seq;
-//    cin >> no_of_seq;
-    no_of_seq=4;
+    int no_of_seq=4;
     string fname,tname;
     fname="read_file";tname="guide_tree_example";
     //cin >> fname >> tname;
@@ -237,10 +148,10 @@ int main(int argc, char*  argv[]) {
     char * writable = new char[fname.size() + 1];
     std::copy(fname.begin(), fname.end(), writable);
     writable[fname.size()] = '\0'; // don't forget the terminating 0
-    prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
+    mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     prMSeq->seqtype  = SEQTYPE_DNA;
     prMSeq->aligned  = false;
-    prMSeq->filename = writable;
+    prMSeq->filename = (char *)fname.c_str();
     prMSeq->seqtype =SQFILE_FASTA; 
     prMSeq->nseqs    = 0;
     prMSeq->seq =  (char **) CKREALLOC(prMSeq->seq, (prMSeq->nseqs+1) * sizeof(char *));
@@ -248,13 +159,29 @@ int main(int argc, char*  argv[]) {
     for(int i=0;i<prMSeq->nseqs;i++) {
         printf("%s\n",prMSeq->seq[i]);
     }
-    char * ritable = new char[tname.size() + 1];
-    std::copy(tname.begin(), tname.end(), ritable);
-    ritable[tname.size()] = '\0'; 
-    printf("%s\n",ritable);
-    tree_to_align(ritable);
-        
-    /*
+
+    /* alignment options to use */
+    opts_t rAlnOpts;
+    LogDefaultSetup(&rLog);
+    SetDefaultAlnOpts(&rAlnOpts);
+    rAlnOpts.pcGuidetreeInfile = t;
+
+    if(myAlign(prMSeq, &rAlnOpts)) {
+        Log(&rLog, LOG_FATAL, "A fatal error happended during the alignment process");
+    }
+
+    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
+        Log(&rLog, LOG_FATAL, "Could not save alignment");
+    } 
+    FreeMSeq(&prMSeq);
+
+}
+
+
+int main(int argc, char*  argv[]) {
+    int no_of_seq;
+    //    cin >> no_of_seq;
+
     int k,skipN=0,num=0;
     cin >> k; //k-mer size // not greater than 32
     int64_t slid,mask=(1<<(2*k))-1;
@@ -378,13 +305,64 @@ int main(int argc, char*  argv[]) {
         }
         cout << "\n";
     }
+
+    std::vector<Element> elements;
+    elements.reserve(2*num);
+    for (size_t i = 0; i < elements.capacity(); ++i)
+    {
+        elements.push_back(Element(i+1));
+    }
+
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        elements[i].dsID = i+1;
+    }
+
+    Rank rank(elements);
+    Parent parent(elements);
+
+    DisjointSets ds(&rank, &parent);
+
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        ds.make_set(elements.at(i));
+    }
+
+    bin_reads(hashtab, elements, ds);
+
+    std::cout << "Found " << ds.count_sets(elements.begin(), elements.end()) << " sets:" << std::endl;
+    printElements(elements);
+
+    ds.compress_sets(elements.begin(), elements.end());
+
+    std::cout << std::endl << "After path compression:" << std::endl;
+    printElements(elements);
+
+    std::sort(elements.begin(), elements.end(), compareByParent);
+
+    std::cout << std::endl << "After path compression and sorting by parent:" << std::endl;
+    printElements(elements);
+
+    std::cout << std::endl << "Now we can iterate through all elements of each set separately using the indices:" << std::endl;
+    {
+        size_t first = 0;
+        while (first < elements.size())
+        {
+            size_t currentParent = elements.at(first).dsParent;
+            size_t last = first;
+            while (last < elements.size() && elements.at(last).dsParent == currentParent)
+            {
+                ++last;
+            }
+            std::cout << "\tRange: [" << first << "," << last << "). Sorted elements: ";
+            for (size_t i = first; i < last; ++i)
+            {
+                std::cout << elements.at(i).someInt() << " ";
+            }
+            std::cout << std::endl;
+            first = last;
+        }
+    }
     
-    VecInt rank (10);
-    VecInt parent (10);
-    DisjointSets ds(&rank[0], &parent[0]);
-
-    bin_reads(hashtab, ds);
-    */
-
     return 0;
 }
