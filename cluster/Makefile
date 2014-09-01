@@ -1,6 +1,21 @@
-﻿TEST=test #dont delete this line
-# CLUSTALO = /home/mridul/Desktop/clustal-omega-1.2.1
-CLUSTALO = /home/mitra/Downloads/clustal-omega-1.2.1
+﻿CXX     = g++
+CXXFLAGS = -g -O3 -Wall -Wno-long-long -pedantic -Wno-variadic-macros -fopenmp -std=c++0x
+LDLIBS = -lm -lrt 
 
-cluster: cluster.cpp
-	g++ -g -I$(CLUSTALO)/src -I../seqan-inc/core/include/ -I../seqan-inc/extras/include/ -lrt -W -Wall -Wno-long-long -pedantic -Wno-variadic-macros -fopenmp -std=c++0x -o cluster $< -L$(CLUSTALO)/ -lclustalo
+# CLUSTALO = /home/mridul/Desktop/clustal-omega-1.2.1
+CLUSTALO = /home/mitra/Downloads/clustal-omega-1.2.1/src
+CXXFLAGS += -I$(CLUSTALO) -I../seqan-inc/core/include/ -I../seqan-inc/extras/include/
+LDLIBS += -L$(CLUSTALO)/.libs -lclustalo -lgomp
+
+OBJS =  cluster.o\
+	fastqwrapper.o\
+	alignwrapper.o
+
+all: cluster
+
+cluster: $(OBJS)
+	$(CXX) $(OBJS) -o cluster $(LDLIBS)
+
+clean:
+	rm -f *.o cluster
+
