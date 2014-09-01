@@ -1,5 +1,5 @@
 ﻿CXX     = g++
-CXXFLAGS = -g -O3 -Wall -Wno-long-long -pedantic -Wno-variadic-macros -fopenmp -std=c++0x
+CXXFLAGS = -g -Wall -Wno-long-long -pedantic -Wno-variadic-macros -fopenmp -std=c++0x # -O3
 LDLIBS = -lm -lrt 
 
 # CLUSTALO = /home/mridul/Desktop/clustal-omega-1.2.1
