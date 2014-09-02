@@ -36,13 +36,30 @@ bool match_reads(llist* x,llist* y) {
 
 class Clusters {
 public:
-    Clusters(int n) : num_elements(n) {
+    Clusters(int n) : num_elements(n), nodeid(0) {
+        left = new uint[num_elements];
+        right = new uint[num_elements];
+        set_to_node = new uint[num_elements];
         elements.reserve(num_elements);
         for (size_t i = 0; i < elements.capacity(); ++i) {
             elements.push_back(Element(i));
         }
         for (size_t i = 0; i < elements.size(); ++i) {
             elements[i].dsID = i;
+            set_to_node[i] = i;
+        }
+    }
+    void unite(DisjointSets& ds, const Element& x, const Element& y) {
+        Element xp = ds.find_set(x); 
+        Element yp = ds.find_set(y); 
+        if (xp != yp) {
+            int nodex = set_to_node[xp.dsID];
+            int nodey = set_to_node[yp.dsID];
+            ds.link(xp, yp);
+            left[nodeid] = nodex;
+            right[nodeid] = nodey;
+            set_to_node[ds.find_set(x).dsID] = num_elements + nodeid;
+            nodeid++;
         }
     }
     void cluster_reads(HashTable &hashtab) {
@@ -66,7 +83,7 @@ public:
                     int yrank = RANK(y);
                     std::cout << "x=" << xrank << ", y=" << yrank << "\n";
                     if (match_reads(x, y)) {
-                        ds.union_set(elements[xrank], elements[yrank]);
+                        unite(ds, elements[xrank], elements[yrank]);
                     }
                 }
             }
@@ -107,29 +124,51 @@ public:
 
     std::vector<Element>& get_elements() { return elements; }
     std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
+    uint *get_left() { return left; }
+    uint *get_right() { return right; }
+    uint get_root_node(int id) { return set_to_node[elements[id].dsParent]; }
 
 private:
     int num_elements;
     std::vector<Element> elements;
     std::vector<int> cluster_sizes;
+    uint *left;
+    uint *right;
+    uint nodeid;
+    uint *set_to_node;
 };
 
 int main(int argc, char*  argv[]) {
-    testMuscleTree();
-    exit(0);
 
     HashTable hashtab;
     int k = 4;
     int num = read_fastq(argv[1], argv[2], left_reads, right_reads, k, hashtab);
     print_hashtab(hashtab);
 
-    Clusters cls(2*num);
+    int n = 2*num;
+    Clusters cls(n);
     cls.cluster_reads(hashtab);
     std::vector<Element> elements = cls.get_elements();
     printElements(elements);
+    uint *left = cls.get_left();
+    uint *right = cls.get_right();
+    float *leftLength = (float *)malloc(n*sizeof(float));
+    float *rightLength = (float *)malloc(n*sizeof(float));
+    uint *leafIds = (uint *)malloc(n*sizeof(uint));
+    char **leafNames = (char **)malloc(n*sizeof(char*));
+    for (int i=0; i<n; i++) {
+        leftLength[i] = rightLength[i] = 1.0;
+        leafIds[i] = i;
+        leafNames[i] = "";
+    }
+    mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
+    setup_sequences(prMSeq, num, left_reads, right_reads);
     std::vector<int> sizes = cls.get_cluster_sizes();
+    int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
         std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
+        align_cluster(n, left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id), prMSeq);
+        id += sizes[i];
     }
     
     return 0;

@@ -58,6 +58,43 @@ int myAlign(mseq_t *prMSeq, opts_t *prOpts) {
     return 0;
 }
 
+void setup_sequences(mseq_t *prMSeq, int nreads, Reads& left_reads, Reads& right_reads) {
+    prMSeq->seqtype  = SEQTYPE_DNA;
+    prMSeq->aligned  = false;
+    prMSeq->filename = "";
+    prMSeq->nseqs    = 2*nreads;
+    prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    for (int i=0; i<nreads; ++i) {
+        prMSeq->seq[2*i] = CkStrdup(left_reads[i].c_str());;
+        prMSeq->orig_seq[2*i] = CkStrdup(left_reads[i].c_str());;
+        prMSeq->seq[2*i+1] = CkStrdup(right_reads[i].c_str());;
+        prMSeq->orig_seq[2*i+1] = CkStrdup(right_reads[i].c_str());;
+    }
+    for(int i=0;i<prMSeq->nseqs;i++) {
+        printf("%s\n",prMSeq->seq[i]);
+    }
+    LogDefaultSetup(&rLog);
+    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
+}
+
+
+
+void align_cluster(int n, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq) {
+    tree_t *tree = (tree_t *)malloc(sizeof(tree_t));
+    MuscleTreeCreate(tree, n, root, left, right, leftLength, rightLength, leafIds, leafNames);
+    int *piOrderLR = NULL;
+    TraverseTree(&piOrderLR, tree, prMSeq);
+    hhalign_para rHhalignPara;
+    SetDefaultHhalignPara(&rHhalignPara);
+    double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*prMSeq->nseqs -1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
+    Log(&rLog, LOG_VERBOSE, "Alignment score for first alignment = %f", dAlnScore);        
+    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
+        Log(&rLog, LOG_FATAL, "Could not save alignment");
+    } 
+    FreeMuscleTree(tree);
+}
+
 void testMuscleTree() {
     uint left[] = {0, 2, 10, 9, 5, 7, 13, 16};
     uint right[] = {1, 3, 4, 11, 6, 8, 14, 16};
@@ -87,7 +124,6 @@ void testMuscleTree() {
         MuscleTreeCreate(tree, 9, 3, left, right, leftLength, rightLength, leafIds, leafNames);
         //TreeValidate(tree);
         MuscleTreeToFile(stdout, tree);
-        unsigned int uNodes = prMSeq->nseqs*2-1;
         int *piOrderLR = NULL;
         TraverseTree(&piOrderLR, tree, prMSeq);
         hhalign_para rHhalignPara;
@@ -107,7 +143,6 @@ void testMuscleTree() {
         //TreeValidate(tree);
         std::cout << "\n after tree validate\n";
         MuscleTreeToFile(stdout, tree);
-        unsigned int uNodes = prMSeq->nseqs*2-1;
         int *piOrderLR = NULL;
         TraverseTree(&piOrderLR, tree, prMSeq);
         hhalign_para rHhalignPara;
@@ -120,14 +155,11 @@ void testMuscleTree() {
         FreeMuscleTree(tree);
         std::cout << "\n\n DONE WITH SECOND TREE \n\n";
     }
-
     tree_to_align();
-
 }
 
 /*************************************************************************************************************************/
 void tree_to_align() {
-    int no_of_seq=4;
     std::string fname,tname;
     fname="read_file";tname="guide_tree_example";
     //cin >> fname >> tname;
