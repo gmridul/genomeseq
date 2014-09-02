@@ -115,6 +115,9 @@ private:
 };
 
 int main(int argc, char*  argv[]) {
+    testMuscleTree();
+    exit(0);
+
     HashTable hashtab;
     int k = 4;
     int num = read_fastq(argv[1], argv[2], left_reads, right_reads, k, hashtab);

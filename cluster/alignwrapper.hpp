@@ -16,7 +16,8 @@ typedef seqan::String<char> TSequence;                     // sequence type
 typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;   // align type
 
 int myAlign(mseq_t *prMSeq, opts_t *prOpts);
-void tree_to_align(char* t);
+void tree_to_align();
+void testMuscleTree();
 
 #endif // __ALIGNWRAPPER_H__ 
 
