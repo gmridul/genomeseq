@@ -1,0 +1,2 @@
+stat_chimera.py prints the number of chimeras present in reads
+cutSlocal.py extracts the S part from the sam file
