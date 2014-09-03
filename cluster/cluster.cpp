@@ -36,7 +36,7 @@ bool match_reads(llist* x,llist* y) {
 
 class Clusters {
 public:
-    Clusters(int n) : num_elements(n), nodeid(0) {
+    Clusters(int n) : num_elements(n), nodeid(0), rank(elements), parent(elements), ds(&rank, &parent) {
         left = new uint[num_elements];
         right = new uint[num_elements];
         set_to_node = new uint[num_elements];
@@ -49,8 +49,14 @@ public:
             set_to_node[i] = i;
             left[i]=right[i]=num_elements+i;
         }
+        for (size_t i = 0; i < elements.size(); ++i) {
+            std::cout << "making set " << i << "\n";
+            ds.make_set(elements.at(i));
+            std::cout << "making set " << i << "done \n";
+        }
+        std::cout << "created singleton clusters \n";
     }
-    void unite(DisjointSets& ds, const Element& x, const Element& y) {
+    void unite(const Element& x, const Element& y) {
         Element xp = ds.find_set(x); 
         Element yp = ds.find_set(y); 
         if (xp != yp) {
@@ -63,33 +69,7 @@ public:
             nodeid++;
         }
     }
-    void cluster_reads(HashTable &hashtab) {
-        std::cout << "doing clusteing \n";
-        printElements(elements);
-        Rank rank(elements);
-        Parent parent(elements);
-        DisjointSets ds(&rank, &parent);
-        std::cout << "size = " << elements.size() << "\n";
-        for (size_t i = 0; i < elements.size(); ++i) {
-            std::cout << "making set " << i << "\n";
-            ds.make_set(elements.at(i));
-            std::cout << "making set " << i << "done \n";
-        }
-        std::cout << "created singleton clusters \n";
-        for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
-            std::cout << it->first << ":";
-            for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
-                int xrank = RANK(x);
-                for (auto y = x->next; y != NULL; y = y->next) {
-                    int yrank = RANK(y);
-                    std::cout << "x=" << xrank << ", y=" << yrank << "\n";
-                    if (match_reads(x, y)) {
-                        unite(ds, elements[xrank], elements[yrank]);
-                    }
-                }
-            }
-        }
-
+    void finalize_clusters() {
         std::cout << "Found " << ds.count_sets(elements.begin(), elements.end()) << " sets:" << std::endl;
         printElements(elements);
 
@@ -122,6 +102,22 @@ public:
             first = last;
         }
     }
+    void cluster_reads(HashTable &hashtab) {
+        std::cout << "doing clusteing \n";
+        for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
+            std::cout << it->first << ":";
+            for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
+                int xrank = RANK(x);
+                for (auto y = x->next; y != NULL; y = y->next) {
+                    int yrank = RANK(y);
+                    std::cout << "x=" << xrank << ", y=" << yrank << "\n";
+                    if (match_reads(x, y)) {
+                        unite(elements[xrank], elements[yrank]);
+                    }
+                }
+            }
+        }
+    }
 
     std::vector<Element>& get_elements() { return elements; }
     std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
@@ -131,6 +127,9 @@ public:
 
 private:
     int num_elements;
+    Rank rank;
+    Parent parent;
+    DisjointSets ds;
     std::vector<Element> elements;
     std::vector<int> cluster_sizes;
     uint *left;
@@ -143,17 +142,32 @@ char *names[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 int main(int argc, char*  argv[]) {
 
-    testMuscleTree();
-    exit(0);
+    //testMuscleTree();
+    //exit(0);
+    //
 
     HashTable hashtab;
     int k = 4;
     int num = read_fastq(argv[1], argv[2], left_reads, right_reads, k, hashtab);
     print_hashtab(hashtab);
 
+    /*
+    int n = 9;
+    Clusters cls(n);
+    cls.unite(elements[0], elements[1]);
+    cls.unite(elements[2], elements[3]);
+    cls.unite(elements[2], elements[4]);
+    cls.unite(elements[1], elements[4]);
+    cls.unite(elements[5], elements[6]);
+    cls.unite(elements[7], elements[8]);
+    cls.unite(elements[5], elements[8]);
+    */
+
     int n = 2*num;
     Clusters cls(n);
     cls.cluster_reads(hashtab);
+
+    cls.finalize_clusters();
     std::vector<Element> elements = cls.get_elements();
     printElements(elements);
     uint *left = cls.get_left();
@@ -172,11 +186,14 @@ int main(int argc, char*  argv[]) {
     }
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     setup_sequences(prMSeq, num, left_reads, right_reads);
+    //testSetupSequences(prMSeq);
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
         std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
-        align_cluster(n, left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id)-n, prMSeq);
+        if (sizes[i] > 1) {
+          align_cluster(n, sizes[i], left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id)-n, prMSeq);
+        }
         id += sizes[i];
     }
     

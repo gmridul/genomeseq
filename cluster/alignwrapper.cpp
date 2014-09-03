@@ -80,21 +80,47 @@ void setup_sequences(mseq_t *prMSeq, int nreads, Reads& left_reads, Reads& right
 
 
 
-void align_cluster(int n, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq) {
+void align_cluster(int n, int ni, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq) {
     tree_t *tree = (tree_t *)malloc(sizeof(tree_t));
     std::cout << "n=" << n << ", root=" << root << "\n";
     MuscleTreeCreate(tree, n, root, left, right, leftLength, rightLength, leafIds, leafNames);
     MuscleTreeToFile(stdout, tree);
     int *piOrderLR = NULL;
     TraverseTree(&piOrderLR, tree, prMSeq);
+    /*
+    for (int i=0; i<(2*n-1); i++) {
+        register int riAux = DIFF_NODE * i;
+        std::cout << piOrderLR[riAux + LEFT_NODE] << " " << piOrderLR[riAux + RGHT_NODE] << " " << piOrderLR[riAux + PRNT_NODE] << "\n";
+    }
+    */
     hhalign_para rHhalignPara;
     SetDefaultHhalignPara(&rHhalignPara);
-    double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*prMSeq->nseqs -1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
+    double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*n-1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
     Log(&rLog, LOG_VERBOSE, "Alignment score for first alignment = %f", dAlnScore);        
     if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
         Log(&rLog, LOG_FATAL, "Could not save alignment");
     } 
     FreeMuscleTree(tree);
+}
+
+
+void testSetupSequences(mseq_t *prMSeq) {
+    char* seqs[] = {"AAA", "AC", "AAT", "AAG", "AAAT", "ACAT", "AAT", "ATAA", "AATA"};
+    prMSeq->seqtype  = SEQTYPE_DNA;
+    prMSeq->aligned  = false;
+    prMSeq->filename = "read_file";
+    prMSeq->nseqs    = 9;
+    prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    for (int i=0; i<prMSeq->nseqs; ++i) {
+        prMSeq->seq[i] = CkStrdup(seqs[i]);;
+        prMSeq->orig_seq[i] = CkStrdup(seqs[i]);;
+    }
+    for(int i=0;i<prMSeq->nseqs;i++) {
+        printf("%s\n",prMSeq->seq[i]);
+    }
+    LogDefaultSetup(&rLog);
+    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
 }
 
 void testMuscleTree() {
