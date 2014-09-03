@@ -82,7 +82,9 @@ void setup_sequences(mseq_t *prMSeq, int nreads, Reads& left_reads, Reads& right
 
 void align_cluster(int n, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq) {
     tree_t *tree = (tree_t *)malloc(sizeof(tree_t));
+    std::cout << "n=" << n << ", root=" << root << "\n";
     MuscleTreeCreate(tree, n, root, left, right, leftLength, rightLength, leafIds, leafNames);
+    MuscleTreeToFile(stdout, tree);
     int *piOrderLR = NULL;
     TraverseTree(&piOrderLR, tree, prMSeq);
     hhalign_para rHhalignPara;
@@ -130,6 +132,9 @@ void testMuscleTree() {
         SetDefaultHhalignPara(&rHhalignPara);
         double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*prMSeq->nseqs -1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
         Log(&rLog, LOG_VERBOSE, "Alignment score for first alignment = %f", dAlnScore);        
+        for(int i=0;i<prMSeq->nseqs;i++) {
+            printf("%s\n",prMSeq->seq[i]);
+        }
         if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
             Log(&rLog, LOG_FATAL, "Could not save alignment");
         } 
@@ -143,15 +148,33 @@ void testMuscleTree() {
         //TreeValidate(tree);
         std::cout << "\n after tree validate\n";
         MuscleTreeToFile(stdout, tree);
+        printf("\n Sequences before calling TraverseTree\n");
+        for(int i=0;i<prMSeq->nseqs;i++) {
+            printf("%s\n",prMSeq->seq[i]);
+        }
         int *piOrderLR = NULL;
         TraverseTree(&piOrderLR, tree, prMSeq);
+        printf("\n Sequences after calling TraverseTree\n");
+        for(int i=0;i<prMSeq->nseqs;i++) {
+            printf("%s\n",prMSeq->seq[i]);
+        }
         hhalign_para rHhalignPara;
         SetDefaultHhalignPara(&rHhalignPara);
+        printf("\n Sequences before calling HHalignWrapper\n");
+        for(int i=0;i<prMSeq->nseqs;i++) {
+            printf("%s\n",prMSeq->seq[i]);
+        }
+
         double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*prMSeq->nseqs -1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
         Log(&rLog, LOG_VERBOSE, "Alignment score for first alignment = %f", dAlnScore);        
         if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
             Log(&rLog, LOG_FATAL, "Could not save alignment");
         } 
+        printf("\n Sequences after calling HHalignWrapper\n");
+        for(int i=0;i<prMSeq->nseqs;i++) {
+            printf("%s\n",prMSeq->seq[i]);
+        }
+
         FreeMuscleTree(tree);
         std::cout << "\n\n DONE WITH SECOND TREE \n\n";
     }

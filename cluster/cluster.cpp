@@ -47,6 +47,7 @@ public:
         for (size_t i = 0; i < elements.size(); ++i) {
             elements[i].dsID = i;
             set_to_node[i] = i;
+            left[i]=right[i]=num_elements+i;
         }
     }
     void unite(DisjointSets& ds, const Element& x, const Element& y) {
@@ -138,7 +139,12 @@ private:
     uint *set_to_node;
 };
 
+char *names[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
 int main(int argc, char*  argv[]) {
+
+    testMuscleTree();
+    exit(0);
 
     HashTable hashtab;
     int k = 4;
@@ -152,6 +158,9 @@ int main(int argc, char*  argv[]) {
     printElements(elements);
     uint *left = cls.get_left();
     uint *right = cls.get_right();
+    for (int i=0; i<n-1; ++i) {
+        std::cout << "i=" << i << ", left[i]=" << left[i] << ", right[i]=" << right[i] << "\n";
+    }
     float *leftLength = (float *)malloc(n*sizeof(float));
     float *rightLength = (float *)malloc(n*sizeof(float));
     uint *leafIds = (uint *)malloc(n*sizeof(uint));
@@ -159,7 +168,7 @@ int main(int argc, char*  argv[]) {
     for (int i=0; i<n; i++) {
         leftLength[i] = rightLength[i] = 1.0;
         leafIds[i] = i;
-        leafNames[i] = "";
+        leafNames[i] = names[i];
     }
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     setup_sequences(prMSeq, num, left_reads, right_reads);
@@ -167,7 +176,7 @@ int main(int argc, char*  argv[]) {
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
         std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
-        align_cluster(n, left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id), prMSeq);
+        align_cluster(n, left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id)-n, prMSeq);
         id += sizes[i];
     }
     
