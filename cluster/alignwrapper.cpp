@@ -65,15 +65,17 @@ void setup_sequences(mseq_t *prMSeq, int nreads, Reads& reads) {
     prMSeq->nseqs    = nreads;
     prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
     prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
     for (int i=0; i<nreads; ++i) {
         prMSeq->seq[i] = CkStrdup(reads[i].c_str());;
         prMSeq->orig_seq[i] = CkStrdup(reads[i].c_str());;
+        sprintf(prMSeq->sqinfo[i].name, "read-%d", i);
+        sprintf(prMSeq->sqinfo[i].id, "%d", i);
     }
-    for(int i=0;i<prMSeq->nseqs;i++) {
-        printf("%s\n",prMSeq->seq[i]);
-    }
+    //for(int i=0;i<prMSeq->nseqs;i++) {
+    //    printf("%s\n",prMSeq->seq[i]);
+    //}
     LogDefaultSetup(&rLog);
-    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
 }
 
 

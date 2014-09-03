@@ -11,10 +11,12 @@
 
 Reads reads;
 
+#define MIN_SCORE -2147483648
+
 #define RANK(x) (x->readid) // ranks are 1, 2, ...
 
 int match_seqs(const std::string &s1, const std::string &s2) {
-    std::cout << "aligning " << s1 << " and " << s2 << std::endl;
+    //std::cout << "aligning " << s1 << " and " << s2 << std::endl;
     std::cout.flush();
     TSequence seq1 = s1, seq2 = s2;
     TAlign align;
@@ -22,8 +24,10 @@ int match_seqs(const std::string &s1, const std::string &s2) {
     seqan::assignSource(row(align, 0), seq1);
     seqan::assignSource(row(align, 1), seq2);
     int score = seqan::globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1,-1), -BOUND, BOUND);
+    if (score > MIN_SCORE) {
     std::cout << "score " << score << std::endl;
-    std::cout << align << std::endl;
+    //std::cout << align << std::endl;
+    }
     return score;
 }
 
@@ -43,11 +47,8 @@ public:
             left[i]=right[i]=num_elements+i;
         }
         for (size_t i = 0; i < elements.size(); ++i) {
-            std::cout << "making set " << i << "\n";
             ds.make_set(elements.at(i));
-            std::cout << "making set " << i << "done \n";
         }
-        std::cout << "created singleton clusters \n";
     }
     void unite(const Element& x, const Element& y) {
         Element xp = ds.find_set(x); 
@@ -63,20 +64,20 @@ public:
         }
     }
     void finalize_clusters() {
-        std::cout << "Found " << ds.count_sets(elements.begin(), elements.end()) << " sets:" << std::endl;
-        printElements(elements);
+        //std::cout << "Found " << ds.count_sets(elements.begin(), elements.end()) << " sets:" << std::endl;
+        //printElements(elements);
 
         ds.compress_sets(elements.begin(), elements.end());
 
-        std::cout << std::endl << "After path compression:" << std::endl;
-        printElements(elements);
+        //std::cout << std::endl << "After path compression:" << std::endl;
+        //printElements(elements);
 
         std::sort(elements.begin(), elements.end(), compareByParent);
 
-        std::cout << std::endl << "After path compression and sorting by parent:" << std::endl;
-        printElements(elements);
+        //std::cout << std::endl << "After path compression and sorting by parent:" << std::endl;
+        //printElements(elements);
 
-        std::cout << std::endl << "Now we can iterate through all elements of each set separately using the indices:" << std::endl;
+        //std::cout << std::endl << "Now we can iterate through all elements of each set separately using the indices:" << std::endl;
         size_t first = 0;
         while (first < elements.size())
         {
@@ -85,20 +86,21 @@ public:
             while (last < elements.size() && elements.at(last).dsParent == currentParent) {
                 ++last;
             }
-            std::cout << "\tRange: [" << first << "," << last << "). Sorted elements: ";
-            for (size_t i = first; i < last; ++i)
-            {
-                std::cout << elements.at(i).someInt() << " ";
-            }
-            std::cout << std::endl;
+            // std::cout << "\tRange: [" << first << "," << last << "). Sorted elements: ";
+            // for (size_t i = first; i < last; ++i)
+            // {
+            //     std::cout << elements.at(i).someInt() << " ";
+            // }
+            // std::cout << std::endl;
             cluster_sizes.push_back(last-first);
             first = last;
         }
     }
     void cluster_reads(HashTable &hashtab) {
         std::cout << "doing clusteing \n";
-        int checked[num_elements][num_elements];
+        int **checked = new int*[num_elements];
         for (int i=0; i<num_elements; i++) {
+            checked[i] = new int[num_elements];
             for (int j=0; j<num_elements; j++) {
                 checked[i][j]=0;
             }
@@ -116,7 +118,7 @@ public:
                         continue;
                     }
                     if (checked[xrank][yrank]) continue;
-                    if (match_seqs(reads[xrank], reads[yrank])) {
+                    if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
                         unite(elements[xrank], elements[yrank]);
                     }
                     checked[xrank][yrank] = 1;
@@ -155,11 +157,11 @@ int main(int argc, char*  argv[]) {
     HashTable hashtab;
     int k = 4;
     int num = read_fastq(argv[1], argv[2], reads);
-    for (int i=0; i<reads.size(); i++) {
-        std::cout << reads[i] << "\n";
-    }
+    //for (int i=0; i<reads.size(); i++) {
+    //    std::cout << reads[i] << "\n";
+    //}
     create_kmerhash(reads, k, hashtab);
-    print_hashtab(hashtab);
+    //print_hashtab(hashtab);
 
     /*
     int n = 9;
@@ -182,27 +184,27 @@ int main(int argc, char*  argv[]) {
     printElements(elements);
     uint *left = cls.get_left();
     uint *right = cls.get_right();
-    for (int i=0; i<n-1; ++i) {
-        std::cout << "i=" << i << ", left[i]=" << left[i] << ", right[i]=" << right[i] << "\n";
-    }
+    //for (int i=0; i<n-1; ++i) {
+    //    std::cout << "i=" << i << ", left[i]=" << left[i] << ", right[i]=" << right[i] << "\n";
+    //}
     float *leftLength = (float *)malloc(n*sizeof(float));
     float *rightLength = (float *)malloc(n*sizeof(float));
     uint *leafIds = (uint *)malloc(n*sizeof(uint));
     char **leafNames = (char **)malloc(n*sizeof(char*));
+    mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
+    setup_sequences(prMSeq, n, reads);
     for (int i=0; i<n; i++) {
         leftLength[i] = rightLength[i] = 1.0;
         leafIds[i] = i;
-        leafNames[i] = names[i];
+        leafNames[i] = prMSeq->sqinfo[i].name;
     }
-    mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
-    setup_sequences(prMSeq, num, reads);
     //testSetupSequences(prMSeq);
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
-        std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
         if (sizes[i] > 1) {
-          align_cluster(n, sizes[i], left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id)-n, prMSeq);
+        std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
+        //  align_cluster(n, sizes[i], left, right, leftLength, rightLength, leafIds, leafNames, cls.get_root_node(id)-n, prMSeq);
         }
         id += sizes[i];
     }
