@@ -9,9 +9,9 @@
 #include "alignwrapper.hpp"
 #include "dswrapper.hpp"
 
-Reads left_reads, right_reads;
+Reads reads;
 
-#define RANK(x) (2*x->entrynum + (x->side == 'l' ? 0 : 1)) // ranks are 1, 2, ...
+#define RANK(x) (x->readid) // ranks are 1, 2, ...
 
 int match_seqs(const std::string &s1, const std::string &s2) {
     std::cout << "aligning " << s1 << " and " << s2 << std::endl;
@@ -26,13 +26,6 @@ int match_seqs(const std::string &s1, const std::string &s2) {
     std::cout << align << std::endl;
     return score;
 }
-
-bool match_reads(llist* x,llist* y) {
-    if (match_seqs(left_reads[x->entrynum], left_reads[y->entrynum]) < THRESHOLD) return false;
-    if (match_seqs(right_reads[x->entrynum], right_reads[y->entrynum]) < THRESHOLD) return false;
-    return true;
-}
-
 
 class Clusters {
 public:
@@ -104,16 +97,29 @@ public:
     }
     void cluster_reads(HashTable &hashtab) {
         std::cout << "doing clusteing \n";
+        int checked[num_elements][num_elements];
+        for (int i=0; i<num_elements; i++) {
+            for (int j=0; j<num_elements; j++) {
+                checked[i][j]=0;
+            }
+        }
         for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
             std::cout << it->first << ":";
             for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
                 int xrank = RANK(x);
                 for (auto y = x->next; y != NULL; y = y->next) {
                     int yrank = RANK(y);
-                    std::cout << "x=" << xrank << ", y=" << yrank << "\n";
-                    if (match_reads(x, y)) {
+                    if (xrank > yrank) { int t=xrank; xrank=yrank; yrank=t; } 
+                    //std::cout << "x=" << xrank << ", y=" << yrank << "\n";
+                    if ((xrank & ~0x1) == (yrank & ~0x1)) {
+                        // from same pair
+                        continue;
+                    }
+                    if (checked[xrank][yrank]) continue;
+                    if (match_seqs(reads[xrank], reads[yrank])) {
                         unite(elements[xrank], elements[yrank]);
                     }
+                    checked[xrank][yrank] = 1;
                 }
             }
         }
@@ -148,7 +154,11 @@ int main(int argc, char*  argv[]) {
 
     HashTable hashtab;
     int k = 4;
-    int num = read_fastq(argv[1], argv[2], left_reads, right_reads, k, hashtab);
+    int num = read_fastq(argv[1], argv[2], reads);
+    for (int i=0; i<reads.size(); i++) {
+        std::cout << reads[i] << "\n";
+    }
+    create_kmerhash(reads, k, hashtab);
     print_hashtab(hashtab);
 
     /*
@@ -185,7 +195,7 @@ int main(int argc, char*  argv[]) {
         leafNames[i] = names[i];
     }
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
-    setup_sequences(prMSeq, num, left_reads, right_reads);
+    setup_sequences(prMSeq, num, reads);
     //testSetupSequences(prMSeq);
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;

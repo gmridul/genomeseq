@@ -20,7 +20,7 @@ int myAlign(mseq_t *prMSeq, opts_t *prOpts);
 void tree_to_align();
 void testMuscleTree();
 void testSetupSequences(mseq_t *prMSeq);
-void setup_sequences(mseq_t *prMSeq, int nreads, Reads& left_reads, Reads& right_reads);
+void setup_sequences(mseq_t *prMSeq, int nreads, Reads& reads);
 void align_cluster(int n, int ni, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq);
 
 #endif // __ALIGNWRAPPER_H__ 

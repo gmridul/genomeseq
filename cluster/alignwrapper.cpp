@@ -58,18 +58,16 @@ int myAlign(mseq_t *prMSeq, opts_t *prOpts) {
     return 0;
 }
 
-void setup_sequences(mseq_t *prMSeq, int nreads, Reads& left_reads, Reads& right_reads) {
+void setup_sequences(mseq_t *prMSeq, int nreads, Reads& reads) {
     prMSeq->seqtype  = SEQTYPE_DNA;
     prMSeq->aligned  = false;
     prMSeq->filename = "";
-    prMSeq->nseqs    = 2*nreads;
+    prMSeq->nseqs    = nreads;
     prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
     prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
     for (int i=0; i<nreads; ++i) {
-        prMSeq->seq[2*i] = CkStrdup(left_reads[i].c_str());;
-        prMSeq->orig_seq[2*i] = CkStrdup(left_reads[i].c_str());;
-        prMSeq->seq[2*i+1] = CkStrdup(right_reads[i].c_str());;
-        prMSeq->orig_seq[2*i+1] = CkStrdup(right_reads[i].c_str());;
+        prMSeq->seq[i] = CkStrdup(reads[i].c_str());;
+        prMSeq->orig_seq[i] = CkStrdup(reads[i].c_str());;
     }
     for(int i=0;i<prMSeq->nseqs;i++) {
         printf("%s\n",prMSeq->seq[i]);
