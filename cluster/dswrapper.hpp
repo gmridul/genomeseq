@@ -50,19 +50,19 @@ inline void put(Rank* pa, Element k, size_t const& val) {
     pa->mElements.at(k.dsID).dsRank = val;
 }
 void printElements(std::vector<Element>& elements) {
-    std::cout << "Elements: ";
+    std::cout << "Elements           : ";
     for (size_t i = 0; i < elements.size(); ++i) {
         std::cout << std::setw(4) << elements[i].someInt();
+    }
+    std::cout << std::endl;
+    std::cout << "ID                 : ";
+    for (size_t i = 0; i < elements.size(); ++i) {
+        std::cout << std::setw(4) << elements[i].dsID;
     }
     std::cout << std::endl;
     std::cout << "Set representatives: ";
     for (size_t i = 0; i < elements.size(); ++i) {
         std::cout << std::setw(4) << elements[i].dsParent;
-    }
-    std::cout << std::endl;
-    std::cout << "ID : ";
-    for (size_t i = 0; i < elements.size(); ++i) {
-        std::cout << std::setw(4) << elements[i].dsID;
     }
     std::cout << std::endl;
 }
