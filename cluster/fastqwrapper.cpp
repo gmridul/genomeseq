@@ -65,6 +65,7 @@ void create_kmerhash(const Reads &reads, int k, HashTable &hashtab) {
             }
         }
     }
+    print_hashtab(hashtab);
 }
 
 void print_hashtab(const HashTable &hashtab) {

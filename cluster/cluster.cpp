@@ -116,8 +116,9 @@ public:
         delete [] set_to_node;
     }
     void unite_by_parent(Element& xp, Element& yp) {
-        int nodex = set_to_node[xp.dsID];
-        int nodey = set_to_node[yp.dsID];
+        //assert((xp.dsParent & ~0x1) != (yp.dsParent & ~0x1));
+        int nodex = set_to_node[xp.dsParent];
+        int nodey = set_to_node[yp.dsParent];
         ds.link(xp, yp);
         set_to_node[ds.find_set(xp).dsParent] = forest.addNode(nodex, nodey);
     }
@@ -155,21 +156,24 @@ public:
             }
         }
         for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
+            std::cout << "checking hash table  " << it->first << "  " << it->second->readid << "\n";
             for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
                 int xrank = RANK(x);
                 for (auto y = x->next; y != NULL; y = y->next) {
                     int yrank = RANK(y);
-                    if (xrank > yrank) { int t=xrank; xrank=yrank; yrank=t; } 
-                    //std::cout << "x=" << xrank << ", y=" << yrank << "\n";
+                    std::cout << "x=" << xrank << "(" << (xrank & ~0x1) << "), y=" << yrank << "(" << (yrank & ~0x1) << ")\n";
                     if ((xrank & ~0x1) == (yrank & ~0x1)) {
                         // from same pair
                         continue;
                     }
                     if (checked[xrank][yrank]) continue;
-                    checked[xrank][yrank] = 1;
+                    checked[xrank][yrank] = checked[yrank][xrank] = 1;
                     Element xp = ds.find_set(elements[xrank]);
-                    Element yp = ds.find_set(elements[xrank]);
-                    if (xp == yp) continue;
+                    Element yp = ds.find_set(elements[yrank]);
+                    
+                    
+                    if (xp.dsID == yp.dsID) continue;
+                    
                     if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
                         unite_by_parent(xp, yp);
                     }
@@ -245,7 +249,7 @@ int main(int argc, char*  argv[]) {
             //std::cout << "current root = " << root << "\n";
             BinaryTreeInfo *tree = cls.getTree(id);
             //tree->print();
-            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+            //align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
         }
         id += sizes[i];
     }
