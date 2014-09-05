@@ -1,128 +1,84 @@
 ﻿#include "alignwrapper.hpp"
 
-/**************************************************************************************************************************************************************/
+#define MIN_SCORE -2147483648
 
-int myAlign(mseq_t *prMSeq, opts_t *prOpts) {
-
-    /* HMM
-     * structs with pseudocounts etc; one for each HMM infile, i.e.
-     * index range: 0..iHMMInputFiles */
-    hmm_light *prHMMs = NULL;
-
-    /* MSA order in which nodes/profiles are to be merged/aligned
-       (order of nodes in guide tree (left/right)*/
-    int *piOrderLR = NULL;
-
-    /* weights per sequence */
-    double *pdSeqWeights = NULL;
-
-    double dAlnScore;
-
-    assert(NULL != prMSeq);
-    /*
-       if (TRUE == prOpts->bPileup){
-       PileUp(prMSeq, prOpts->rHhalignPara, prOpts->iClustersizes);
-       return 0;
-       }
-       */
-    if (OK != AlignmentOrder(&piOrderLR, &pdSeqWeights, prMSeq,
-                prOpts->iPairDistType,
-                prOpts->pcDistmatInfile, prOpts->pcDistmatOutfile,
-                prOpts->iClusteringType, prOpts->iClustersizes, 
-                prOpts->pcGuidetreeInfile, prOpts->pcGuidetreeOutfile, prOpts->pcClustfile, 
-                prOpts->bUseMbed, prOpts->bPercID)) {
-        Log(&rLog, LOG_ERROR, "AlignmentOrder() failed. Cannot continue");
-        return -1;
+int match_seqs(const std::string &s1, const std::string &s2) {
+    //std::cout << "aligning " << s1 << " and " << s2 << std::endl;
+    std::cout.flush();
+    TSequence seq1 = s1, seq2 = s2;
+    TAlign align;
+    seqan::resize(rows(align), 2);
+    seqan::assignSource(row(align, 0), seq1);
+    seqan::assignSource(row(align, 1), seq2);
+    int score = seqan::globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1,-1), -BOUND, BOUND);
+    if (score > MIN_SCORE) {
+        std::cout << "score " << score << std::endl;
+        //std::cout << align << std::endl;
     }
-
-    /* Progressive alignment of input sequences. Order defined by
-     * branching of guide tree (piOrderLR). Use optional
-     * background HMM information (prHMMs[0..prOpts->iHMMInputFiles-1])
-     *
-     */
-    dAlnScore = HHalignWrapper(prMSeq, piOrderLR, pdSeqWeights,
-            2*prMSeq->nseqs -1/* nodes */,
-            prHMMs, prOpts->iHMMInputFiles, -1, prOpts->rHhalignPara);
-    Log(&rLog, LOG_VERBOSE,
-            "Alignment score for first alignment = %f", dAlnScore);        
-
-    if (NULL != piOrderLR) {
-        free(piOrderLR);
-        piOrderLR=NULL;
-    }
-    if (NULL != pdSeqWeights) {
-        free(pdSeqWeights);
-        pdSeqWeights=NULL;
-    }
-
-    return 0;
+    return score;
 }
 
-void setup_sequences(mseq_t *prMSeq, int nreads, Reads& reads) {
-    prMSeq->seqtype  = SEQTYPE_DNA;
-    prMSeq->aligned  = false;
-    prMSeq->filename = "";
-    prMSeq->nseqs    = nreads;
-    prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
-    prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
-    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
-    for (int i=0; i<nreads; ++i) {
-        prMSeq->seq[i] = CkStrdup(reads[i].c_str());;
-        prMSeq->orig_seq[i] = CkStrdup(reads[i].c_str());;
-        sprintf(prMSeq->sqinfo[i].name, "read-%d", i);
-        sprintf(prMSeq->sqinfo[i].id, "%d", i);
-    }
-    //for(int i=0;i<prMSeq->nseqs;i++) {
-    //    printf("%s\n",prMSeq->seq[i]);
-    //}
-    LogDefaultSetup(&rLog);
-}
-
-
-
-void align_cluster(int n, int ni, uint *left, uint *right, float *leftLength, float *rightLength, uint *leafIds, char **leafNames, uint root, mseq_t *prMSeq) {
-    tree_t *tree = (tree_t *)malloc(sizeof(tree_t));
-    std::cout << "n=" << n << ", root=" << root << "\n";
-    MuscleTreeCreate(tree, n, root, left, right, leftLength, rightLength, leafIds, leafNames);
-    MuscleTreeToFile(stdout, tree);
-    int *piOrderLR = NULL;
-    TraverseTree(&piOrderLR, tree, prMSeq);
-    /*
-    for (int i=0; i<(2*n-1); i++) {
-        register int riAux = DIFF_NODE * i;
-        std::cout << piOrderLR[riAux + LEFT_NODE] << " " << piOrderLR[riAux + RGHT_NODE] << " " << piOrderLR[riAux + PRNT_NODE] << "\n";
-    }
-    */
-    hhalign_para rHhalignPara;
-    SetDefaultHhalignPara(&rHhalignPara);
-    double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/, 2*n-1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
-    Log(&rLog, LOG_VERBOSE, "Alignment score for first alignment = %f", dAlnScore);        
-    if (WriteAlignment(prMSeq, NULL, MSAFILE_A2M, 1000, TRUE)) {
-        Log(&rLog, LOG_FATAL, "Could not save alignment");
-    } 
-    FreeMuscleTree(tree);
-}
-
-
-void testSetupSequences(mseq_t *prMSeq) {
-    char* seqs[] = {"AAA", "AC", "AAT", "AAG", "AAAT", "ACAT", "AAT", "ATAA", "AATA"};
-    prMSeq->seqtype  = SEQTYPE_DNA;
-    prMSeq->aligned  = false;
-    prMSeq->filename = "read_file";
-    prMSeq->nseqs    = 9;
-    prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
-    prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
-    for (int i=0; i<prMSeq->nseqs; ++i) {
-        prMSeq->seq[i] = CkStrdup(seqs[i]);;
-        prMSeq->orig_seq[i] = CkStrdup(seqs[i]);;
-    }
+void print_sequences(mseq_t *prMSeq) {
     for(int i=0;i<prMSeq->nseqs;i++) {
         printf("%s\n",prMSeq->seq[i]);
     }
-    LogDefaultSetup(&rLog);
-    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
 }
 
+void setup_sequences(mseq_t *prMSeq, const Reads& reads, int num_leaves, uint *leaf_ids) {
+    prMSeq->seqtype  = SEQTYPE_DNA;
+    prMSeq->aligned  = false;
+    prMSeq->filename = NULL;
+    prMSeq->nseqs    = num_leaves;
+    prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
+    prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
+    for (int i=0; i<num_leaves; ++i) {
+        uint read_id = leaf_ids[i];
+        prMSeq->seq[i] = CkStrdup(reads[read_id].c_str());;
+        prMSeq->orig_seq[i] = CkStrdup(prMSeq->seq[i]);;
+        sprintf(prMSeq->sqinfo[i].name, "read-%d", read_id);
+        sprintf(prMSeq->sqinfo[i].id, "%d", i);
+    }
+}
+
+
+void align_cluster(const Reads &reads, int num_leaves, uint *left, uint *right, uint *leaf_ids) {
+    LogDefaultSetup(&rLog);
+    mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
+    setup_sequences(prMSeq, reads, num_leaves, leaf_ids);
+
+    float* leftLength  = (float *)malloc(num_leaves*sizeof(float));
+    float* rightLength = (float *)malloc(num_leaves*sizeof(float));
+    char** leafNames   = (char **)malloc(num_leaves*sizeof(char*));
+    for (int i=0; i<num_leaves; i++) {
+        leaf_ids[i] = i;
+        leftLength[i] = rightLength[i] = 1.0;
+        leafNames[i] = prMSeq->sqinfo[i].name;
+    }
+
+    tree_t *tree = (tree_t *)malloc(sizeof(tree_t));
+    // root node is always numbered 0
+    MuscleTreeCreate(tree, num_leaves, 0, left, right, leftLength, rightLength, leaf_ids, leafNames);
+    //MuscleTreeToFile(stdout, tree);
+    int *piOrderLR = NULL;
+    TraverseTree(&piOrderLR, tree, prMSeq);
+    hhalign_para rHhalignPara;
+    SetDefaultHhalignPara(&rHhalignPara);
+    double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/,
+            2*num_leaves-1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
+    printf("Align score = %f\n", dAlnScore);
+    print_sequences(prMSeq);
+    FreeMuscleTree(tree);
+    FreeMSeq(&prMSeq);
+    if (NULL != piOrderLR) CkFree(piOrderLR, __FUNCTION__, __LINE__);
+    free(leftLength);
+    free(rightLength);
+    free(leafNames);
+}
+
+/*******************************************************************************************************************/
+/*  Routines from this point onwards are only for test purposes */
+/*******************************************************************************************************************/
 void testMuscleTree() {
     uint left[] = {0, 2, 10, 9, 5, 7, 13, 16};
     uint right[] = {1, 3, 4, 11, 6, 8, 14, 16};
@@ -130,11 +86,11 @@ void testMuscleTree() {
     float rightLength[] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
     uint leafIds[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
     char* leafNames[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8"};
-    char* seqs[] = {"AAA", "AC", "AAT", "AAG", "AAAT", "ACAT", "AAT", "ATAA", "AATA"};
+    const char* seqs[] = {"AAA", "AC", "AAT", "AAG", "AAAT", "ACAT", "AAT", "ATAA", "AATA"};
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     prMSeq->seqtype  = SEQTYPE_DNA;
     prMSeq->aligned  = false;
-    prMSeq->filename = "read_file";
+    prMSeq->filename = (char *)"read_file";
     prMSeq->nseqs    = 9;
     prMSeq->seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
     prMSeq->orig_seq =  (char **) CKMALLOC((prMSeq->nseqs) * sizeof(char *));
@@ -206,6 +162,64 @@ void testMuscleTree() {
     }
     tree_to_align();
 }
+
+
+int myAlign(mseq_t *prMSeq, opts_t *prOpts) {
+
+    /* HMM
+     * structs with pseudocounts etc; one for each HMM infile, i.e.
+     * index range: 0..iHMMInputFiles */
+    hmm_light *prHMMs = NULL;
+
+    /* MSA order in which nodes/profiles are to be merged/aligned
+       (order of nodes in guide tree (left/right)*/
+    int *piOrderLR = NULL;
+
+    /* weights per sequence */
+    double *pdSeqWeights = NULL;
+
+    double dAlnScore;
+
+    assert(NULL != prMSeq);
+    /*
+       if (TRUE == prOpts->bPileup){
+       PileUp(prMSeq, prOpts->rHhalignPara, prOpts->iClustersizes);
+       return 0;
+       }
+       */
+    if (OK != AlignmentOrder(&piOrderLR, &pdSeqWeights, prMSeq,
+                prOpts->iPairDistType,
+                prOpts->pcDistmatInfile, prOpts->pcDistmatOutfile,
+                prOpts->iClusteringType, prOpts->iClustersizes, 
+                prOpts->pcGuidetreeInfile, prOpts->pcGuidetreeOutfile, prOpts->pcClustfile, 
+                prOpts->bUseMbed, prOpts->bPercID)) {
+        Log(&rLog, LOG_ERROR, "AlignmentOrder() failed. Cannot continue");
+        return -1;
+    }
+
+    /* Progressive alignment of input sequences. Order defined by
+     * branching of guide tree (piOrderLR). Use optional
+     * background HMM information (prHMMs[0..prOpts->iHMMInputFiles-1])
+     *
+     */
+    dAlnScore = HHalignWrapper(prMSeq, piOrderLR, pdSeqWeights,
+            2*prMSeq->nseqs -1/* nodes */,
+            prHMMs, prOpts->iHMMInputFiles, -1, prOpts->rHhalignPara);
+    Log(&rLog, LOG_VERBOSE,
+            "Alignment score for first alignment = %f", dAlnScore);        
+
+    if (NULL != piOrderLR) {
+        free(piOrderLR);
+        piOrderLR=NULL;
+    }
+    if (NULL != pdSeqWeights) {
+        free(pdSeqWeights);
+        pdSeqWeights=NULL;
+    }
+
+    return 0;
+}
+
 
 /*************************************************************************************************************************/
 void tree_to_align() {
