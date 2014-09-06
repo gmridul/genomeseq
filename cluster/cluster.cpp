@@ -166,8 +166,9 @@ public:
                         // from same pair
                         continue;
                     }
-                    if (checked[xrank][yrank]) continue;
-                    checked[xrank][yrank] = checked[yrank][xrank] = 1;
+                    if (checked[xrank & ~0x1][yrank & ~0x1]) continue;
+                    checked[xrank & ~0x1][yrank & ~0x1] = checked[yrank & ~0x1][xrank & ~0x1] = 1;
+                    //checked[xrank][yrank&]
                     Element xp = ds.find_set(elements[xrank]);
                     Element yp = ds.find_set(elements[yrank]);
                     
