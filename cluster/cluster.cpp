@@ -166,14 +166,16 @@ public:
                         // from same pair
                         continue;
                     }
-                    if (checked[xrank & ~0x1][yrank & ~0x1]) continue;
-                    checked[xrank & ~0x1][yrank & ~0x1] = checked[yrank & ~0x1][xrank & ~0x1] = 1;
+                    if(checked[xrank][yrank]) continue;
+                    checked[xrank][yrank] = checked[yrank][xrank] = 1;
                     //checked[xrank][yrank&]
                     Element xp = ds.find_set(elements[xrank]);
                     Element yp = ds.find_set(elements[yrank]);
+                    Element xp_pair = ds.find_set(elements[xrank ^ 0x1]);
+                    Element yp_pair = ds.find_set(elements[yrank ^ 0x1]);
                     
                     
-                    if (xp.dsID == yp.dsID) continue;
+                    if (xp.dsID == yp.dsID || xp.dsID == yp_pair.dsID || xp_pair.dsID == yp.dsID) continue;
                     
                     if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
                         unite_by_parent(xp, yp);
