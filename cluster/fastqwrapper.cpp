@@ -11,6 +11,7 @@ int read_fastq(char *fname1, char *fname2, Reads &reads) {
         if(count==1) {
             reads.push_back(p1);
             reads.push_back(p2);
+            std::cout << 2*num << "\n" << p1 << "\n" << 2*num+1 << "\n" << p2 << "\n";
             num++;
         }
         count+=1;

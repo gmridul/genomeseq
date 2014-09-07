@@ -168,7 +168,7 @@ public:
                     }
                     if(checked[xrank][yrank]) continue;
                     checked[xrank][yrank] = checked[yrank][xrank] = 1;
-                    //checked[xrank][yrank&]
+            
                     Element xp = ds.find_set(elements[xrank]);
                     Element yp = ds.find_set(elements[yrank]);
                     Element xp_pair = ds.find_set(elements[xrank ^ 0x1]);
@@ -242,7 +242,7 @@ int main(int argc, char*  argv[]) {
 #endif
 
     cls.finalize_clusters();
-//    cls.print_elements();
+    cls.print_elements();
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
