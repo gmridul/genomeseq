@@ -94,6 +94,22 @@ private:
     BinaryTreeInfo _cur_tree;
 };
 
+std::string reverse_complement(std::string read) {
+    int len = read.length();
+    std::string reverse;
+    reverse.resize(len);
+    int rlen=0;
+    while(len-->0) {
+        if(read[len]=='A') reverse[rlen]='T';
+        else if(read[len]=='C') reverse[rlen]='G';
+        else if(read[len]=='T') reverse[rlen]='A';
+        else if(read[len]=='G') reverse[rlen]='C';
+        rlen++;
+    }
+    return reverse;
+}
+    
+
 #define RANK(x) (x->readid)
 
 class Clusters {
@@ -146,6 +162,9 @@ public:
     void print_elements() {
         printElements(elements);
     }
+    Element & getElement(int id) {
+        return elements[id];
+    }
     void cluster_reads(const Reads &reads, HashTable &hashtab) {
         std::cout << "doing clusteing \n";
         int **checked = new int*[num_elements];
@@ -177,7 +196,11 @@ public:
                     
                     if (xp.dsID == yp.dsID || xp.dsID == yp_pair.dsID || xp_pair.dsID == yp.dsID) continue;
                     
+                    //std::cout << reads[yrank] << "\n" << reverse_complement(reads[yrank]) << "\n";
                     if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
+                        unite_by_parent(xp, yp);
+                    }
+                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
                         unite_by_parent(xp, yp);
                     }
                 }
@@ -256,7 +279,9 @@ int main(int argc, char*  argv[]) {
             //std::cout << "current root = " << root << "\n";
             BinaryTreeInfo *tree = cls.getTree(id);
             //tree->print();
-            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+            //align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+        } else {
+            std::cout << "Singleton = " << cls.getElement(id).dsID << "\n";
         }
         id += sizes[i];
     }
