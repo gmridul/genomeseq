@@ -66,7 +66,6 @@ void create_kmerhash(const Reads &reads, int k, HashTable &hashtab) {
             }
         }
     }
-    print_hashtab(hashtab);
 }
 
 void print_hashtab(const HashTable &hashtab) {
@@ -79,5 +78,16 @@ void print_hashtab(const HashTable &hashtab) {
             temp=temp->next;
         }
         std::cout << "\n";
+    }
+}
+
+void free_hashtab(HashTable &hashtab) {
+    llist* temp;
+    for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
+        while(it->second!=NULL) {
+            temp=it->second;
+            it->second = it->second->next;
+            delete temp;
+        }
     }
 }

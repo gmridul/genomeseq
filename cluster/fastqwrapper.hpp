@@ -17,6 +17,7 @@ typedef std::vector<std::string> Reads;
 
 int read_fastq(char *fname1, char *fname2, Reads &reads);
 void print_hashtab(const HashTable &hashtab);
+void free_hashtab(HashTable &hashtab);
 void create_kmerhash(const Reads &reads, int k, HashTable &hashtab);
 
 #endif // __FASTQWRAPPER_H__ 

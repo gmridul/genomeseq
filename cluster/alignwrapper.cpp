@@ -11,10 +11,10 @@ int match_seqs(const std::string &s1, const std::string &s2) {
     seqan::assignSource(row(align, 0), seq1);
     seqan::assignSource(row(align, 1), seq2);
     int score = seqan::globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1,-1), -BOUND, BOUND);
-    if (score > MIN_SCORE) {
-        std::cout << "score " << score << std::endl;
-        //std::cout << align << std::endl;
-    }
+    //if (score > MIN_SCORE) {
+    //    std::cout << "score " << score << std::endl;
+    //    //std::cout << align << std::endl;
+    //}
     return score;
 }
 
@@ -36,6 +36,7 @@ void setup_sequences(mseq_t *prMSeq, const Reads& reads, int num_leaves, uint *l
         uint read_id = leaf_ids[i];
         prMSeq->seq[i] = CkStrdup(reads[read_id].c_str());;
         prMSeq->orig_seq[i] = CkStrdup(prMSeq->seq[i]);;
+        prMSeq->sqinfo[i].flags = SQINFO_NAME | SQINFO_ID;;
         sprintf(prMSeq->sqinfo[i].name, "read-%d", read_id);
         sprintf(prMSeq->sqinfo[i].id, "%d", i);
     }

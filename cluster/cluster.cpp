@@ -156,12 +156,12 @@ public:
             }
         }
         for ( auto it = hashtab.begin(); it != hashtab.end(); ++it ) {
-            std::cout << "checking hash table  " << it->first << "  " << it->second->readid << "\n";
+            //std::cout << "checking hash table  " << it->first << "  " << it->second->readid << "\n";
             for (auto x = it->second; (x != NULL) && (x->next != NULL); x = x->next) {
                 int xrank = RANK(x);
                 for (auto y = x->next; y != NULL; y = y->next) {
                     int yrank = RANK(y);
-                    std::cout << "x=" << xrank << "(" << (xrank & ~0x1) << "), y=" << yrank << "(" << (yrank & ~0x1) << ")\n";
+                    //std::cout << "x=" << xrank << "(" << (xrank & ~0x1) << "), y=" << yrank << "(" << (yrank & ~0x1) << ")\n";
                     if ((xrank & ~0x1) == (yrank & ~0x1)) {
                         // from same pair
                         continue;
@@ -183,6 +183,9 @@ public:
                 }
             }
         }
+        for (int i=0; i<num_elements; i++) 
+            delete [] checked[i];
+        delete [] checked;
     }
 
     std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
@@ -239,10 +242,11 @@ int main(int argc, char*  argv[]) {
     cls.unite(5, 8);
 #else
     cls.cluster_reads(reads, hashtab);
+    free_hashtab(hashtab);
 #endif
 
     cls.finalize_clusters();
-    cls.print_elements();
+    //cls.print_elements();
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
@@ -252,7 +256,7 @@ int main(int argc, char*  argv[]) {
             //std::cout << "current root = " << root << "\n";
             BinaryTreeInfo *tree = cls.getTree(id);
             //tree->print();
-            //align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
         }
         id += sizes[i];
     }
