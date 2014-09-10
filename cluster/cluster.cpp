@@ -70,10 +70,10 @@ public:
 private:
     void adjustArray(uint *array, uint old, uint curr) {
         for (uint i=0; i<curr-1; ++i) {
-            if (array[i] >= old) array[i] += curr - old;      
+            if (array[i] >= old) array[i] += curr - old;
         }
     }
-    
+
     uint extractTree(uint node) {
         uint current_id;
         if (node < _forest.num_leaves) {
@@ -108,7 +108,7 @@ std::string reverse_complement(std::string read) {
     }
     return reverse;
 }
-    
+
 
 #define RANK(x) (x->readid)
 
@@ -132,15 +132,22 @@ public:
         delete [] set_to_node;
     }
     void unite_by_parent(Element& xp, Element& yp) {
-        //assert((xp.dsParent & ~0x1) != (yp.dsParent & ~0x1));
-        int nodex = set_to_node[xp.dsParent];
-        int nodey = set_to_node[yp.dsParent];
+//        std::cout << "Unite by parent: " << xp.dsID << "(" << xp.dsParent << "), " << yp.dsID << "(" << yp.dsParent << ")\n";
+        int nodex = set_to_node[xp.dsID];
+        int nodey = set_to_node[yp.dsID];
+        //std::cout << "nodex: " << nodex << ", nodey:" << nodey << "\n";
+ //       std::cout << " calling link : " << xp.dsID << " and " << yp.dsID << "\n";
         ds.link(xp, yp);
-        set_to_node[ds.find_set(xp).dsParent] = forest.addNode(nodex, nodey);
+ //       print_elements();
+//        std::cout << " calling find-set : " << xp.dsID << "\n";
+        Element zp = ds.find_set(elements[xp.dsID]);
+//        std::cout << "New xp: " << zp.dsID << "(" << zp.dsParent << ")\n";
+        set_to_node[zp.dsID] = forest.addNode(nodex, nodey);
+        //std::cout << "new node: " << set_to_node[zp.dsParent] << "\n";
     }
     void unite(int x, int y) {
-        Element xp = ds.find_set(elements[x]); 
-        Element yp = ds.find_set(elements[y]); 
+        Element xp = ds.find_set(elements[x]);
+        Element yp = ds.find_set(elements[y]);
         if (xp != yp) {
             unite_by_parent(xp, yp);
         }
@@ -181,39 +188,40 @@ public:
                 for (auto y = x->next; y != NULL; y = y->next) {
                     int yrank = RANK(y);
                     //std::cout << "x=" << xrank << "(" << (xrank & ~0x1) << "), y=" << yrank << "(" << (yrank & ~0x1) << ")\n";
-                    if ((xrank & ~0x1) == (yrank & ~0x1)) {
-                        // from same pair
-                        continue;
-                    }
+//                    if ((xrank & ~0x1) == (yrank & ~0x1)) {
+//                        // from same pair
+//                        continue;
+//                    }
                     if(checked[xrank][yrank]) continue;
                     checked[xrank][yrank] = checked[yrank][xrank] = 1;
-            
+
                     Element xp = ds.find_set(elements[xrank]);
                     Element yp = ds.find_set(elements[yrank]);
-                    Element xp_pair = ds.find_set(elements[xrank ^ 0x1]);
-                    Element yp_pair = ds.find_set(elements[yrank ^ 0x1]);
-                    
-                    
-                    if (xp.dsID == yp.dsID || xp.dsID == yp_pair.dsID || xp_pair.dsID == yp.dsID) continue;
-                    
+                    //Element xp_pair = ds.find_set(elements[xrank ^ 0x1]);
+                    //Element yp_pair = ds.find_set(elements[yrank ^ 0x1]);
+
+
+                    //if (xp.dsID == yp.dsID || xp.dsID == yp_pair.dsID || xp_pair.dsID == yp.dsID) continue;
+                    if (xp.dsID == yp.dsID) continue;
+
                     //std::cout << reads[yrank] << "\n" << reverse_complement(reads[yrank]) << "\n";
                     if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
                         unite_by_parent(xp, yp);
                     }
-                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
-                        unite_by_parent(xp, yp);
-                    }
+//                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
+//                        unite_by_parent(xp, yp);
+//                    }
                 }
             }
         }
-        for (int i=0; i<num_elements; i++) 
+        for (int i=0; i<num_elements; i++)
             delete [] checked[i];
         delete [] checked;
     }
 
     std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
-    uint get_root_node(int id) { return set_to_node[ds.find_set(elements[id]).dsParent]; }
-    BinaryTreeInfo *getTree(int id) { return forest.getTree(set_to_node[ds.find_set(elements[id]).dsParent]); }
+    uint get_root_node(int id) { return set_to_node[ds.find_set(elements.at(id)).dsID]; }
+    BinaryTreeInfo *getTree(int id) { return forest.getTree(set_to_node[ds.find_set(elements.at(id)).dsID]); }
 
 private:
     int num_elements;
@@ -226,7 +234,7 @@ private:
     uint *set_to_node;
 };
 
-//define TEST_SIMPLE
+//#define TEST_SIMPLE
 
 int main(int argc, char*  argv[]) {
 
@@ -278,7 +286,7 @@ int main(int argc, char*  argv[]) {
             //uint root =  cls.get_root_node(id);
             //std::cout << "current root = " << root << "\n";
             BinaryTreeInfo *tree = cls.getTree(id);
-            //tree->print();
+            tree->print();
             //align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
         } else {
             std::cout << "Singleton = " << cls.getElement(id).dsID << "\n";
