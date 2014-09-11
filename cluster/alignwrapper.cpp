@@ -77,10 +77,10 @@ void process_alignment(int num_reads, char **aligned_reads) {
     //std::stringstream ss;
     //ss << cluster_num;
     dataf.open("cluster.dat", /*std::ofstream::out | std::ofstream::app*/std::ios_base::app);
-    for(int i=0;i<4;i++) {
-        dataf << serial_num << " " << (maxi[i]*100/num_reads) << " " << (mini[i]*100/num_reads) << "\n";
+    for(int i=3;i>=0;i--) {
+        dataf << serial_num << " " << (mini[i]*100/num_reads) << " " << (maxi[i]*100/num_reads) << "\n";
         serial_num++;
-        serial_num%=5;
+        serial_num%=4;
     }
     dataf.close();
 }
