@@ -38,8 +38,12 @@ public:
         _forest.num_leaves = num_leaves;
         _forest.left = new uint[num_leaves-1];
         _forest.right = new uint[num_leaves-1];
+        _forest.leafIds = new uint[num_leaves];
         for (auto i = 0; i < num_leaves-1; ++i) {
             _forest.left[i] = _forest.right[i] = num_leaves+i;
+        }
+        for (auto i = 0; i < num_leaves; ++i) {
+            _forest.leafIds[i] = i;
         }
         _cur_tree.num_leaves = 0;
         _cur_tree.left = new uint[num_leaves-1];
@@ -75,6 +79,7 @@ private:
     }
 
     uint extractTree(uint node) {
+//      std::cout << "extract tree with node " << node << "\n";
         uint current_id;
         if (node < _forest.num_leaves) {
             current_id = _cur_tree.num_leaves++;
@@ -132,18 +137,11 @@ public:
         delete [] set_to_node;
     }
     void unite_by_parent(Element& xp, Element& yp) {
-//        std::cout << "Unite by parent: " << xp.dsID << "(" << xp.dsParent << "), " << yp.dsID << "(" << yp.dsParent << ")\n";
         int nodex = set_to_node[xp.dsID];
         int nodey = set_to_node[yp.dsID];
-        //std::cout << "nodex: " << nodex << ", nodey:" << nodey << "\n";
- //       std::cout << " calling link : " << xp.dsID << " and " << yp.dsID << "\n";
         ds.link(xp, yp);
- //       print_elements();
-//        std::cout << " calling find-set : " << xp.dsID << "\n";
         Element zp = ds.find_set(elements[xp.dsID]);
-//        std::cout << "New xp: " << zp.dsID << "(" << zp.dsParent << ")\n";
         set_to_node[zp.dsID] = forest.addNode(nodex, nodey);
-        //std::cout << "new node: " << set_to_node[zp.dsParent] << "\n";
     }
     void unite(int x, int y) {
         Element xp = ds.find_set(elements[x]);
@@ -214,14 +212,14 @@ public:
                 }
             }
         }
+        std::cout << ".... done \n";
         for (int i=0; i<num_elements; i++)
             delete [] checked[i];
         delete [] checked;
     }
 
     std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
-    uint get_root_node(int id) { return set_to_node[ds.find_set(elements.at(id)).dsID]; }
-    BinaryTreeInfo *getTree(int id) { return forest.getTree(set_to_node[ds.find_set(elements.at(id)).dsID]); }
+    BinaryTreeInfo *getTree(int id) { return forest.getTree(set_to_node[elements[id].dsParent]); }
 
 private:
     int num_elements;
@@ -281,15 +279,15 @@ int main(int argc, char*  argv[]) {
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
     for (size_t i = 0; i < sizes.size(); ++i) {
-        std::cout << "Cluster " << i << " has " << sizes[i] << " elements\n";
+        std::cout << "Cluster " << i << " has " << sizes[i] << " elements:";
+        for (int j=0; j<sizes[i]; ++j) {
+          std::cout << " " << cls.getElement(id+j).dsID;
+        }
+        std::cout << "\n";
         if (sizes[i] > 1) {
-            //uint root =  cls.get_root_node(id);
-            //std::cout << "current root = " << root << "\n";
             BinaryTreeInfo *tree = cls.getTree(id);
-            tree->print();
-            //align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
-        } else {
-            std::cout << "Singleton = " << cls.getElement(id).dsID << "\n";
+            //tree->print();
+            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
         }
         id += sizes[i];
     }

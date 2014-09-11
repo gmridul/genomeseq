@@ -42,11 +42,19 @@ void setup_sequences(mseq_t *prMSeq, const Reads& reads, int num_leaves, uint *l
     }
 }
 
+void process_alignment(int num_reads, char **aligned_reads) {
+    for(int i=0;i<num_reads;i++) {
+        printf("%s\n",aligned_reads[i]);
+    }
+    // do other stuff
+}
+
 
 void align_cluster(const Reads &reads, int num_leaves, uint *left, uint *right, uint *leaf_ids) {
     LogDefaultSetup(&rLog);
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     setup_sequences(prMSeq, reads, num_leaves, leaf_ids);
+    print_sequences(prMSeq);
 
     float* leftLength  = (float *)malloc(num_leaves*sizeof(float));
     float* rightLength = (float *)malloc(num_leaves*sizeof(float));
@@ -68,7 +76,7 @@ void align_cluster(const Reads &reads, int num_leaves, uint *left, uint *right, 
     double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/,
             2*num_leaves-1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
     printf("Align score = %f\n", dAlnScore);
-    print_sequences(prMSeq);
+    process_alignment(prMSeq->nseqs, prMSeq->seq);
     FreeMuscleTree(tree);
     FreeMSeq(&prMSeq);
     if (NULL != piOrderLR) CkFree(piOrderLR, __FUNCTION__, __LINE__);
