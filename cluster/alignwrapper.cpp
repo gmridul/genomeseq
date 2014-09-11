@@ -1,4 +1,8 @@
 ﻿#include "alignwrapper.hpp"
+#include <sstream>
+#include <fstream>
+#include <algorithm>
+#include <cstring>
 
 #define MIN_SCORE -2147483648
 
@@ -42,11 +46,43 @@ void setup_sequences(mseq_t *prMSeq, const Reads& reads, int num_leaves, uint *l
     }
 }
 
+std::ofstream dataf;
+int serial_num;
 void process_alignment(int num_reads, char **aligned_reads) {
+
     for(int i=0;i<num_reads;i++) {
         printf("%s\n",aligned_reads[i]);
     }
     // do other stuff
+    int mini[4]={num_reads,num_reads,num_reads,num_reads},maxi[4]={0,0,0,0};
+    int count[5]={0,0,0,0,0};
+    int align_read_len = std::strlen(aligned_reads[0]);
+    for(int i=0;i<align_read_len;i++) {
+        for(int j=0;j<num_reads;j++) {
+            if(aligned_reads[j][i]=='A') count[0]++;
+            else if(aligned_reads[j][i]=='C') count[1]++;
+            else if(aligned_reads[j][i]=='T') count[2]++;
+            else if(aligned_reads[j][i]=='G') count[3]++;
+            else if(aligned_reads[j][i]=='-') count[4]++;
+        }
+        std::sort(count,count+5);
+        
+        for(int j=0;j<4;j++) {
+            maxi[j]=std::max(maxi[j],count[j+1]-count[j]);
+            mini[j]=std::min(mini[j],count[j+1]-count[j]);
+        }
+        for(int j=0;j<5;j++) count[j]=0;
+    }
+    
+    //std::stringstream ss;
+    //ss << cluster_num;
+    dataf.open("cluster.dat", /*std::ofstream::out | std::ofstream::app*/std::ios_base::app);
+    for(int i=0;i<4;i++) {
+        dataf << serial_num << " " << (maxi[i]*100/num_reads) << " " << (mini[i]*100/num_reads) << "\n";
+        serial_num++;
+        serial_num%=5;
+    }
+    dataf.close();
 }
 
 
