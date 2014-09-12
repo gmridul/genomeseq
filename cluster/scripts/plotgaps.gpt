@@ -1,12 +1,17 @@
-unset key 
+#unset key 
 set ylabel 'Gap'
 set xlabel 'Cluster'
+#set xrange [0:1000]
+#set yrange [-1:110]
 
-set boxwidth 0.9 relative
-set style data histograms
-set style fill solid 1.0 border -1
 set xtics out 
 set ytics out 
 set terminal png 
-set output 'plot.png'
-plot for [COL=2:3] '../data/cluster.dat' using COL:xticlabels(1)
+set output 'plot1.png'
+plot "../data/cluster.dat" using 1:2 title 'Gap1' 
+set output 'plot2.png'
+plot     "../data/cluster.dat" using 1:3 title 'Gap2' 
+set output 'plot3.png'
+plot     "../data/cluster.dat" using 1:4 title 'Gap3' 
+set output 'plot4.png'
+plot     "../data/cluster.dat" using 1:5 title 'Gap4' 

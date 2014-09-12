@@ -54,9 +54,9 @@ void process_alignment(int num_reads, char **aligned_reads) {
         printf("%s\n",aligned_reads[i]);
     }
     // do other stuff
-    int mini[4]={num_reads,num_reads,num_reads,num_reads},maxi[4]={0,0,0,0};
     int count[5]={0,0,0,0,0};
     int align_read_len = std::strlen(aligned_reads[0]);
+    dataf.open("cluster.dat", /*std::ofstream::out | std::ofstream::app*/std::ios_base::app);
     for(int i=0;i<align_read_len;i++) {
         for(int j=0;j<num_reads;j++) {
             if(aligned_reads[j][i]=='A') count[0]++;
@@ -66,22 +66,18 @@ void process_alignment(int num_reads, char **aligned_reads) {
             else if(aligned_reads[j][i]=='-') count[4]++;
         }
         std::sort(count,count+5);
-        
-        for(int j=0;j<4;j++) {
-            maxi[j]=std::max(maxi[j],count[j+1]-count[j]);
-            mini[j]=std::min(mini[j],count[j+1]-count[j]);
+        dataf << serial_num++ << " ";
+        std::cout << count[4] << " " << count[3] << " "<< count[2] << " " << count[1] << " "<<count[0] << "\n";
+        for(int j=3;j>=0;j--) {
+            dataf << (100*((float)(count[j+1]-count[j])))/num_reads << " ";
         }
+        dataf << "\n";
         for(int j=0;j<5;j++) count[j]=0;
     }
     
     //std::stringstream ss;
     //ss << cluster_num;
-    dataf.open("cluster.dat", /*std::ofstream::out | std::ofstream::app*/std::ios_base::app);
-    for(int i=3;i>=0;i--) {
-        dataf << serial_num << " " << (mini[i]*100/num_reads) << " " << (maxi[i]*100/num_reads) << "\n";
-        serial_num++;
-        serial_num%=4;
-    }
+    dataf <<serial_num++ <<  " 0 0 0 0\n";
     dataf.close();
 }
 
