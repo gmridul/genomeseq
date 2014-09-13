@@ -38,10 +38,10 @@ void setup_sequences(mseq_t *prMSeq, const Reads& reads, int num_leaves, uint *l
     prMSeq->sqinfo = (SQINFO *)CKREALLOC(prMSeq->sqinfo, (prMSeq->nseqs+1) * sizeof(SQINFO));
     for (int i=0; i<num_leaves; ++i) {
         uint read_id = leaf_ids[i];
-        prMSeq->seq[i] = CkStrdup(reads[read_id].c_str());;
+        prMSeq->seq[i] = CkStrdup(reads[read_id].seq.c_str());;
         prMSeq->orig_seq[i] = CkStrdup(prMSeq->seq[i]);;
         prMSeq->sqinfo[i].flags = SQINFO_NAME | SQINFO_ID;;
-        sprintf(prMSeq->sqinfo[i].name, "read-%d", read_id);
+        sprintf(prMSeq->sqinfo[i].name, "%s", reads[read_id].name.c_str());
         sprintf(prMSeq->sqinfo[i].id, "%d", i);
     }
 }

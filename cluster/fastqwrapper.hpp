@@ -5,6 +5,11 @@
 #include <vector>
 #include <string>
 
+struct Read {
+  std::string name;
+  std::string seq;
+};
+
 class llist {
     public:
         llist* next;
@@ -13,7 +18,7 @@ class llist {
         llist* cluster;
 };
 typedef std::unordered_map<int64_t,llist* > HashTable;
-typedef std::vector<std::string> Reads;
+typedef std::vector<Read> Reads;
 
 int read_fastq(char *fname1, char *fname2, Reads &reads);
 void print_hashtab(const HashTable &hashtab);

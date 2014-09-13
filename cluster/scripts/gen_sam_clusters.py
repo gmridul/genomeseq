@@ -18,6 +18,7 @@ def usage():
 def processLine(line):
     elts = line.split()
     startPos = currentPos = int(elts[3])
+    readId = elts[0]
     cigarString = elts[5]
     if cigarString != '*':
         currentStr = cigarString
@@ -33,7 +34,7 @@ def processLine(line):
                 reM = re.match(regExStr, currentStr)
             else:
                 break
-    return (startPos, currentPos-1)
+    return (readId, startPos, currentPos-1)
 
 def getFirstLine(f):
     for line in f:
@@ -41,22 +42,21 @@ def getFirstLine(f):
             continue
         return processLine(line)
 
-def process(fileName):
-    with open(fileName, 'r') as f:
-        (currentStart, currentEnd) = getFirstLine(f)
-        lastStart = currentStart
-        for line in f:
-            (start, end) = processLine(line)
-            #print "[", start, end, "]"
-            assert(lastStart <= start)
-            lastStart = start
-            if (start > currentEnd+1):
-                print currentStart, currentEnd
-                currentStart = start
-            if (end > currentEnd):
-                currentEnd = end
-        print currentStart, " ", currentEnd
-        
+def process(f):
+    (readId, currentStart, currentEnd) = getFirstLine(f)
+    lastStart = currentStart
+    print readId,
+    for line in f:
+        (readId, start, end) = processLine(line)
+        #print "[", start, end, "]"
+        assert(lastStart <= start)
+        lastStart = start
+        if (start > currentEnd+1):
+            print ""
+            currentStart = start
+        if (end > currentEnd):
+            currentEnd = end
+        print readId,
 
 
 def main(argv):
@@ -76,9 +76,10 @@ def main(argv):
             usage()
             sys.exit()
     if (filename == ""):
-        usage()
-        sys.exit(-1)
-    process(filename)
+        process(sys.stdin)
+    else :
+      with open(fileName, 'r') as f:
+        process(f)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

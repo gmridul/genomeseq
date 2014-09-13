@@ -1,16 +1,47 @@
 ﻿#include "fastqwrapper.hpp"
 #include <fstream>
+#include <sstream>
 #include <iostream>
+#include <algorithm>
+#include <iterator>
+
+std::string parse_name(const std::string& str) {
+    std::istringstream iss(str);
+    std::vector<std::string> tokens;
+    copy(std::istream_iterator<std::string>(iss),
+        std::istream_iterator<std::string>(),
+        back_inserter(tokens));
+    //copy(tokens.begin(), tokens.end(), 
+    //    std::ostream_iterator<std::string>(std::cout, "\n"));
+
+    // first character @ to be ignored
+    return tokens[0].substr(1);
+}
 
 int read_fastq(char *fname1, char *fname2, Reads &reads) {    
     std::ifstream f1(fname1),f2(fname2);
+    if (!f1.is_open()) {
+      std::cerr << "ERROR: could not open file " << fname1 << "\n";
+      exit(-1);
+    }
+    if (!f2.is_open()) {
+      std::cerr << "ERROR: could not open file " << fname2 << "\n";
+      exit(-1);
+    }
     std::string p1,p2;
+    Read r1, r2;
     int count=0,num=0;
     while(std::getline(f1,p1) && std::getline(f2,p2)) {
         //std::cout << p1 << "\t\t\t" << p2 << "\n";
+        if(count==0) {
+            r1.name = parse_name(p1);
+            r2.name = parse_name(p2);
+        }
         if(count==1) {
-            reads.push_back(p1);
-            reads.push_back(p2);
+            r1.seq = p1;
+            r2.seq = p2;
+            reads.push_back(r1);
+            reads.push_back(r2);
             num++;
         }
         count+=1;
@@ -21,7 +52,7 @@ int read_fastq(char *fname1, char *fname2, Reads &reads) {
 
 void create_kmerhash(const Reads &reads, int k, HashTable &hashtab) {
     for (size_t j=0; j<reads.size(); ++j) {
-        std::string seq = reads[j];
+        std::string seq = reads[j].seq;
         int len = seq.length();
         int skipN = k;
         int64_t slid=0,mask=(1<<(2*k))-1;

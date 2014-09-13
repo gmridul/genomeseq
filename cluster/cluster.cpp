@@ -203,7 +203,7 @@ public:
                     if (xp.dsID == yp.dsID) continue;
 
                     //std::cout << reads[yrank] << "\n" << reverse_complement(reads[yrank]) << "\n";
-                    if (match_seqs(reads[xrank], reads[yrank]) >= THRESHOLD) {
+                    if (match_seqs(reads[xrank].seq, reads[yrank].seq) >= THRESHOLD) {
                         unite_by_parent(xp, yp);
                     }
 //                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
@@ -276,14 +276,26 @@ int main(int argc, char*  argv[]) {
 
     cls.finalize_clusters();
     //cls.print_elements();
+    std::string fcls_name("cluster_info.dat");
+    std::ofstream fcls(fcls_name);
+    if (!fcls.is_open()) {
+      std::cerr << "ERROR: Could not open file " << fcls_name << " for writing.\n"; 
+    }
     std::vector<int> sizes = cls.get_cluster_sizes();
     int id=0;
+
     for (size_t i = 0; i < sizes.size(); ++i) {
         std::cout << "Cluster " << i << " has " << sizes[i] << " elements:";
         for (int j=0; j<sizes[i]; ++j) {
           std::cout << " " << cls.getElement(id+j).dsID;
         }
         std::cout << "\n";
+        fcls << reads[id].name;
+        for (int j=1; j<sizes[i]; ++j) {
+          fcls << " " << reads[id+j].name;
+        }
+        fcls << "\n";
+
         if (sizes[i] > 1) {
             BinaryTreeInfo *tree = cls.getTree(id);
             //tree->print();
