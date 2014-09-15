@@ -203,7 +203,16 @@ public:
                     if (xp.dsID == yp.dsID) continue;
 
                     //std::cout << reads[yrank] << "\n" << reverse_complement(reads[yrank]) << "\n";
+                    if(reads[yrank].name=="M01479:16:000000000-A7GTG:1:2113:8064:19844/1") {
+                        std::cout << "cluster no. is of /1" << yp.dsParent << "\n";
+
+                    }
+                    if(reads[yrank].name=="M01479:16:000000000-A7GTG:1:2113:8064:19844/2") {
+                        std::cout << "cluster no. is of/2" << yp.dsParent << "\n";
+                    }
+
                     if (match_seqs(reads[xrank].seq, reads[yrank].seq) >= THRESHOLD) {
+                        std::cout << reads[xrank].name << " " << reads[yrank].name << " " << match_seqs(reads[xrank].seq, reads[yrank].seq)<< "\n";
                         unite_by_parent(xp, yp);
                     }
 //                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
@@ -290,9 +299,9 @@ int main(int argc, char*  argv[]) {
           std::cout << " " << cls.getElement(id+j).dsID;
         }
         std::cout << "\n";
-        fcls << reads[id].name;
+        fcls << reads[cls.getElement(id).dsID].name;
         for (int j=1; j<sizes[i]; ++j) {
-          fcls << " " << reads[id+j].name;
+          fcls << " " << reads[cls.getElement(id+j).dsID].name;
         }
         fcls << "\n";
 

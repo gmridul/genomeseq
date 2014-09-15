@@ -36,12 +36,13 @@ def build_graph(orig_fname):
         nodes.append(1)#len(cls))
         cluster_id += 1
         for x in cls:
+            xcls = orig_cls_map[x]
             if x[-1]=='1':
-                xcls = orig_cls_map[x]
-                ycls = orig_cls_map[x[0:-1]+'2']
-#            print x, y
-#            print xcls, ycls
-#            print
+                y = x[0:-1]+'2'
+            else:
+                y=x[0:-1]+'1'
+            if y in orig_cls_map:
+                ycls = orig_cls_map[y]
                 if (xcls != ycls):
                     mn = min(xcls, ycls)
                     mx = max(xcls, ycls)
