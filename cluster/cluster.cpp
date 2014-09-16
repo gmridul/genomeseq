@@ -305,11 +305,11 @@ int main(int argc, char*  argv[]) {
         }
         fcls << "\n";
 
-        if (sizes[i] > 1) {
-            BinaryTreeInfo *tree = cls.getTree(id);
-            //tree->print();
-            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
-        }
+       // if (sizes[i] > 1) {
+       //     BinaryTreeInfo *tree = cls.getTree(id);
+       //     //tree->print();
+       //     align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+       // }
         id += sizes[i];
     }
 

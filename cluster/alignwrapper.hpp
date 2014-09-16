@@ -12,7 +12,7 @@ extern "C" {
 #include <seqan/sequence.h>
 #include <seqan/file.h>
 #define BOUND     2
-#define THRESHOLD -30
+#define THRESHOLD -10
 #define KMERLEN  12  
 typedef seqan::String<char> TSequence;                     // sequence type
 typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;   // align type
