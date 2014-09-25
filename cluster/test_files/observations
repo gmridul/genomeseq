@@ -1,0 +1,11 @@
+AC217266
+
+Cut Site : G[AGT][GC[ACT];C
+
+AGCTC----------------------TGAGC Complement of the cutsite
+    TGGTT---------------------------GTGCC Cut Site
+
+I checked the 480 cluster case. It seems to be a chimera.  ( that is paired end reads are matching )
+checked the repeat case of 521. Likely to be a repeat. ( the only difference is 521 reads have an extra CA at the end whereas the other contributing clusters' reads don't have extra CA in the end)
+
+    
