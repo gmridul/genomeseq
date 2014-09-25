@@ -203,16 +203,7 @@ public:
                     if (xp.dsID == yp.dsID) continue;
 
                     //std::cout << reads[yrank] << "\n" << reverse_complement(reads[yrank]) << "\n";
-                    if(reads[yrank].name=="M01479:16:000000000-A7GTG:1:2113:8064:19844/1") {
-                        std::cout << "cluster no. is of /1" << yp.dsParent << "\n";
-
-                    }
-                    if(reads[yrank].name=="M01479:16:000000000-A7GTG:1:2113:8064:19844/2") {
-                        std::cout << "cluster no. is of/2" << yp.dsParent << "\n";
-                    }
-
                     if (match_seqs(reads[xrank].seq, reads[yrank].seq) >= THRESHOLD) {
-                        std::cout << reads[xrank].name << " " << reads[yrank].name << " " << match_seqs(reads[xrank].seq, reads[yrank].seq)<< "\n";
                         unite_by_parent(xp, yp);
                     }
 //                    else if (match_seqs(reads[xrank], reverse_complement(reads[yrank])) >= THRESHOLD) {
@@ -305,11 +296,11 @@ int main(int argc, char*  argv[]) {
         }
         fcls << "\n";
 
-        if (sizes[i] > 1) {
-            BinaryTreeInfo *tree = cls.getTree(id);
-            //tree->print();
-            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
-        }
+//        if (sizes[i] > 1) {
+//            BinaryTreeInfo *tree = cls.getTree(id);
+//            //tree->print();
+//            align_cluster(reads, sizes[i], tree->left, tree->right, tree->leafIds);
+//        }
         id += sizes[i];
     }
 
