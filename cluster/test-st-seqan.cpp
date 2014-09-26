@@ -56,6 +56,28 @@ void print_lset(const std::vector<TLSetInfo>& lSet) {
         std::cout << std::setw(3) << lSet[i].pos;
     }
     std::cout << "\n";
+    std::cout << "  skip:";
+    for (int i=0; i<lSet.size(); ++i) {
+        std::cout << std::setw(3) << lSet[i].skip;
+    }
+    std::cout << "\n";
+}
+
+void make_compact(std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
+    int skip = 0;
+    int start = positions[0], stop = positions.size()-1;
+    std::cout << "start=" << start << ", stop=" << stop << "\n";
+    for (int i=stop-2; i>=start; --i) {
+        std::cout << "i=" << i << "\n";
+        std::cout.flush();
+        if (lSet[i].read_id == lSet[i+1].read_id) {
+            lSet[i].skip = ++skip;
+        } else {
+            lSet[i].skip = skip = 0;
+        }
+        print_lset(lSet);
+    }
+    std::cout << "\n";
 }
 
 void kway_merge(std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
@@ -64,39 +86,44 @@ void kway_merge(std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positio
         std::cout << *i << " ";
     }
     std::cout << "\n";
-    std::sort(lSet.begin()+positions[0],lSet.begin()+positions[positions.size()-1], compare_lset); 
+    int start = positions[0], stop = positions.size()-1;
+    //TODO signed (int) to unsiged (size_t)
+    std::sort(lSet.begin()+start,lSet.begin()+positions[stop], compare_lset); 
 }
 
-MyPairs & generate_pairs(std::vector<TLSetInfo>& lSet, int start, int stop) {
-    //TODO signed (int) to unsiged (size_t)
-    MyPairs pairs;
-    int skip = 0;
-    std::cout << "start=" << start << ", stop=" << stop << ", i=";
-    for (int i=stop-2; i>=start; --i) {
-        std::cout << " " << i << ", start=" << start;
-        std::cout.flush();
-        if (lSet[i].read_id == lSet[i+1].read_id) {
-            lSet[i].skip = ++skip;
-        } else {
-            lSet[i].skip = skip = 0;
+void generate_pairs_from_two(MyPairs& pairs, const std::vector<TLSetInfo>& lSet, size_t start1, size_t end1, size_t start2, size_t end2) {
+    for (size_t i = start1; i < end1; i += lSet[i].skip+1) {
+        for (size_t j = start2; j < end2; j += lSet[j].skip+1) {
+            std::cout << "i=" << i << ", j=" << j << "\n";
+            if ((lSet[i].prev < lSet[j].prev) || ((lSet[i].prev == 'B') && (lSet[j].prev == 'B'))) {
+                pairs.push_back(std::make_pair(i,j));
+            }
         }
-        //print_lset(lSet);
+    }
+}
+
+MyPairs & generate_pairs(const std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
+    MyPairs pairs;
+    for (size_t i=0; i<positions.size()-2; ++i) {
+        size_t start1 = positions[i], end1 = positions[i+1];
+        for (size_t j=i+1; j<positions.size()-1; ++j) {
+            size_t start2 = positions[j], end2 = positions[j+1];
+            generate_pairs_from_two(pairs, lSet, start1, end1, start2, end2);
+        }
+    }
+
+    std::cout << "all pairs:";
+    for (int i=0; i<pairs.size(); ++i) {
+        std::cout << "<" << pairs[i].first << "," << pairs[i].second << "> ";
     }
     std::cout << "\n";
-    for (int i = start; i < stop-1; i += lSet[i].skip+1) {
-        int j;
-        for (j = lSet[i].skip+1; j < stop && (lSet[i].prev == lSet[j].prev); j += lSet[j].skip+1);
-        for (; j < stop; j += lSet[j].skip+1) {
-            pairs.push_back(std::make_pair(i,j));
-        }
-    }
 }
 
 int main ()
 {
     StringSet<CharString> myStringSet;
     appendValue(myStringSet, "tobeornottobe");
-//    appendValue(myStringSet, "tobeornottobe");
+    appendValue(myStringSet, "tobeornottobe");
 //    appendValue(myStringSet, "thebeeonthecomb");
 //    appendValue(myStringSet, "beingjohnmalkovich");
     TIndex index(myStringSet);
@@ -142,6 +169,7 @@ int main ()
         TPair span = range(myIterator);
         TSize s = span.i1, t = span.i2;
         std::cout << representative(myIterator) << " " << range(myIterator) << " ";
+        std::vector<size_t> positions;
         if (isLeaf(myIterator)) {
             std::cout << " leaf\n";
             TOccs occs = getOccurrences(myIterator);
@@ -162,9 +190,10 @@ int main ()
                 ++oc; ++bw; ++s;
             }
             std::sort(lSet.begin()+span.i1, lSet.begin()+span.i2, compare_lset);
+            positions.push_back(span.i1);
+            positions.push_back(span.i2);
         } else {
             std::cout << " int\n children are : \n  ";
-            std::vector<size_t> positions;
             goDown(myIterator);
             do {
                 std::cout << representative(myIterator) << " " << range(myIterator) << " ";
@@ -172,10 +201,11 @@ int main ()
             } while (goRight(myIterator));
             positions.push_back(range(myIterator).i2);
             std::cout << "\n";
+            generate_pairs(lSet, positions);
             kway_merge(lSet, positions);
-            generate_pairs(lSet, positions[0], positions[positions.size()-1]);
         }
-        print_lset(lSet);
+        make_compact(lSet, positions);
+        //print_lset(lSet);
     }
 
     for (int i=0; i<numLeaves; i++) {
