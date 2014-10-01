@@ -1,8 +1,11 @@
 ﻿#include <iostream>
 #include <seqan/index.h>
 #include <vector>
+#include <algorithm>
+#include <utility>
 
 using namespace seqan;
+using namespace std;
 
 typedef Index< StringSet<CharString> , IndexEsa<> > TIndex;
 typedef typename Iterator< TIndex, TopDown< ParentLinks<PostorderEmptyEdges> > >::Type TTreeIter;
@@ -18,10 +21,9 @@ typedef std::vector<MyPair> MyPairs;
 template<class Sigma>
 struct LSetInfo {
     Sigma  prev;
-    int    skip;
     size_t read_id;
     size_t pos;
-    LSetInfo() : prev('Z'), skip(0), read_id(0), pos(0) {}
+    LSetInfo() : prev('Z'), read_id(0), pos(0) {}
 };
 
 typedef LSetInfo<char> TLSetInfo;
@@ -39,8 +41,8 @@ bool compare_lset(const TLSetInfo & i, const TLSetInfo & j) {
     return false;
 }
 
-void print_lset(const std::vector<TLSetInfo>& lSet) {
-    std::cout << "Printing lsets ...\n";
+void print_lset(const std::vector<TLSetInfo>& lSet, const string msg="lset") {
+    std::cout << "Printing " << msg << " ...\n";
     std::cout << "  prev:";
     for (int i=0; i<lSet.size(); ++i) {
         std::cout << std::setw(3) << lSet[i].prev;
@@ -56,46 +58,68 @@ void print_lset(const std::vector<TLSetInfo>& lSet) {
         std::cout << std::setw(3) << lSet[i].pos;
     }
     std::cout << "\n";
-    std::cout << "  skip:";
-    for (int i=0; i<lSet.size(); ++i) {
-        std::cout << std::setw(3) << lSet[i].skip;
-    }
-    std::cout << "\n";
 }
 
-void make_compact(std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
-    int skip = 0;
-    int start = positions[0], stop = positions.size()-1;
-    std::cout << "start=" << start << ", stop=" << stop << "\n";
-    for (int i=stop-2; i>=start; --i) {
-        std::cout << "i=" << i << "\n";
-        std::cout.flush();
-        if (lSet[i].read_id == lSet[i+1].read_id) {
-            lSet[i].skip = ++skip;
-        } else {
-            lSet[i].skip = skip = 0;
+
+struct qelement {
+    int pos;
+    int part;
+    qelement(int _pos, int _part) : pos(_pos), part(_part) {}
+};
+
+class mycomparison {
+    public:
+        mycomparison(vector<TLSetInfo>& lSet): _lSet(lSet) {}
+        bool operator() (const qelement &lhs, const qelement& rhs) {
+            return ((_lSet[lhs.pos].prev>_lSet[rhs.pos].prev) || ((_lSet[lhs.pos].prev==_lSet[rhs.pos].prev) && (_lSet[lhs.pos].read_id>_lSet[rhs.pos].read_id)));
         }
-        print_lset(lSet);
-    }
-    std::cout << "\n";
-}
+    private:
+        vector<TLSetInfo> & _lSet;
+};
 
-void kway_merge(std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
+void kway_merge(std::vector<TLSetInfo>& lSet, std::vector<TLSetInfo>& lSetCopy, std::vector<size_t>& pos) {
     std::cout << "kway merge: ";
-    for (std::vector<size_t>::const_iterator i=positions.begin(); i!=positions.end(); ++i) {
+    for (std::vector<size_t>::const_iterator i=pos.begin(); i!=pos.end(); ++i) {
         std::cout << *i << " ";
     }
     std::cout << "\n";
-    int start = positions[0], stop = positions.size()-1;
-    //TODO signed (int) to unsiged (size_t)
-    std::sort(lSet.begin()+start,lSet.begin()+positions[stop], compare_lset); 
+    //    std::sort(lSet.begin()+positions[0],lSet.begin()+positions[positions.size()-1], compare_lset); 
+
+    int n = pos.size();
+    vector<TLSetInfo> temp(lSet.begin()+pos[0],lSet.begin()+pos[n-1]);
+    print_lset(temp, "temp");
+
+
+    priority_queue<qelement,vector<qelement>,mycomparison> outQueue(temp);
+
+    for (int i=0; i<n-1; i++) {
+        outQueue.push(qelement(pos[i]-pos[0], i));
+    }
+
+    int s=pos[0];
+    while (!outQueue.empty()) {
+        const qelement& lowest = outQueue.top();
+        //std::cout << "lowest.pos=" << outQueue.top().pos << ", lowest.part=" << outQueue.top().part << "\n";
+        lSet[s++]=temp[lowest.pos];
+        if(lowest.pos+pos[0]+1 < pos[lowest.part+1]) {
+            qelement qe(lowest.pos+1, lowest.part);
+            //td::cout << "subsequent pushing (" << qe.pos << "," << qe.part << ")\n";
+            outQueue.pop();
+            outQueue.push(qe);
+        } else {
+            outQueue.pop();
+        }
+        //print_lset(temp, "temp");
+        //print_lset(lSet);
+    }
 }
 
 void generate_pairs_from_two(MyPairs& pairs, const std::vector<TLSetInfo>& lSet, size_t start1, size_t end1, size_t start2, size_t end2) {
-    for (size_t i = start1; i < end1; i += lSet[i].skip+1) {
-        for (size_t j = start2; j < end2; j += lSet[j].skip+1) {
+    for (size_t i = start1; i < end1; ++i) {
+        for (size_t j = start2; j < end2; ++j) {
             std::cout << "i=" << i << ", j=" << j << "\n";
-            if ((lSet[i].prev < lSet[j].prev) || ((lSet[i].prev == 'B') && (lSet[j].prev == 'B'))) {
+            if ((lSet[i].read_id != lSet[j].read_id) &&
+                ((lSet[i].prev < lSet[j].prev) || ((lSet[i].prev == 'B') && (lSet[j].prev == 'B')))) {
                 pairs.push_back(std::make_pair(i,j));
             }
         }
@@ -114,7 +138,8 @@ MyPairs & generate_pairs(const std::vector<TLSetInfo>& lSet, const std::vector<s
 
     std::cout << "all pairs:";
     for (int i=0; i<pairs.size(); ++i) {
-        std::cout << "<" << pairs[i].first << "," << pairs[i].second << "> ";
+        int f = pairs[i].first, s = pairs[i].second;
+        std::cout << "<" << lSet[f].read_id << ":" << lSet[f].pos << "," << lSet[s].read_id << ":" << lSet[s].pos << "> ";
     }
     std::cout << "\n";
 }
@@ -123,9 +148,9 @@ int main ()
 {
     StringSet<CharString> myStringSet;
     appendValue(myStringSet, "tobeornottobe");
-    appendValue(myStringSet, "tobeornottobe");
-//    appendValue(myStringSet, "thebeeonthecomb");
-//    appendValue(myStringSet, "beingjohnmalkovich");
+    //    appendValue(myStringSet, "tobeornottobe");
+    //    appendValue(myStringSet, "thebeeonthecomb");
+    //    appendValue(myStringSet, "beingjohnmalkovich");
     TIndex index(myStringSet);
 
     std::vector<TTreeIter> tree_iters;
@@ -139,7 +164,7 @@ int main ()
     goBegin(myIterator);
     while (!atEnd(myIterator))
     {
-		if (isLeaf(myIterator)) {
+        if (isLeaf(myIterator)) {
             std::cout << "leaf: ";
         } else {
             std::cout << "intl: ";
@@ -151,8 +176,9 @@ int main ()
     }
     size_t numLeaves = length(index);
     std::cout << "num leaves = " << numLeaves << ", " << tree_iters.size() << "\n";
-    std::vector<TLSetInfo> lSet;
+    std::vector<TLSetInfo> lSet, lSetCopy;
     lSet.resize(numLeaves);
+    lSetCopy.resize(numLeaves);
 
     //for (int i=0; i<tree_iters.size(); i++) {
     //    std::cout << representative(tree_iters[i]) << "\n";
@@ -162,7 +188,7 @@ int main ()
     std::sort(tree_iters.begin(), tree_iters.end(), iter_compare); 
 
     indexRequire(index, EsaBwt());
-//    typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
+    //    typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
 
     for (int i=0; i<tree_iters.size(); i++) {
         TTreeIter& myIterator = tree_iters[i];
@@ -190,8 +216,6 @@ int main ()
                 ++oc; ++bw; ++s;
             }
             std::sort(lSet.begin()+span.i1, lSet.begin()+span.i2, compare_lset);
-            positions.push_back(span.i1);
-            positions.push_back(span.i2);
         } else {
             std::cout << " int\n children are : \n  ";
             goDown(myIterator);
@@ -201,11 +225,10 @@ int main ()
             } while (goRight(myIterator));
             positions.push_back(range(myIterator).i2);
             std::cout << "\n";
-            generate_pairs(lSet, positions);
-            kway_merge(lSet, positions);
+            //generate_pairs(lSet, positions);
+            kway_merge(lSet, lSetCopy, positions);
         }
-        make_compact(lSet, positions);
-        //print_lset(lSet);
+        print_lset(lSet);
     }
 
     for (int i=0; i<numLeaves; i++) {
