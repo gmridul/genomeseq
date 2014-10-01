@@ -28,14 +28,14 @@ class Parent {
         Parent(std::vector<Element>& e) : mElements(e) { }
         std::vector<Element>& mElements;
 };
-class Rank {
+class MyRank {
     public:
-        Rank(std::vector<Element>& e) : mElements(e) { }
+        MyRank(std::vector<Element>& e) : mElements(e) { }
         std::vector<Element>& mElements;
 };
 namespace boost {
     template <>
-        struct property_traits<Rank*> {
+        struct property_traits<MyRank*> {
             typedef size_t value_type;
         };
 }
@@ -48,10 +48,10 @@ inline void put(Parent* pa, const Element & k, const Element & val) {
 //    std::cout << "put parent " << k.dsID << "=" << val.dsID << "\n";
     pa->mElements.at(k.dsID).dsParent = val.dsID;
 }
-inline size_t const& get(Rank* pa, const Element & k) {
+inline size_t const& get(MyRank* pa, const Element & k) {
     return pa->mElements.at(k.dsID).dsRank;
 }
-inline void put(Rank* pa, Element k, size_t const& val) {
+inline void put(MyRank* pa, Element k, size_t const& val) {
     pa->mElements.at(k.dsID).dsRank = val;
 }
 void printElements(std::vector<Element>& elements) {
@@ -77,7 +77,7 @@ inline bool compareByParent(Element const& lhs, Element const& rhs) {
 inline bool compareBySomeInt(Element const& lhs, Element const& rhs) {
     return lhs.someInt() < rhs.someInt();
 }
-typedef boost::disjoint_sets<Rank*, Parent*> DisjointSets;
+typedef boost::disjoint_sets<MyRank*, Parent*> DisjointSets;
 
 #endif // __DSWRAPPER_HPP_
 

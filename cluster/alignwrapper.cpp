@@ -67,7 +67,7 @@ void process_alignment(int num_reads, char **aligned_reads) {
         }
         std::sort(count,count+5);
         dataf << serial_num++ << " ";
-        std::cout << count[4] << " " << count[3] << " "<< count[2] << " " << count[1] << " "<<count[0] << "\n";
+        //std::cout << count[4] << " " << count[3] << " "<< count[2] << " " << count[1] << " "<<count[0] << "\n";
         for(int j=3;j>=0;j--) {
             dataf << (100*((float)(count[j+1]-count[j])))/num_reads << " ";
         }
@@ -86,7 +86,7 @@ void align_cluster(const Reads &reads, int num_leaves, uint *left, uint *right, 
     LogDefaultSetup(&rLog);
     mseq_t *prMSeq = (mseq_t*)CKCALLOC(1,sizeof(mseq_t));
     setup_sequences(prMSeq, reads, num_leaves, leaf_ids);
-    print_sequences(prMSeq);
+    //print_sequences(prMSeq);
 
     float* leftLength  = (float *)malloc(num_leaves*sizeof(float));
     float* rightLength = (float *)malloc(num_leaves*sizeof(float));
@@ -107,8 +107,8 @@ void align_cluster(const Reads &reads, int num_leaves, uint *left, uint *right, 
     SetDefaultHhalignPara(&rHhalignPara);
     double dAlnScore = HHalignWrapper(prMSeq, piOrderLR, NULL/*pdSeqWeights*/,
             2*num_leaves-1/* nodes */, NULL/*prHMMs*/, 0/*iHMMInputFiles*/, -1, rHhalignPara);
-    printf("Align score = %f\n", dAlnScore);
-    process_alignment(prMSeq->nseqs, prMSeq->seq);
+    //printf("Align score = %f\n", dAlnScore);
+    //process_alignment(prMSeq->nseqs, prMSeq->seq);
     FreeMuscleTree(tree);
     FreeMSeq(&prMSeq);
     if (NULL != piOrderLR) CkFree(piOrderLR, __FUNCTION__, __LINE__);

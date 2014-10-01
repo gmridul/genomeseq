@@ -85,16 +85,16 @@ class mycomparison {
 };
 
 void kway_merge(std::vector<TLSetInfo>& lSet, std::vector<TLSetInfo>& lSetCopy, std::vector<size_t>& pos) {
-    std::cout << "kway merge: ";
-    for (std::vector<size_t>::const_iterator i=pos.begin(); i!=pos.end(); ++i) {
-        std::cout << *i << " ";
-    }
-    std::cout << "\n";
+    //std::cout << "kway merge: ";
+    //for (std::vector<size_t>::const_iterator i=pos.begin(); i!=pos.end(); ++i) {
+    //    std::cout << *i << " ";
+    //}
+    //std::cout << "\n";
     //    std::sort(lSet.begin()+positions[0],lSet.begin()+positions[positions.size()-1], compare_lset); 
 
     int n = pos.size();
     vector<TLSetInfo> temp(lSet.begin()+pos[0],lSet.begin()+pos[n-1]);
-    print_lset(temp, "temp");
+    //print_lset(temp, "temp");
 
 
     priority_queue<qelement,vector<qelement>,mycomparison> outQueue(temp);
@@ -120,42 +120,6 @@ void kway_merge(std::vector<TLSetInfo>& lSet, std::vector<TLSetInfo>& lSetCopy, 
         //print_lset(lSet);
     }
 }
-
-void generate_pairs_from_two(MyPairs& pairs, const std::vector<TLSetInfo>& lSet, size_t start1, size_t end1, size_t start2, size_t end2) {
-    for (size_t i = start1; i < end1; ++i) {
-        for (size_t j = start2; j < end2; ++j) {
-            std::cout << "i=" << i << ", j=" << j << "\n";
-            if ((lSet[i].read_id != lSet[j].read_id) &&
-                    ((lSet[i].prev < lSet[j].prev) || ((lSet[i].prev == 'B') && (lSet[j].prev == 'B')))) {
-                Element xp = ds.find_set(elements[xrank]);
-                Element yp = ds.find_set(elements[yrank]);
-                if (xp.dsID == yp.dsID) return;
-                if (match_seqs(reads[xrank].seq, reads[yrank].seq) >= THRESHOLD) {
-                    unite_by_parent(xp, yp);
-                }
-            }
-        }
-    }
-}
-
-MyPairs & generate_pairs(const std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
-    MyPairs pairs;
-    for (size_t i=0; i<positions.size()-2; ++i) {
-        size_t start1 = positions[i], end1 = positions[i+1];
-        for (size_t j=i+1; j<positions.size()-1; ++j) {
-            size_t start2 = positions[j], end2 = positions[j+1];
-            generate_pairs_from_two(pairs, lSet, start1, end1, start2, end2);
-        }
-    }
-
-    std::cout << "all pairs:";
-    for (int i=0; i<pairs.size(); ++i) {
-        int f = pairs[i].first, s = pairs[i].second;
-        std::cout << "<" << lSet[f].read_id << ":" << lSet[f].pos << "," << lSet[s].read_id << ":" << lSet[s].pos << "> ";
-    }
-    std::cout << "\n";
-}
-
 
 
 struct BinaryTreeInfo {
@@ -271,7 +235,7 @@ std::string reverse_complement(std::string read) {
 
 class Clusters {
     public:
-        Clusters(int n) : num_elements(n), forest(num_elements), rank(elements), parent(elements), ds(&rank, &parent) {
+        Clusters(int n) : num_elements(n), forest(num_elements), myrank(elements), parent(elements), ds(&myrank, &parent) {
             set_to_node = new uint[num_elements];
             elements.reserve(num_elements);
             for (size_t i = 0; i < elements.capacity(); ++i) {
@@ -369,6 +333,34 @@ class Clusters {
                 delete [] checked[i];
             delete [] checked;
         }
+
+        void generate_pairs_from_two(const Reads &reads, const std::vector<TLSetInfo>& lSet, size_t start1, size_t end1, size_t start2, size_t end2) {
+            for (size_t i = start1; i < end1; ++i) {
+                for (size_t j = start2; j < end2; ++j) {
+                 //   std::cout << "i=" << i << ", j=" << j << "\n";
+                    if ((lSet[i].read_id != lSet[j].read_id) && ((lSet[i].prev < lSet[j].prev) || ((lSet[i].prev == 'B') && (lSet[j].prev == 'B')))) {
+                        Element xp = ds.find_set(elements[lSet[i].read_id]);
+                        Element yp = ds.find_set(elements[lSet[j].read_id]);
+                        if (xp.dsID == yp.dsID) return;
+                        if (match_seqs(reads[lSet[i].read_id].seq, reads[lSet[j].read_id].seq) >= THRESHOLD) {
+                            unite_by_parent(xp, yp);
+                        }
+                    }
+                }
+            }
+        }
+
+        void generate_pairs(const Reads &reads, const std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
+            for (size_t i=0; i<positions.size()-2; ++i) {
+                size_t start1 = positions[i], end1 = positions[i+1];
+                for (size_t j=i+1; j<positions.size()-1; ++j) {
+                    size_t start2 = positions[j], end2 = positions[j+1];
+                    generate_pairs_from_two(reads, lSet, start1, end1, start2, end2);
+                }
+            }
+        }
+
+
         void cluster_reads_st(const Reads &reads) {
             std::cout << "doing clusteing \n";
 
@@ -391,7 +383,7 @@ class Clusters {
                 ++myIterator;
             }
             size_t numLeaves = length(index);
-            std::cout << "num leaves = " << numLeaves << ", " << tree_iters.size() << "\n";
+            //std::cout << "num leaves = " << numLeaves << ", " << tree_iters.size() << "\n";
             std::vector<TLSetInfo> lSet, lSetCopy;
             lSet.resize(numLeaves);
             lSetCopy.resize(numLeaves);
@@ -405,10 +397,10 @@ class Clusters {
                 TTreeIter& myIterator = tree_iters[i];
                 TPair span = range(myIterator);
                 TSize s = span.i1, t = span.i2;
-                std::cout << representative(myIterator) << " " << range(myIterator) << " ";
+                //std::cout << representative(myIterator) << " " << range(myIterator) << " ";
                 std::vector<size_t> positions;
                 if (isLeaf(myIterator)) {
-                    std::cout << " leaf\n";
+                    //std::cout << " leaf\n";
                     TOccs occs = getOccurrences(myIterator);
                     TOccsBWT bwts = getOccurrencesBwt(myIterator);
                     TIter oc = begin(occs, Standard()), ocEnd = end(occs, Standard());
@@ -428,23 +420,23 @@ class Clusters {
                     }
                     std::sort(lSet.begin()+span.i1, lSet.begin()+span.i2, compare_lset);
                 } else {
-                    std::cout << " int\n children are : \n  ";
+                    //std::cout << " int\n children are : \n  ";
                     goDown(myIterator);
                     do {
-                        std::cout << representative(myIterator) << " " << range(myIterator) << " ";
+                        //std::cout << representative(myIterator) << " " << range(myIterator) << " ";
                         positions.push_back(range(myIterator).i1);
                     } while (goRight(myIterator));
                     positions.push_back(range(myIterator).i2);
-                    std::cout << "\n";
-                    generate_pairs(lSet, positions);
+                    //std::cout << "\n";
+                    generate_pairs(reads, lSet, positions);
                     kway_merge(lSet, lSetCopy, positions);
                 }
                 print_lset(lSet);
             }
 
-            for (int i=0; i<numLeaves; i++) {
-                std::cout << lSet[i].prev << " " << lSet[i].read_id << " " << lSet[i].pos << "\n";
-            }
+            //for (int i=0; i<numLeaves; i++) {
+            //    std::cout << lSet[i].prev << " " << lSet[i].read_id << " " << lSet[i].pos << "\n";
+            //}
         }
 
 
@@ -454,7 +446,7 @@ class Clusters {
     private:
         int num_elements;
         BinaryForest forest;
-        Rank rank;
+        MyRank myrank;
         Parent parent;
         DisjointSets ds;
         std::vector<Element> elements;
