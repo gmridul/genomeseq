@@ -472,8 +472,8 @@ int main(int argc, char*  argv[]) {
     reads.push_back("AATA");
 #else
     read_fastq(argv[1], argv[2], reads);
-    HashTable hashtab;
-    create_kmerhash(reads, KMERLEN, hashtab);
+    //HashTable hashtab;
+    //create_kmerhash(reads, KMERLEN, hashtab);
     //print_hashtab(hashtab);
 #endif
 
