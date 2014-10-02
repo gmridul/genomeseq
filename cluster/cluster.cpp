@@ -286,7 +286,7 @@ class Clusters {
         Element & getElement(int id) {
             return elements[id];
         }
-        void cluster_reads(const Reads &reads, HashTable &hashtab) {
+        /*void cluster_reads(const Reads &reads, HashTable &hashtab) {
             std::cout << "doing clusteing \n";
             int **checked = new int*[num_elements];
             for (int i=0; i<num_elements; i++) {
@@ -332,7 +332,7 @@ class Clusters {
             for (int i=0; i<num_elements; i++)
                 delete [] checked[i];
             delete [] checked;
-        }
+        }*/
 
         void generate_pairs_from_two(const Reads &reads, const std::vector<TLSetInfo>& lSet, size_t start1, size_t end1, size_t start2, size_t end2) {
             for (size_t i = start1; i < end1; ++i) {
@@ -492,8 +492,8 @@ int main(int argc, char*  argv[]) {
     cls.unite(7, 8);
     cls.unite(5, 8);
 #else
-    cls.cluster_reads(reads, hashtab);
-    free_hashtab(hashtab);
+    cls.cluster_reads_st(reads);
+    //free_hashtab(hashtab);
 #endif
 
     cls.finalize_clusters();
