@@ -1,18 +1,47 @@
-
 #include <iostream>
 
 #include "fastqwrapper.hpp"
 #include "alignwrapper.hpp"
 #include "dswrapper.hpp"
 
-#include <iostream>
 #include <seqan/index.h>
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <stack>
+
+/******************************* to print memory usage ***************************************/
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
 
 using namespace seqan;
 using namespace std;
+
+
+int parseLine(char* line){
+    int i = strlen(line);
+    while (*line < '0' || *line > '9') line++;
+    line[i-3] = '\0';
+    i = atoi(line);
+    return i;
+}
+
+
+int getValue(){ //Note: this value is in KB!
+    FILE* file = fopen("/proc/self/status", "r");
+    int result = -1;
+    char line[128];
+
+    while (fgets(line, 128, file) != NULL){
+        if (strncmp(line, "VmSize:", 7) == 0){
+            result = parseLine(line);
+            break;
+        }
+    }
+    fclose(file);
+    return result;
+}
 
 typedef Index< StringSet<CharString> , IndexEsa<> > TIndex;
 typedef typename Iterator< TIndex, TopDown< ParentLinks<PostorderEmptyEdges> > >::Type TTreeIter;
@@ -84,31 +113,35 @@ class mycomparison {
         vector<TLSetInfo> & _lSet;
 };
 
+unsigned mylcp(unsigned i, TIndex & index) {
+    if(i==0) return 0;
+    else return lcpAt(i-1,index);
+}
+
 void kway_merge(std::vector<TLSetInfo>& lSet, std::vector<TLSetInfo>& lSetCopy, std::vector<size_t>& pos) {
-    //std::cout << "kway merge: ";
-    //for (std::vector<size_t>::const_iterator i=pos.begin(); i!=pos.end(); ++i) {
-    //    std::cout << *i << " ";
-    //}
-    //std::cout << "\n";
+   // std::cout << "kway merge: ";
+   // for (std::vector<size_t>::const_iterator i=pos.begin(); i!=pos.end(); ++i) {
+   //     std::cout << *i << " ";
+   // }
+   // std::cout << "\n";
     //    std::sort(lSet.begin()+positions[0],lSet.begin()+positions[positions.size()-1], compare_lset); 
 
     int n = pos.size();
-    vector<TLSetInfo> temp(lSet.begin()+pos[0],lSet.begin()+pos[n-1]);
-    //print_lset(temp, "temp");
 
+    std::copy(lSet.begin()+pos[0], lSet.begin()+pos[n-1], lSetCopy.begin()+pos[0]);
 
-    priority_queue<qelement,vector<qelement>,mycomparison> outQueue(temp);
+    priority_queue<qelement,vector<qelement>,mycomparison> outQueue(lSetCopy);
 
     for (int i=0; i<n-1; i++) {
-        outQueue.push(qelement(pos[i]-pos[0], i));
+        outQueue.push(qelement(pos[i], i));
     }
 
     int s=pos[0];
     while (!outQueue.empty()) {
         const qelement& lowest = outQueue.top();
         //std::cout << "lowest.pos=" << outQueue.top().pos << ", lowest.part=" << outQueue.top().part << "\n";
-        lSet[s++]=temp[lowest.pos];
-        if(lowest.pos+pos[0]+1 < pos[lowest.part+1]) {
+        lSet[s++]=lSetCopy[lowest.pos];
+        if(lowest.pos+1 < pos[lowest.part+1]) {
             qelement qe(lowest.pos+1, lowest.part);
             //td::cout << "subsequent pushing (" << qe.pos << "," << qe.part << ")\n";
             outQueue.pop();
@@ -116,7 +149,7 @@ void kway_merge(std::vector<TLSetInfo>& lSet, std::vector<TLSetInfo>& lSetCopy, 
         } else {
             outQueue.pop();
         }
-        //print_lset(temp, "temp");
+        //print_lset(lSetCopy, "temp");
         //print_lset(lSet);
     }
 }
@@ -169,6 +202,7 @@ class BinaryForest {
         ~BinaryForest() {
             delete [] _forest.left;
             delete [] _forest.right;
+            delete [] _forest.leafIds;
             delete [] _cur_tree.left;
             delete [] _cur_tree.right;
             delete [] _cur_tree.leafIds;
@@ -234,6 +268,25 @@ std::string reverse_complement(std::string read) {
 #define RANK(x) (x->readid)
 
 class Clusters {
+
+    private:
+        int num_elements;
+        BinaryForest forest;
+        MyRank myrank;
+        Parent parent;
+        DisjointSets ds;
+        std::vector<Element> elements;
+        std::vector<int> cluster_sizes;
+        uint *set_to_node;
+        struct lcp_interval {
+            unsigned lcp;
+            unsigned lb;
+            unsigned rb;
+            bool valid;
+            vector<size_t> child_list;
+            lcp_interval(unsigned _lcp, unsigned _lb, unsigned _rb, bool _valid) : lcp(_lcp), lb(_lb), rb(_rb), valid(_valid) {child_list.clear();}
+        };
+
     public:
         Clusters(int n) : num_elements(n), forest(num_elements), myrank(elements), parent(elements), ds(&myrank, &parent) {
             set_to_node = new uint[num_elements];
@@ -351,28 +404,81 @@ class Clusters {
         }
 
         void generate_pairs(const Reads &reads, const std::vector<TLSetInfo>& lSet, const std::vector<size_t>& positions) {
-            for (size_t i=0; i<positions.size()-2; ++i) {
+            int size = positions.size();
+            for (int i=0; i<size-2 ; ++i) {
                 size_t start1 = positions[i], end1 = positions[i+1];
-                for (size_t j=i+1; j<positions.size()-1; ++j) {
+                for (int j=i+1; j<size-1; ++j) {
                     size_t start2 = positions[j], end2 = positions[j+1];
                     generate_pairs_from_two(reads, lSet, start1, end1, start2, end2);
                 }
             }
         }
 
+        char mybwt(unsigned i, TIndex & index) { 
+            typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
+            //unsigned textPos = (saAt(i, index) == 0) ? length(index) - 1 : saAt(i, index) - 1;
+            //unsigned textPos = saAt(i, index);
+            SAValue<TIndex>::Type p = saAt(i,index);
+            if (posAtFirstLocal(p, limits)) {
+                return 'B';
+            } else {
+                TPair p2(p.i1, p.i2-1);
+                return textAt(p2, index);
+            }
+        }
+
+        int myseqoffset(unsigned i, TIndex & index) { 
+            //typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
+            SAValue<TIndex>::Type p = saAt(i,index);
+            return p.i2;
+        }
+
+        int myseqno(unsigned i, TIndex & index) { 
+            //typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
+            SAValue<TIndex>::Type p = saAt(i,index);
+            return p.i1;
+        }
+
+        void processInterval(lcp_interval& l, const Reads & reads, vector<TLSetInfo> & lSet, vector<TLSetInfo> & lSetCopy, TIndex & index) {
+            //std::cout << l.lcp << " " << l.lb << " " << l.rb << "\n";
+            //for(auto x : l.child_list) std::cout << x << " ";
+            //std::cout << "\n";
+
+            std::cout << "inside processInterval " << getValue() << "\n";
+            if(l.child_list.empty()) {
+                for(int j=l.lb;j<l.rb;j++) {
+                    lSet[j].pos = myseqoffset(j, index);
+                    lSet[j].read_id = myseqno(j, index);
+                    lSet[j].prev = mybwt(j, index);
+                    l.child_list.push_back(j);
+                }
+                l.child_list.push_back(l.rb);
+                //std::sort(lSet.begin()+l.lb, lSet.begin()+l.rb, compare_lset);
+            }
+            std::cout << "before generate_pairs " << getValue() << "\n";
+
+            if (l.lcp >= KMERLEN) generate_pairs(reads, lSet, l.child_list);
+            std::cout << "after generate_pairs " << getValue() << "\n";
+            kway_merge(lSet, lSetCopy, l.child_list);
+            std::cout << "after kway_merge " << getValue() << "\n";
+
+            //print_lset(lSet);
+        }
 
         void cluster_reads_st(const Reads &reads) {
             std::cout << "doing clusteing \n";
 
             StringSet<CharString> myStringSet;
             for (int i=0; i<reads.size(); i++) {
+                //std::cout << reads[i].seq << endl;
                 appendValue(myStringSet, reads[i].seq);
             }
             TIndex index(myStringSet);
 
-            std::vector<TTreeIter> tree_iters;
+     //       std::vector<TTreeIter> tree_iters;
 
             // Using Postorder iterator
+            /*
             std::cout << "\nusing postorder";
             TTreeIter myIterator(index);
             goBegin(myIterator);
@@ -382,25 +488,28 @@ class Clusters {
                 }
                 ++myIterator;
             }
-            size_t numLeaves = length(index);
+            */
+            size_t num_leaves = length(index);
             //std::cout << "num leaves = " << numLeaves << ", " << tree_iters.size() << "\n";
             std::vector<TLSetInfo> lSet, lSetCopy;
-            lSet.resize(numLeaves);
-            lSetCopy.resize(numLeaves);
+            lSet.resize(num_leaves);
+            lSetCopy.resize(num_leaves);
 
+            /*
             // TODO: use bucket sort or something
             std::sort(tree_iters.begin(), tree_iters.end(), iter_compare); 
-
-            indexRequire(index, EsaBwt());
-
+*/
+            indexRequire(index, EsaSA());
+            indexRequire(index, EsaLcp());
+/*
             for (int i=0; i<tree_iters.size(); i++) {
                 TTreeIter& myIterator = tree_iters[i];
-                TPair span = range(myIterator);
-                TSize s = span.i1, t = span.i2;
                 //std::cout << representative(myIterator) << " " << range(myIterator) << " ";
                 std::vector<size_t> positions;
                 if (isLeaf(myIterator)) {
                     //std::cout << " leaf\n";
+                    TPair span = range(myIterator);
+                    TSize s = span.i1;// t = span.i2;
                     TOccs occs = getOccurrences(myIterator);
                     TOccsBWT bwts = getOccurrencesBwt(myIterator);
                     TIter oc = begin(occs, Standard()), ocEnd = end(occs, Standard());
@@ -408,7 +517,6 @@ class Clusters {
                     TIndex const &index = container(myIterator);
                     typename StringSetLimits<typename Host<TIndex>::Type const>::Type &limits = stringSetLimits(index);
 
-                    while (oc != ocEnd) {
                         lSet[s].pos = getSeqOffset(*oc);
                         lSet[s].read_id = getSeqNo(*oc);
                         if (posAtFirstLocal(*oc, limits)) {
@@ -416,10 +524,9 @@ class Clusters {
                         } else {
                             lSet[s].prev = *bw;
                         }
-                        ++oc; ++bw; ++s;
-                    }
-                    std::sort(lSet.begin()+span.i1, lSet.begin()+span.i2, compare_lset);
+
                 } else {
+                    //call getchildintervals here
                     //std::cout << " int\n children are : \n  ";
                     goDown(myIterator);
                     do {
@@ -432,8 +539,53 @@ class Clusters {
                     kway_merge(lSet, lSetCopy, positions);
                 }
                 print_lset(lSet);
+            }*/
+
+            // doing bottom-up traversal
+            std::cout << "before while loop : " << getValue() << "\n";
+            stack<lcp_interval> forBottomUp;
+            forBottomUp.push(lcp_interval(0,0,-1,true));
+            unsigned lb;
+            lcp_interval last_interval(0,0,-1,false);
+            for(unsigned i=1;i<=num_leaves;i++) {
+                std::cout << "inside for loop : " << getValue() << "\n";
+                lb=i-1;
+                while(mylcp(i,index) < forBottomUp.top().lcp) {
+                    std::cout << "inside while loop : " << getValue() << "\n";
+                    forBottomUp.top().rb=i;
+                    last_interval = forBottomUp.top();
+                    forBottomUp.pop();
+                    processInterval(last_interval, reads, lSet, lSetCopy, index);
+                    lb=last_interval.lb;
+                    if(mylcp(i,index)<=forBottomUp.top().lcp) {
+                        if(forBottomUp.top().child_list.empty()) {
+                            forBottomUp.top().child_list.push_back(last_interval.lb);
+                        }
+                        forBottomUp.top().child_list.push_back(last_interval.rb);
+                        last_interval.valid=false; 
+                    }
+                    std::cout << "inside while loop(end) : " << getValue() << "\n";
+                }
+                    std::cout << "outside while loop(end) : " << getValue() << "\n";
+                if(mylcp(i,index) > forBottomUp.top().lcp) {
+                    if(last_interval.valid==true) {
+                        forBottomUp.push(lcp_interval(mylcp(i,index), lb,-1,true));
+                        if(forBottomUp.top().child_list.empty()) {
+                            forBottomUp.top().child_list.push_back(last_interval.lb);
+                        }
+                        forBottomUp.top().child_list.push_back(last_interval.rb);
+                        last_interval.valid=false;
+                    }
+                    else {
+                        forBottomUp.push(lcp_interval(mylcp(i,index),lb,-1, true));
+                    }
+                }
             }
 
+            std::cout << "outside for loop(end) : " << getValue() << "\n";
+            forBottomUp.top().rb=num_leaves;
+            processInterval(forBottomUp.top(), reads, lSet, lSetCopy, index);
+            forBottomUp.pop();
             //for (int i=0; i<numLeaves; i++) {
             //    std::cout << lSet[i].prev << " " << lSet[i].read_id << " " << lSet[i].pos << "\n";
             //}
@@ -442,16 +594,6 @@ class Clusters {
 
         std::vector<int>& get_cluster_sizes() { return cluster_sizes; }
         BinaryTreeInfo *getTree(int id) { return forest.getTree(set_to_node[elements[id].dsParent]); }
-
-    private:
-        int num_elements;
-        BinaryForest forest;
-        MyRank myrank;
-        Parent parent;
-        DisjointSets ds;
-        std::vector<Element> elements;
-        std::vector<int> cluster_sizes;
-        uint *set_to_node;
 };
 
 //#define TEST_SIMPLE
@@ -461,6 +603,17 @@ int main(int argc, char*  argv[]) {
     Reads reads;
 
 #ifdef TEST_SIMPLE
+    Read r;
+    r.name="r1";
+    r.seq="acaaacatat";
+    reads.push_back(r);
+//    r.name="r2";
+//    r.seq="def";
+//    reads.push_back(r);
+    //r.name="r3";
+    //r.seq="abc";
+    //reads.push_back(r);
+   /* 
     reads.push_back("AAA");
     reads.push_back("AC");
     reads.push_back("AAT");
@@ -470,6 +623,7 @@ int main(int argc, char*  argv[]) {
     reads.push_back("AAT");
     reads.push_back("ATAA");
     reads.push_back("AATA");
+    */
 #else
     read_fastq(argv[1], argv[2], reads);
     //HashTable hashtab;
@@ -495,8 +649,8 @@ int main(int argc, char*  argv[]) {
     cls.cluster_reads_st(reads);
     //free_hashtab(hashtab);
 #endif
-
     cls.finalize_clusters();
+
     //cls.print_elements();
     std::string fcls_name("cluster_info.dat");
     std::ofstream fcls(fcls_name);
