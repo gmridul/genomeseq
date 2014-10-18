@@ -1,0 +1,6 @@
+mastercode.h:302:23: error: ‘i’ does not name a type
+mastercode.h:302:30: error: expected ‘;’ before ‘i’
+mastercode.h:302:30: error: ‘i’ was not declared in this scope
+mastercode.h:305:23: error: ‘i’ does not name a type
+mastercode.h:305:30: error: expected ‘;’ before ‘i’
+mastercode.h:305:30: error: ‘i’ was not declared in this scope

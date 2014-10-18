@@ -237,6 +237,9 @@ void debugSync(MPI_Comm mycomm);
 void printIntArr(char *name,int *arr,int size);
 void checkInRange(int a,int lb,int ub,char *tag);
 
+BinaryForest *forest;
+uint *set_to_node;
+
 #include "stree2.h"
 
 
@@ -488,6 +491,12 @@ int main(int argc,char *argv[])
    } 
    else
    {
+        forest = new BinaryForest(N);
+        uint *set_to_node;
+        set_to_node = (uint*)malloc(sizeof(uint)*N);
+        for (size_t i = 0; i < N; ++i) {
+            set_to_node[i] = i;
+        }
 
 
           printf("Master processor is %d\n",rank); fflush(stdout);
@@ -1152,6 +1161,8 @@ int main(int argc,char *argv[])
 
    void reportClusters(struct mastVar *st)
    {
+       std::cout << "in report cluster\n";
+       std::cout.flush();
        int i;
        void displayNonContainArr(int *containArr,int N,struct estgi *);
 	  struct FileSize *getInputFileStats(char *,int *);
@@ -1212,6 +1223,8 @@ int main(int argc,char *argv[])
 	
        printf("Master: #Clusters Output:= %d #Singletons=%d \n",iClusters,iSingletons);
        printf("Master: #Contained ESTs:= %d \n",iContained);
+
+       process_clusters(st->UFcluster, N);
  
 
     } /* end reportClusters*/

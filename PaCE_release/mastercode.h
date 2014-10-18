@@ -66,6 +66,8 @@
 #ifndef __MASTERCODE_H__
 #define __MASTERCODE_H__
 
+#include <iostream>
+#include <iomanip>
 
 
 #include <mpi.h>
@@ -264,6 +266,105 @@ extern int *UFcluster_size;
 extern FILE *fpLargeMerges;
 extern MPI_Comm myComm;
 
+struct BinaryTreeInfo {
+    uint root;
+    uint num_leaves;
+    uint *left;
+    uint *right;
+    uint *leafIds;
+    void print() {
+        std::cout << "Number of leaves : " << num_leaves << "\n";
+        std::cout << "LeafIds: ";
+        for (uint j=0; j<num_leaves; ++j) {
+            std::cout << std::setw(5) << leafIds[j] << " ";
+        }
+        std::cout << "\n";
+        std::cout << "Left   : ";
+        for (uint j=0; j<num_leaves-1; ++j) {
+            std::cout << std::setw(5) << left[j] << " ";
+        }
+        std::cout << "\n";
+        std::cout << "Right  : ";
+        for (uint j=0; j<num_leaves-1; ++j) {
+            std::cout << std::setw(5) << right[j] << " ";
+        }
+        std::cout << "\n";
+    }
+};
+
+class BinaryForest {
+    public:
+        BinaryForest(int num_leaves): _internal_count_forest(0) {
+            _forest.num_leaves = num_leaves;
+            _forest.left = new uint[num_leaves-1];
+            _forest.right = new uint[num_leaves-1];
+            _forest.leafIds = new uint[num_leaves];
+            for (auto i = 0; i < num_leaves-1; ++i) {
+                _forest.left[i] = _forest.right[i] = num_leaves+i;
+            }
+            for (auto i = 0; i < num_leaves; ++i) {
+                _forest.leafIds[i] = i;
+            }
+            _cur_tree.num_leaves = 0;
+            _cur_tree.left = new uint[num_leaves-1];
+            _cur_tree.right = new uint[num_leaves-1];
+            _cur_tree.leafIds = new uint[num_leaves];
+        }
+        ~BinaryForest() {
+            delete [] _forest.left;
+            delete [] _forest.right;
+            delete [] _forest.leafIds;
+            delete [] _cur_tree.left;
+            delete [] _cur_tree.right;
+            delete [] _cur_tree.leafIds;
+        }
+        uint addNode(uint lnode, uint rnode) {
+            _forest.left[_internal_count_forest] = lnode;
+            _forest.right[_internal_count_forest] = rnode;
+            return _forest.num_leaves + _internal_count_forest++;
+        }
+        BinaryTreeInfo* getTree(uint root) {
+            _internal_count_tree = 0;
+            _cur_tree.num_leaves = 0;
+            extractTree(root);
+            adjustArray(_cur_tree.left, _forest.num_leaves, _cur_tree.num_leaves);
+            adjustArray(_cur_tree.right, _forest.num_leaves, _cur_tree.num_leaves);
+            return &_cur_tree;
+        }
+
+    private:
+        void adjustArray(uint *array, uint old, uint curr) {
+            for (uint i=0; i<curr-1; ++i) {
+                if (array[i] >= old) array[i] += curr - old;
+            }
+        }
+
+        uint extractTree(uint node) {
+            //      std::cout << "extract tree with node " << node << "\n";
+            uint current_id;
+            if (node < _forest.num_leaves) {
+                current_id = _cur_tree.num_leaves++;
+                _cur_tree.leafIds[current_id] = node;
+                return current_id;
+            }
+            current_id = _internal_count_tree++;
+            node -= _forest.num_leaves;
+            _cur_tree.left[current_id] = extractTree(_forest.left[node]);
+            _cur_tree.right[current_id] = extractTree(_forest.right[node]);
+            return _forest.num_leaves + current_id;
+        }
+
+        uint _internal_count_forest;
+        uint _internal_count_tree;
+        BinaryTreeInfo _forest;
+        BinaryTreeInfo _cur_tree;
+};
+
+extern uint *set_to_node;
+extern BinaryForest *forest;
+
+
+
 void processPair(struct dynResult *,struct pair rBuf,struct dynParams,char *,char *);
 /*void master();
 void slave(int);*/
@@ -330,4 +431,5 @@ int deQBuf(struct cBuffer *buf,struct pair *ret);
 void printAPair(struct pair p,FILE *fp);
 int enQBuf(struct cBuffer *buf,struct pair pr);
 
+int process_clusters(struct ufind *uf,int size);
 #endif

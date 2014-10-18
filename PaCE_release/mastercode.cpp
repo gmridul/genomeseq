@@ -164,35 +164,46 @@ void interpretResults(struct resPair *batch,int count,struct ufind *UF,int *UF_s
      	if( b_transcriptHomology || b_geneHomology ) acceptCondition=1;
 	else acceptCondition=0;
 
-	if(g_bReportSplicedCandidates && !b_transcriptHomology && b_geneHomology) {
-		fprintf(fpSpliced,"Spliced_Candidate  %d         %d\n",batch[i].f1,batch[i].f2);
-	}
+    if(g_bReportSplicedCandidates && !b_transcriptHomology && b_geneHomology) {
+        fprintf(fpSpliced,"Spliced_Candidate  %d         %d\n",batch[i].f1,batch[i].f2);
+    }
 
      }
      else
      {
-        /* intends separates alternative transcript isoforms */
-     	if(b_transcriptHomology) acceptCondition=1;
-	else acceptCondition=0;
+         /* intends separates alternative transcript isoforms */
+         if(b_transcriptHomology) acceptCondition=1;
+         else acceptCondition=0;
      }
 
      if(acceptCondition) {
-     	iPairsAccepted++;
-		size1=UF_size[Find(UF,batch[i].f1)];	
-		size2=UF_size[Find(UF,batch[i].f2)];	
+         iPairsAccepted++;
+         size1=UF_size[Find(UF,batch[i].f1)];	
+         size2=UF_size[Find(UF,batch[i].f2)];	
 
-		if(g_bOutputLargeMerges) {
-			if((size1 >= LargeClusterThreshold) && (size2 >= LargeClusterThreshold)) {
-				printAccepted(batch[i].f1,batch[i].f2,batch[i].type,
-					size1,size2,fpLargeMerges);
-			}
-		}
+         if(g_bOutputLargeMerges) {
+             if((size1 >= LargeClusterThreshold) && (size2 >= LargeClusterThreshold)) {
+                 printAccepted(batch[i].f1,batch[i].f2,batch[i].type,
+                         size1,size2,fpLargeMerges);
+             }
+         }
 
 
+         std::cout << "x=" << batch[i].f1 << ", y=" << batch[i].f2 << "\n";
+         std::cout << "x=" << Find(UF,batch[i].f1) << ", y=" << Find(UF,batch[i].f2) << "\n";
 
-	
-       	Union(UF,batch[i].f1,batch[i].f2);
+         int nodex = set_to_node[Find(UF,batch[i].f1)];
+         int nodey = set_to_node[Find(UF,batch[i].f2)];
+
+         std::cout << "nodex=" << nodex << ", nodey=" << nodey << "\n";
+
+
+         Union(UF,batch[i].f1,batch[i].f2);
 		UF_size[Find(UF,batch[i].f1)]=size1+size2;
+         std::cout << "new nodex=" <<Find(UF,batch[i].f1)  << "\n";
+
+        set_to_node[Find(UF,batch[i].f1)] = forest->addNode(nodex, nodey);
+
        	/* Detect and mark containments */
        	/* Ananth change - Jul 1 2003, make this containment condition more stringent 
 		* This is currently hardcoded to 0% but parameterize this */
@@ -464,6 +475,102 @@ int getLoadPerProc()
   terminate();
   return -1;
 } /* end getLoadPerProc */
+
+
+int process_clusters(struct ufind *uf,int size)
+{
+    std::cout << "in process_clusters\n*****************************\n";
+    std::cout.flush();
+    int i=0,iClusters=0;
+    struct clusters *clust;
+    struct link *temp, *temp_fix;
+    int root;
+    char s[200];
+
+    /* add code for the alternative splicing testing */
+    /*FILE *zfp;
+    char sz[20];
+    int zeroRoot=0;*/
+    /* end of change */
+
+    needs=sizeof(struct clusters)*size;
+    clust = (struct clusters *)malloc(needs);
+    if(clust) spaceSoFar+=needs;
+    else AlertErr("clusters");
+
+    for(i=0;i<size;i++)
+    {
+      clust[i].count=1;
+      clust[i].singleton='1';
+      clust[i].head=NULL;
+    }
+
+    
+    for(i=0;i<size;i++)
+    {
+       root = Find(uf,i);
+       
+       if(i!=root)
+       {
+
+          /* add code for the alternative splicing testing */
+          /*if(i==0) zeroRoot= root; */
+          /* end of change */
+
+          needs=sizeof(struct link);
+          temp = (struct link *)malloc(needs);
+          if(temp) spaceSoFar+=needs;
+          else AlertErr("temp");
+
+          temp->id=i;
+          temp->next=clust[root].head;
+          clust[root].head=temp;
+          clust[root].count++;
+          clust[root].singleton='0';
+          clust[i].singleton = '0';
+          clust[i].head = NULL;
+       }
+    } /* end for */
+
+
+    iClusters=0;
+    for(i=0;i<size;i++)
+    {
+       if(clust[i].singleton=='0' && clust[i].head!=NULL)
+       {
+            std::cout << "i " << i << " end for 2" << root << "\n*****************************\n";
+           BinaryTreeInfo *tree = forest->getTree(set_to_node[i]);
+           tree->print();
+
+         iClusters++;
+       }
+       else
+       {
+        if(clust[i].singleton=='1')
+        {
+          iClusters++;
+        }
+
+       }
+    } /* end for 2 */
+
+    for(i=0;i<size;i++) {
+        if(clust[i].head) { 
+            temp = clust[i].head;
+            while (temp->next != 0) {
+                temp_fix = temp->next;
+                free(temp);
+                temp = temp_fix;
+            }
+            free(temp);
+            //	    free(clust[i].head);
+        }
+    }
+    if(clust) free(clust);
+
+    return iClusters;
+
+}
 
 
 /* Displays all the individual clusters

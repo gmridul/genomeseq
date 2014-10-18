@@ -1,5 +1,5 @@
-CXX     = mpicc
-CXXFLAGS = -g -O3
+CXX     = mpicxx
+CXXFLAGS = -g -O3 -std=c++0x
 LDLIBS = -lm -lgomp
 
 #CFLAGS += -finstrument-functions
