@@ -1,0 +1,29 @@
+CC = blrts_xlc
+CFLAGS = -g -qhot=level=1 -qipa=level=2 -O5 -I/bgl/BlueLight/ppcfloor/bglsys/include
+LDFLAGS = -L/bgl/BlueLight/ppcfloor/bglsys/lib
+LDLIBS = -lmpich.rts -lmsglayer.rts -lrts.rts -ldevices.rts -lmass -lmassv
+
+OBJS =  cfg.o\
+	cloneMates.o\
+	dynamic.o\
+	err.o\
+	est.o\
+	keys.o\
+	master.o\
+	mastercode.o\
+	stree.o\
+	suff.o\
+	uFind.o\
+
+all: PaCE
+
+pf: $(OBJS) pf.o
+	gcc -c pf.c -o pf.o
+	$(CC) $(LDFLAGS) $(OBJS) pf.o -o PaCE_pf $(LDLIBS)
+
+
+PaCE: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o PaCE $(LDLIBS)
+
+clean:
+	rm -f *.o PaCE PaCE_pf

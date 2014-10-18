@@ -1,0 +1,136 @@
+mpicc -g -O3   -c -o cfg.o cfg.c
+mpicc -g -O3   -c -o cloneMates.o cloneMates.c
+mpicc -g -O3   -c -o dynamic.o dynamic.c
+mpicc -g -O3   -c -o err.o err.c
+mpicc -g -O3   -c -o est.o est.c
+est.c(217): warning #269: invalid format string conversion
+      			fscanf(fp,"%[^\n]%*\n",frag);
+      			                           ^
+
+est.c(476): warning #269: invalid format string conversion
+      			fscanf(fp,"%[^\n]%\n",frag);
+      			                          ^
+
+est.c(542): warning #269: invalid format string conversion
+      fscanf(fp,"%[^\n]%\n",frag);
+                                ^
+
+est.c(764): warning #269: invalid format string conversion
+      			fscanf(fp,"%[^\n]%*\n",frag);
+      			                           ^
+
+mpicc -g -O3   -c -o keys.o keys.c
+mpicc -g -O3   -c -o master.o master.c
+master.c(666): warning #266: function declared implicitly
+  				printf(" Mbuf_size=%d\n",getBufSize(st->MBUF));
+  				                         ^
+
+master.c(731): warning #266: function declared implicitly
+        interpretResults(st->newResults,st->R,st->UFcluster,st->UFcluster_size);
+        ^
+
+master.c(755): warning #266: function declared implicitly
+        interpretResults(st->newResults,st->R,st->UFcluster,st->UFcluster_size);
+        ^
+
+master.c(941): warning #266: function declared implicitly
+        if(!deQWaitQ(&st->waitQ,&st->dst)) 
+            ^
+
+master.c(960): warning #266: function declared implicitly
+  				st->dst,st->ACTIVE,getBufSize(st->MBUF)); fflush(stdout);
+  				                   ^
+
+master.c(972): warning #266: function declared implicitly
+         enQWaitQ(&st->waitQ,st->dst);
+         ^
+
+master.c(1013): warning #266: function declared implicitly
+        interpretResults(st->newResults,st->R,st->UFcluster,st->UFcluster_size);
+        ^
+
+master.c(1129): warning #266: function declared implicitly
+          	interpretResults(st->newResults,st->R,st->UFcluster,st->UFcluster_size);
+          	^
+
+master.c(1237): warning #266: function declared implicitly
+         iClusters = dispAllClustersMidway(st->UFcluster,N,allEstGis,
+                     ^
+
+master.c(1347): warning #266: function declared implicitly
+  		 if(!emptyBuf(starvars.MBUF) && !emptyWaitQ(starvars.waitQ)) state=M8;
+  		     ^
+
+master.c(1347): warning #266: function declared implicitly
+  		 if(!emptyBuf(starvars.MBUF) && !emptyWaitQ(starvars.waitQ)) state=M8;
+  		                                 ^
+
+master.c(1567): warning #266: function declared implicitly
+        mindep = retrieveMinLen();
+                 ^
+
+master.c(1963): warning #266: function declared implicitly
+                   else if(!fullBuf(slv.SBUF) && (getBufSize(slv.SBUF)<MAXPAIRS) ) state=S11;
+                            ^
+
+master.c(1963): warning #266: function declared implicitly
+                   else if(!fullBuf(slv.SBUF) && (getBufSize(slv.SBUF)<MAXPAIRS) ) state=S11;
+                                                  ^
+
+master.c(2310): warning #269: invalid format string conversion
+     fscanf(fp,"%[^\n]%\n",frag);
+                               ^
+
+master.c(2878): warning #266: function declared implicitly
+    n_A2A_iter=determineA2AIterations(gmaxBuckStrKeys);
+               ^
+
+master.c(3131): warning #266: function declared implicitly
+        if(emptyBuf(*SBUF))
+           ^
+
+master.c(3139): warning #266: function declared implicitly
+        deQBuf(SBUF,&(batch[i]));
+        ^
+
+master.c(3173): warning #266: function declared implicitly
+    if( (getBufSize(*SBUF)+k)>=MAXPAIRS )
+         ^
+
+master.c(3573): warning #266: function declared implicitly
+     buildFKPMPI(&n1,&sFKPtype);
+     ^
+
+master.c(3863): warning #269: invalid format string conversion
+  			fscanf(fp,"%[^\n]%*\n",frag);
+  			                           ^
+
+mpicc -g -O3   -c -o mastercode.o mastercode.c
+mpicc -g -O3   -c -o stree.o stree.c
+stree.c(476): warning #266: function declared implicitly
+       nxtoffset+=getSuffPos(lset,i);
+                  ^
+
+stree.c(507): warning #266: function declared implicitly
+       end[indx] = nxtoffset+getSuffPos(lset,i)-1;
+                             ^
+
+stree.c(520): warning #266: function declared implicitly
+     for(i=0;getSuffFid(lset,i)>=2*N;i++) {lsetlen+=getSuffPos(lset,i);} /* just sum the length of lsets */
+                                                    ^
+
+stree.c(551): warning #266: function declared implicitly
+      if(getSuffPos(lset,i)<=0) continue;
+         ^
+
+stree.c(556): warning #266: function declared implicitly
+      lsetlen+=getSuffPos(lset,i) + 1; /* +1 for the delimiter storage */
+               ^
+
+stree.c(601): warning #266: function declared implicitly
+          printf("<%d> Left[%c]->{",getSuffPos(lsets,i),lchar);
+                                    ^
+
+mpicc -g -O3   -c -o suff.o suff.c
+mpicc -g -O3   -c -o uFind.o uFind.c
+mpicc cfg.o cloneMates.o dynamic.o err.o est.o keys.o master.o mastercode.o stree.o suff.o uFind.o  -o PaCE -lm

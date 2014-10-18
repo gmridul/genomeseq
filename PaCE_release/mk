@@ -1,0 +1,8 @@
+
+rm *.o;
+gcc -o preprocessPaCE filter.c;
+mpicc  -O3 -o PaCE_v15 master.c mastercode.c dynamic.c uFind.c est.c keys.c err.c stree.c suff.c cloneMates.c cfg.c -lm 2>&1 | tee make.log;
+
+rm *.o;
+
+grep -i error make.log;
