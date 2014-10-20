@@ -1,0 +1,22 @@
+
+{Cluster#}   0
+
+  {Member#}  >4008
+
+  {Member#}  >4007
+
+{Cluster#}   1
+
+  {Member#}  >4009
+
+{Cluster#}   2
+
+  {Member#}  >4010
+
+{Cluster#}   3
+
+  {Member#}  >4011
+
+{Cluster#}   4
+
+  {Member#}  >4012

@@ -1,8 +1,10 @@
 CXX     = mpicxx
 CXXFLAGS = -g -O3 -std=c++0x
-LDLIBS = -lm -lgomp
-
+LDLIBS = -lm -lrt
+CLUSTALO = /home/mridul/Desktop/clustal-omega-1.2.1/src
+CXXFLAGS += -I$(CLUSTALO)
 #CFLAGS += -finstrument-functions
+LDLIBS += -L$(CLUSTALO)/.libs -lclustalo -lgomp
 
 OBJS =  cfg.o\
 	cloneMates.o\
@@ -15,6 +17,7 @@ OBJS =  cfg.o\
 	stree.o\
 	suff.o\
 	uFind.o\
+	alignwrapper.o\
 
 all: PaCE
 

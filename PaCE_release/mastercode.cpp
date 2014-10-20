@@ -77,6 +77,9 @@
 #include "mastercode.h"
 #include "err.h"
 #include "debug.h"
+#include "alignwrapper.hpp"
+
+#include <fstream>
 
 const char *comment="#";
 char g_printpairstr[PrintPairBatchSize*PrintPairOneLine];
@@ -477,7 +480,32 @@ int getLoadPerProc()
 } /* end getLoadPerProc */
 
 
-int process_clusters(struct ufind *uf,int size)
+//typedef std::vector<Read> Reads;
+
+int read_fasta(char *fname1, Reads &reads) {    
+    std::ifstream f1(fname1);
+    if (!f1.is_open()) {
+      std::cerr << "ERROR: could not open file " << fname1 << "\n";
+      exit(-1);
+    }
+    std::string p1,p2;
+    Read r1, r2;
+    int count=0,num=0;
+    while(std::getline(f1,p1)) {
+        //std::cout << p1 << "\t\t\t" << p2 << "\n";
+        if(count==1) {
+            r1.seq = p1;
+            reads.push_back(r1);
+            num++;
+        }
+        count+=1;
+        count%=2;
+    }
+    return num;
+}
+
+
+int process_clusters(struct ufind *uf,int size, char * estFile)
 {
     std::cout << "in process_clusters\n*****************************\n";
     std::cout.flush();
@@ -533,14 +561,19 @@ int process_clusters(struct ufind *uf,int size)
     } /* end for */
 
 
+    Reads reads;
+    read_fasta(estFile, reads);
+
+
     iClusters=0;
     for(i=0;i<size;i++)
     {
        if(clust[i].singleton=='0' && clust[i].head!=NULL)
        {
-            std::cout << "i " << i << " end for 2" << root << "\n*****************************\n";
+           std::cout << "i " << i << " end for 2" << root << "\n*****************************\n";
            BinaryTreeInfo *tree = forest->getTree(set_to_node[i]);
            tree->print();
+           align_cluster(reads, clust[i].count, tree->left, tree->right, tree->leafIds);
 
          iClusters++;
        }

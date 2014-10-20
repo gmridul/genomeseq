@@ -431,5 +431,5 @@ int deQBuf(struct cBuffer *buf,struct pair *ret);
 void printAPair(struct pair p,FILE *fp);
 int enQBuf(struct cBuffer *buf,struct pair pr);
 
-int process_clusters(struct ufind *uf,int size);
+int process_clusters(struct ufind *uf,int size, char* estfile);
 #endif

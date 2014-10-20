@@ -492,7 +492,6 @@ int main(int argc,char *argv[])
    else
    {
         forest = new BinaryForest(N);
-        uint *set_to_node;
         set_to_node = (uint*)malloc(sizeof(uint)*N);
         for (size_t i = 0; i < N; ++i) {
             set_to_node[i] = i;
@@ -1224,7 +1223,7 @@ int main(int argc,char *argv[])
        printf("Master: #Clusters Output:= %d #Singletons=%d \n",iClusters,iSingletons);
        printf("Master: #Contained ESTs:= %d \n",iContained);
 
-       process_clusters(st->UFcluster, N);
+       process_clusters(st->UFcluster, N, estFile);
  
 
     } /* end reportClusters*/
@@ -1648,8 +1647,7 @@ void master(struct ufind *ESTcluster)
       {
          result.typeAlign='X';
 
-         processPair(&result,sl->currWork[i],sl->param,
-			sl->workPairs[2*i],sl->workPairs[2*i+1]);
+         processPair(&result,sl->currWork[i],sl->param, sl->workPairs[2*i],sl->workPairs[2*i+1]);
          if(result.typeAlign=='X')
          {
              reportErr("Process Pair failed !",sl);
